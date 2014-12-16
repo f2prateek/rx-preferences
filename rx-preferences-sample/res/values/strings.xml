@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+  <string name="app_name">Rx Preferences</string>
+
+  <string name="foo">foo</string>
+  <string name="bar">bar</string>
+  <string name="qaz">qaz</string>
+</resources>
