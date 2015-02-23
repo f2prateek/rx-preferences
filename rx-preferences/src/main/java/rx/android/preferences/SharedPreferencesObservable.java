@@ -6,14 +6,15 @@ import rx.Subscriber;
 import rx.functions.Action0;
 import rx.subscriptions.Subscriptions;
 
+import static rx.android.preferences.Utils.assertNotNull;
+
 public final class SharedPreferencesObservable {
   private SharedPreferencesObservable() {
     throw new AssertionError("No Instances");
   }
 
   public synchronized static Observable<String> observe(final SharedPreferences sharedPreferences) {
-    Utils.assertNotNull(sharedPreferences);
-
+    assertNotNull(sharedPreferences);
     return Observable.create(new Observable.OnSubscribe<String>() {
       @Override public void call(final Subscriber<? super String> subscriber) {
         final SharedPreferences.OnSharedPreferenceChangeListener listener =
