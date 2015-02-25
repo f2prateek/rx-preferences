@@ -1,7 +1,6 @@
 package rx.android.preferences;
 
 import android.content.SharedPreferences;
-import rx.Observable;
 
 public class BooleanPreference extends Preference<Boolean> {
   public BooleanPreference(SharedPreferences preferences, String key) {
@@ -22,9 +21,5 @@ public class BooleanPreference extends Preference<Boolean> {
 
   @Override public void delete() {
     sharedPreferences.edit().remove(key).commit();
-  }
-
-  @Override public Observable<Boolean> asObservable() {
-    return Observable.create(new OnSubscribeFromPreference());
   }
 }

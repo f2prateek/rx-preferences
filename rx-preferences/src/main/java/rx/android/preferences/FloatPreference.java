@@ -1,7 +1,6 @@
 package rx.android.preferences;
 
 import android.content.SharedPreferences;
-import rx.Observable;
 
 public class FloatPreference extends Preference<Float> {
   public FloatPreference(SharedPreferences preferences, String key) {
@@ -18,9 +17,5 @@ public class FloatPreference extends Preference<Float> {
 
   @Override public void set(Float value) {
     sharedPreferences.edit().putFloat(key, value).commit();
-  }
-
-  @Override public Observable<Float> asObservable() {
-    return Observable.create(new OnSubscribeFromPreference());
   }
 }

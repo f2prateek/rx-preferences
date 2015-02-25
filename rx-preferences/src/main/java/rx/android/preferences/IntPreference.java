@@ -1,7 +1,6 @@
 package rx.android.preferences;
 
 import android.content.SharedPreferences;
-import rx.Observable;
 
 public class IntPreference extends Preference<Integer> {
   public IntPreference(SharedPreferences preferences, String key) {
@@ -18,9 +17,5 @@ public class IntPreference extends Preference<Integer> {
 
   @Override public void set(Integer value) {
     sharedPreferences.edit().putInt(key, value).commit();
-  }
-
-  @Override public Observable<Integer> asObservable() {
-    return Observable.create(new OnSubscribeFromPreference());
   }
 }

@@ -8,8 +8,7 @@ import rx.functions.Action0;
 import rx.functions.Func1;
 import rx.subscriptions.Subscriptions;
 
-import static rx.android.preferences.Utils.assertNotNull;
-import static rx.android.preferences.Utils.assertNotNullOrEmpty;
+import static rx.android.preferences.Utils.isNullOrEmpty;
 
 /**
  * Wraps a preference of type {@link T}.
@@ -17,17 +16,23 @@ import static rx.android.preferences.Utils.assertNotNullOrEmpty;
  * Clients don't need to use this class directly, they'll use one of it's implementations instead.
  */
 // We could omit this abstraction and duplicate the logic in the "real" preferences classes (since
-// clients will never interact with this directly), and improve performance by eliminating the need
-// to box primitive values. However we lose those benefits since the purpose is to emit these values
-// as observables.
+// clients will never interact with this directly). This would improve performance by eliminating
+// the need to box primitive values. However, we'll have to box them while emitting them as
+// observables - so I don't think it's quite as much of a win.
 public abstract class Preference<T> {
   final SharedPreferences sharedPreferences;
   final String key;
   final T defaultValue;
 
   Preference(SharedPreferences sharedPreferences, String key, T defaultValue) {
-    this.sharedPreferences = assertNotNull(sharedPreferences);
-    this.key = assertNotNullOrEmpty(key);
+    if (sharedPreferences == null) {
+      throw new IllegalArgumentException("sharedPreferences must not be null");
+    }
+    if (isNullOrEmpty(key)) {
+      throw new IllegalArgumentException("key must not be null");
+    }
+    this.sharedPreferences = sharedPreferences;
+    this.key = key;
     this.defaultValue = defaultValue;
   }
 
@@ -43,7 +48,9 @@ public abstract class Preference<T> {
     sharedPreferences.edit().remove(key).commit();
   }
 
-  public abstract Observable<T> asObservable();
+  public Observable<T> asObservable() {
+    return Observable.create(new OnSubscribeFromPreference());
+  }
 
   class OnSubscribeFromPreference implements Observable.OnSubscribe<T> {
     @Override public void call(final Subscriber<? super T> subscriber) {
