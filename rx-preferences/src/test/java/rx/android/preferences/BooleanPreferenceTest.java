@@ -1,6 +1,7 @@
 package rx.android.preferences;
 
 import android.content.SharedPreferences;
+import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +14,7 @@ import rx.observers.TestObserver;
 
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.timeout;
 import static org.robolectric.shadows.ShadowPreferenceManager.getDefaultSharedPreferences;
 
 @RunWith(RobolectricTestRunner.class) //
@@ -41,7 +43,7 @@ public class BooleanPreferenceTest {
 
     nextValue = Random.nextBoolean();
     preference.set(nextValue);
-    inOrder.verify(observer).onNext(nextValue);
+    inOrder.verify(observer, timeout(TimeUnit.SECONDS.toMillis(1))).onNext(nextValue);
   }
 
   @Test public void unsubscribedSubscriberIsNotInvoked() {
