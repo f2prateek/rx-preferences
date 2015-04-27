@@ -32,6 +32,7 @@
     <java.version>1.6</java.version>
     <android.version>4.1.1.4</android.version>
     <android.platform>16</android.platform>
+    <robin.version>1.0.0</robin.version>
     <butterknife.version>6.0.0</butterknife.version>
     <junit.version>4.10</junit.version>
     <robolectric.version>2.4</robolectric.version>
@@ -67,6 +68,11 @@
         <groupId>com.google.android</groupId>
         <artifactId>android</artifactId>
         <version>${android.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.f2prateek.robin</groupId>
+        <artifactId>robin</artifactId>
+        <version>${robin.version}</version>
       </dependency>
       <dependency>
         <groupId>com.jakewharton</groupId>

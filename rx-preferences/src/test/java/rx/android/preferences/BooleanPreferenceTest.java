@@ -32,7 +32,7 @@ public class BooleanPreferenceTest {
     Observer<Boolean> observer = mock(Observer.class);
     InOrder inOrder = inOrder(observer);
 
-    preference.asObservable().subscribe(observer);
+    preference.toObservable().subscribe(observer);
     inOrder.verify(observer).onNext(nextValue);
 
     nextValue = Random.nextBoolean();
@@ -46,7 +46,7 @@ public class BooleanPreferenceTest {
 
   @Test public void unsubscribedSubscriberIsNotInvoked() {
     Observer<Boolean> observer = mock(Observer.class);
-    Subscription subscription = preference.asObservable() //
+    Subscription subscription = preference.toObservable() //
         .subscribe(new TestObserver<Boolean>(observer));
     InOrder inOrder = inOrder(observer);
 

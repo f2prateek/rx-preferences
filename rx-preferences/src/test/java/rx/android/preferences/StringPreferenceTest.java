@@ -34,7 +34,7 @@ public class StringPreferenceTest {
     Observer<String> observer = mock(Observer.class);
     InOrder inOrder = inOrder(observer);
 
-    preference.asObservable().subscribe(observer);
+    preference.toObservable().subscribe(observer);
     inOrder.verify(observer).onNext(nextValue);
 
     nextValue = nextString();
@@ -48,7 +48,7 @@ public class StringPreferenceTest {
 
   @Test public void unsubscribedSubscriberIsNotInvoked() {
     Observer<String> observer = mock(Observer.class);
-    Subscription subscription = preference.asObservable() //
+    Subscription subscription = preference.toObservable() //
         .subscribe(new TestObserver<String>(observer));
 
     InOrder inOrder = inOrder(observer);

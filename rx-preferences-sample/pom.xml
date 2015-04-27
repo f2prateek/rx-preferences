@@ -22,6 +22,10 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.f2prateek.robin</groupId>
+      <artifactId>robin</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.jakewharton</groupId>
       <artifactId>butterknife</artifactId>
     </dependency>

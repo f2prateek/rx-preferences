@@ -18,8 +18,4 @@ public class BooleanPreference extends Preference<Boolean> {
   @Override public void set(Boolean value) {
     sharedPreferences.edit().putBoolean(key, value).commit();
   }
-
-  @Override public void delete() {
-    sharedPreferences.edit().remove(key).commit();
-  }
 }

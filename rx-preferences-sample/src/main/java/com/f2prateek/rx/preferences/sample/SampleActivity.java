@@ -9,8 +9,9 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import rx.android.preferences.BooleanPreference;
+import com.f2prateek.rx.android.schedulers.AndroidSchedulers;
 import rx.Observer;
+import rx.android.preferences.BooleanPreference;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static android.widget.Toast.LENGTH_SHORT;
@@ -33,19 +34,21 @@ public class SampleActivity extends Activity {
 
     // foo
     fooPreference = new BooleanPreference(sharedPreferences, "foo");
-    fooPreference.asObservable().subscribe(new Observer<Boolean>() {
-      @Override public void onCompleted() {
-        // Never invoked
-      }
+    fooPreference.toObservable()
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Observer<Boolean>() {
+          @Override public void onCompleted() {
+            // Never invoked
+          }
 
-      @Override public void onError(Throwable e) {
+          @Override public void onError(Throwable e) {
 
-      }
+          }
 
-      @Override public void onNext(Boolean value) {
-        fooValue.setText(String.valueOf(value));
-      }
-    });
+          @Override public void onNext(Boolean value) {
+            fooValue.setText(String.valueOf(value));
+          }
+        });
   }
 
   @OnClick({ R.id.foo }) public void greetingClicked(Button button) {

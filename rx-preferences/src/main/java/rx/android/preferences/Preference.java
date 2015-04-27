@@ -40,19 +40,19 @@ public abstract class Preference<T> {
 
   public abstract void set(T value);
 
-  public boolean isSet() {
+  public final boolean isSet() {
     return sharedPreferences.contains(key);
   }
 
-  public void delete() {
+  public final void delete() {
     sharedPreferences.edit().remove(key).commit();
   }
 
-  public Observable<T> asObservable() {
+  public final Observable<T> toObservable() {
     return Observable.create(new OnSubscribeFromPreference());
   }
 
-  class OnSubscribeFromPreference implements Observable.OnSubscribe<T> {
+  final class OnSubscribeFromPreference implements Observable.OnSubscribe<T> {
     @Override public void call(final Subscriber<? super T> subscriber) {
       subscriber.onNext(get());
 
