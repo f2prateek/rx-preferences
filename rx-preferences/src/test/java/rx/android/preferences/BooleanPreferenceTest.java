@@ -43,7 +43,7 @@ public class BooleanPreferenceTest {
 
     nextValue = Random.nextBoolean();
     preference.set(nextValue);
-    inOrder.verify(observer, timeout(TimeUnit.SECONDS.toMillis(1))).onNext(nextValue);
+    inOrder.verify(observer).onNext(nextValue);
   }
 
   @Test public void unsubscribedSubscriberIsNotInvoked() {

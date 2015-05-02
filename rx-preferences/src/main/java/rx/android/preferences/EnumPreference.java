@@ -6,11 +6,11 @@ public class EnumPreference<T extends Enum<T>> extends Preference<T> {
   private final Class<T> enumClass;
   T value;
 
-  EnumPreference(SharedPreferences sharedPreferences, Class<T> enumClass, String key) {
+  public EnumPreference(SharedPreferences sharedPreferences, Class<T> enumClass, String key) {
     this(sharedPreferences, enumClass, key, null);
   }
 
-  EnumPreference(SharedPreferences sharedPreferences, Class<T> enumClass, String key,
+  public EnumPreference(SharedPreferences sharedPreferences, Class<T> enumClass, String key,
       T defaultValue) {
     super(sharedPreferences, key, defaultValue);
     this.enumClass = enumClass;

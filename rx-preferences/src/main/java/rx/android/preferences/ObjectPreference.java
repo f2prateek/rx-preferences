@@ -44,15 +44,15 @@ public class ObjectPreference<T> extends Preference<T> {
   }
 
   /**
-   * Convert a byte stream to and from a concrete type.
+   * Convert a string to and from a concrete type.
    *
    * @param <T> Object type.
    */
   public interface Converter<T> {
-    /** Converts bytes to an object. */
+    /** Converts a string to an object. */
     T fromString(String string) throws IOException;
 
-    /** Converts o to bytes written to the specified stream. */
-    String toString(T o) throws IOException;
+    /** Converts {@code object} to a string. */
+    String toString(T object) throws IOException;
   }
 }

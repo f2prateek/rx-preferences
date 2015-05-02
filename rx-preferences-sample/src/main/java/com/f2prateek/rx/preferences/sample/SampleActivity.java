@@ -42,7 +42,7 @@ public class SampleActivity extends Activity {
           }
 
           @Override public void onError(Throwable e) {
-
+            throw new RuntimeException(e);
           }
 
           @Override public void onNext(Boolean value) {

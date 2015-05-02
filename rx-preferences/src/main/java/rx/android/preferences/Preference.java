@@ -15,10 +15,6 @@ import static rx.android.preferences.Utils.isNullOrEmpty;
  * </p>
  * Clients don't need to use this class directly, they'll use one of it's implementations instead.
  */
-// We could omit this abstraction and duplicate the logic in the "real" preferences classes (since
-// clients will never interact with this directly). This would improve performance by eliminating
-// the need to box primitive values. However, we'll have to box them while emitting them as
-// observables - so I don't think it's quite as much of a win.
 public abstract class Preference<T> {
   final SharedPreferences sharedPreferences;
   final String key;
