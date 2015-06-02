@@ -36,8 +36,8 @@ public class ObjectPreference<T> extends Preference<T> {
   @Override public void set(T value) {
     try {
       String serialized = converter.toString(value);
-      sharedPreferences.edit().putString(key, serialized).commit();
       this.value = value;
+      sharedPreferences.edit().putString(key, serialized).commit();
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
