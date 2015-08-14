@@ -11,13 +11,12 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 
-import static rx.android.preferences.Random.nextBoolean;
-import static rx.android.preferences.Random.nextInt;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.robolectric.shadows.ShadowPreferenceManager.getDefaultSharedPreferences;
+import static rx.android.preferences.TestUtils.verifyNoMoreInteractionsWithObserver;
 
 @RunWith(RobolectricTestRunner.class) //
 public class SharedPreferencesObservableTest {
@@ -35,7 +34,7 @@ public class SharedPreferencesObservableTest {
     observable.subscribe(observer);
     InOrder inOrder = inOrder(observer);
     inOrder.verify(observer, never()).onNext(any(String.class));
-    sharedPreferences.edit().putBoolean("foo", nextBoolean()).commit();
+    sharedPreferences.edit().putBoolean("foo", false).commit();
     inOrder.verify(observer).onNext("foo");
     sharedPreferences.edit().putString("bar", "baz").commit();
     inOrder.verify(observer).onNext("bar");
@@ -45,7 +44,7 @@ public class SharedPreferencesObservableTest {
     Observer<String> observer = mock(Observer.class);
     Subscription subscription = observable.subscribe(observer);
     subscription.unsubscribe();
-    sharedPreferences.edit().putFloat("qux", nextInt()).commit();
-    TestUtils.verifyNoMoreInteractionsWithObserver(inOrder(observer), observer);
+    sharedPreferences.edit().putFloat("qux", 42).commit();
+    verifyNoMoreInteractionsWithObserver(inOrder(observer), observer);
   }
 }

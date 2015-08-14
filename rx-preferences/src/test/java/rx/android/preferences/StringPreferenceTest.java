@@ -11,23 +11,20 @@ import rx.Observer;
 import rx.Subscription;
 import rx.observers.TestObserver;
 
-import static rx.android.preferences.Random.nextString;
-import static rx.android.preferences.TestUtils.verifyNoMoreInteractionsWithObserver;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.robolectric.shadows.ShadowPreferenceManager.getDefaultSharedPreferences;
+import static rx.android.preferences.TestUtils.verifyNoMoreInteractionsWithObserver;
 
 @RunWith(RobolectricTestRunner.class) //
 public class StringPreferenceTest {
   SharedPreferences sharedPreferences;
   StringPreference preference;
-  String nextValue;
 
   @Before public void setUp() {
     sharedPreferences = getDefaultSharedPreferences(Robolectric.application);
     sharedPreferences.edit().clear().commit();
-    nextValue = null;
-    preference = new StringPreference(sharedPreferences, "bar", nextValue);
+    preference = new StringPreference(sharedPreferences, "bar");
   }
 
   @Test public void subscriberIsInvoked() {
@@ -35,15 +32,13 @@ public class StringPreferenceTest {
     InOrder inOrder = inOrder(observer);
 
     preference.toObservable().subscribe(observer);
-    inOrder.verify(observer).onNext(nextValue);
+    inOrder.verify(observer).onNext(null);
 
-    nextValue = nextString();
-    sharedPreferences.edit().putString("bar", nextValue).commit();
-    inOrder.verify(observer).onNext(nextValue);
+    sharedPreferences.edit().putString("bar", "foo").commit();
+    inOrder.verify(observer).onNext("foo");
 
-    nextValue = nextString();
-    preference.set(nextValue);
-    inOrder.verify(observer).onNext(nextValue);
+    preference.set("baz");
+    inOrder.verify(observer).onNext("baz");
   }
 
   @Test public void unsubscribedSubscriberIsNotInvoked() {
@@ -52,11 +47,11 @@ public class StringPreferenceTest {
         .subscribe(new TestObserver<String>(observer));
 
     InOrder inOrder = inOrder(observer);
-    inOrder.verify(observer).onNext(nextValue);
+    inOrder.verify(observer).onNext(null);
 
     subscription.unsubscribe();
-    sharedPreferences.edit().putString("foo", nextString()).commit();
-    preference.set(nextString());
+    sharedPreferences.edit().putString("foo", "bar").commit();
+    preference.set("baz");
     verifyNoMoreInteractionsWithObserver(inOrder, observer);
   }
 }

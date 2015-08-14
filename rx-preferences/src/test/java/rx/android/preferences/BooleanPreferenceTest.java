@@ -1,7 +1,6 @@
 package rx.android.preferences;
 
 import android.content.SharedPreferences;
-import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,20 +13,18 @@ import rx.observers.TestObserver;
 
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.timeout;
 import static org.robolectric.shadows.ShadowPreferenceManager.getDefaultSharedPreferences;
+import static rx.android.preferences.TestUtils.verifyNoMoreInteractionsWithObserver;
 
 @RunWith(RobolectricTestRunner.class) //
 public class BooleanPreferenceTest {
   SharedPreferences sharedPreferences;
   BooleanPreference preference;
-  boolean nextValue;
 
   @Before public void setUp() {
     sharedPreferences = getDefaultSharedPreferences(Robolectric.application);
     sharedPreferences.edit().clear().commit();
-    nextValue = false;
-    preference = new BooleanPreference(sharedPreferences, "foo", nextValue);
+    preference = new BooleanPreference(sharedPreferences, "foo", false);
   }
 
   @Test public void subscriberIsInvoked() {
@@ -35,15 +32,13 @@ public class BooleanPreferenceTest {
     InOrder inOrder = inOrder(observer);
 
     preference.toObservable().subscribe(observer);
-    inOrder.verify(observer).onNext(nextValue);
+    inOrder.verify(observer).onNext(false);
 
-    nextValue = Random.nextBoolean();
-    sharedPreferences.edit().putBoolean("foo", nextValue).commit();
-    inOrder.verify(observer).onNext(nextValue);
+    sharedPreferences.edit().putBoolean("foo", true).commit();
+    inOrder.verify(observer).onNext(true);
 
-    nextValue = Random.nextBoolean();
-    preference.set(nextValue);
-    inOrder.verify(observer).onNext(nextValue);
+    preference.set(false);
+    inOrder.verify(observer).onNext(false);
   }
 
   @Test public void unsubscribedSubscriberIsNotInvoked() {
@@ -52,11 +47,11 @@ public class BooleanPreferenceTest {
         .subscribe(new TestObserver<Boolean>(observer));
     InOrder inOrder = inOrder(observer);
 
-    inOrder.verify(observer).onNext(nextValue);
+    inOrder.verify(observer).onNext(false);
 
     subscription.unsubscribe();
-    sharedPreferences.edit().putBoolean("foo", Random.nextBoolean()).commit();
-    preference.set(Random.nextBoolean());
-    TestUtils.verifyNoMoreInteractionsWithObserver(inOrder, observer);
+    sharedPreferences.edit().putBoolean("foo", true).commit();
+    preference.set(false);
+    verifyNoMoreInteractionsWithObserver(inOrder, observer);
   }
 }
