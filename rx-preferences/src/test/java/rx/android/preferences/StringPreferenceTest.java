@@ -4,54 +4,38 @@ import android.content.SharedPreferences;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InOrder;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import rx.Observer;
 import rx.Subscription;
-import rx.observers.TestObserver;
+import rx.observers.TestSubscriber;
 
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
 import static org.robolectric.shadows.ShadowPreferenceManager.getDefaultSharedPreferences;
-import static rx.android.preferences.TestUtils.verifyNoMoreInteractionsWithObserver;
 
 @RunWith(RobolectricTestRunner.class) //
 public class StringPreferenceTest {
-  SharedPreferences sharedPreferences;
-  StringPreference preference;
+  private SharedPreferences sharedPreferences;
+  private StringPreference preference;
 
   @Before public void setUp() {
     sharedPreferences = getDefaultSharedPreferences(Robolectric.application);
     sharedPreferences.edit().clear().commit();
-    preference = new StringPreference(sharedPreferences, "bar");
+    preference = new StringPreference(sharedPreferences, "foo", "bar");
   }
 
-  @Test public void subscriberIsInvoked() {
-    Observer<String> observer = mock(Observer.class);
-    InOrder inOrder = inOrder(observer);
+  @Test public void toObservable() {
+    TestSubscriber<String> o = new TestSubscriber<String>();
+    Subscription subscription = preference.toObservable().subscribe(o);
+    o.assertValues("bar");
 
-    preference.toObservable().subscribe(observer);
-    inOrder.verify(observer).onNext(null);
+    sharedPreferences.edit().putString("foo", "baz").commit();
+    o.assertValues("bar", "baz");
 
-    sharedPreferences.edit().putString("bar", "foo").commit();
-    inOrder.verify(observer).onNext("foo");
-
-    preference.set("baz");
-    inOrder.verify(observer).onNext("baz");
-  }
-
-  @Test public void unsubscribedSubscriberIsNotInvoked() {
-    Observer<String> observer = mock(Observer.class);
-    Subscription subscription = preference.toObservable() //
-        .subscribe(new TestObserver<String>(observer));
-
-    InOrder inOrder = inOrder(observer);
-    inOrder.verify(observer).onNext(null);
+    sharedPreferences.edit().putString("foo", "foo").commit();
+    o.assertValues("bar", "baz", "foo");
 
     subscription.unsubscribe();
+
     sharedPreferences.edit().putString("foo", "bar").commit();
-    preference.set("baz");
-    verifyNoMoreInteractionsWithObserver(inOrder, observer);
+    o.assertValues("bar", "baz", "foo");
   }
 }

@@ -34,12 +34,11 @@
     <android.platform>16</android.platform>
     <robin.version>1.0.0</robin.version>
     <butterknife.version>6.0.0</butterknife.version>
-    <junit.version>4.10</junit.version>
+    <junit.version>4.12</junit.version>
     <robolectric.version>2.4</robolectric.version>
     <assertj.version>1.7.0</assertj.version>
-    <rxjava.version>1.0.0-rc.6</rxjava.version>
+    <rxjava.version>1.0.14</rxjava.version>
     <rxjava.android.version>0.22.0</rxjava.android.version>
-    <mockito.version>1.10.8</mockito.version>
   </properties>
 
   <scm>
@@ -93,11 +92,6 @@
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
         <version>${assertj.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-core</artifactId>
-        <version>${mockito.version}</version>
       </dependency>
       <dependency>
         <groupId>io.reactivex</groupId>

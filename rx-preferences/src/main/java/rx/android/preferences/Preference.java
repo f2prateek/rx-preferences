@@ -2,6 +2,7 @@ package rx.android.preferences;
 
 import android.content.SharedPreferences;
 import rx.Observable;
+import rx.functions.Action1;
 import rx.functions.Func1;
 
 import static rx.android.preferences.Utils.isNullOrEmpty;
@@ -53,5 +54,13 @@ public abstract class Preference<T> {
           }
         })
         .startWith(get());
+  }
+
+  public final Action1<? super T> toAction() {
+    return new Action1<T>() {
+      @Override public void call(T value) {
+        set(value);
+      }
+    };
   }
 }

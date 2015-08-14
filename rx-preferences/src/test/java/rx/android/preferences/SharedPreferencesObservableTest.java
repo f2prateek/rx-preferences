@@ -4,24 +4,18 @@ import android.content.SharedPreferences;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InOrder;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import rx.Observable;
-import rx.Observer;
 import rx.Subscription;
+import rx.observers.TestSubscriber;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.robolectric.shadows.ShadowPreferenceManager.getDefaultSharedPreferences;
-import static rx.android.preferences.TestUtils.verifyNoMoreInteractionsWithObserver;
 
 @RunWith(RobolectricTestRunner.class) //
 public class SharedPreferencesObservableTest {
-  SharedPreferences sharedPreferences;
-  Observable<String> observable;
+  private SharedPreferences sharedPreferences;
+  private Observable<String> observable;
 
   @Before public void setUp() {
     sharedPreferences = getDefaultSharedPreferences(Robolectric.application);
@@ -29,22 +23,19 @@ public class SharedPreferencesObservableTest {
     observable = SharedPreferencesObservable.observe(sharedPreferences);
   }
 
-  @Test public void subscriberIsInvoked() {
-    Observer<String> observer = mock(Observer.class);
-    observable.subscribe(observer);
-    InOrder inOrder = inOrder(observer);
-    inOrder.verify(observer, never()).onNext(any(String.class));
-    sharedPreferences.edit().putBoolean("foo", false).commit();
-    inOrder.verify(observer).onNext("foo");
-    sharedPreferences.edit().putString("bar", "baz").commit();
-    inOrder.verify(observer).onNext("bar");
-  }
+  @Test public void keys() {
+    TestSubscriber<String> o = new TestSubscriber<String>();
+    Subscription subscription = observable.subscribe(o);
+    o.assertNoValues();
 
-  @Test public void unsubscribedSubscriberIsNotInvoked() {
-    Observer<String> observer = mock(Observer.class);
-    Subscription subscription = observable.subscribe(observer);
+    sharedPreferences.edit().putBoolean("foo", false).commit();
+    o.assertValues("foo");
+
+    sharedPreferences.edit().putString("bar", "baz").commit();
+    o.assertValues("foo", "bar");
+
     subscription.unsubscribe();
     sharedPreferences.edit().putFloat("qux", 42).commit();
-    verifyNoMoreInteractionsWithObserver(inOrder(observer), observer);
+    o.assertValues("foo", "bar");
   }
 }
