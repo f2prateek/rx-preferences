@@ -1,0 +1,23 @@
+language: android
+
+android:
+  components:
+    - build-tools-22.0.1
+    - android-16
+
+jdk:
+  - oraclejdk7
+  - oraclejdk8
+
+branches:
+  except:
+    - gh-pages
+
+notifications:
+  email: false
+
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.m2
