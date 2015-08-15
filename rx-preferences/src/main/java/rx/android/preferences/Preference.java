@@ -68,10 +68,17 @@ public final class Preference<T> {
     return adapter.get(key, defaultValue, preferences);
   }
 
-  /** Change this preference's stored value to {@code value}. */
+  /**
+   * Change this preference's stored value to {@code value}. A value of {@code null} will delete the
+   * preference.
+   */
   public void set(T value) {
     SharedPreferences.Editor editor = preferences.edit();
-    adapter.set(key, value, editor);
+    if (value == null) {
+      editor.remove(key);
+    } else {
+      adapter.set(key, value, editor);
+    }
     editor.apply();
   }
 
@@ -82,7 +89,7 @@ public final class Preference<T> {
 
   /** Delete the stored value for this preference, if any. */
   public void delete() {
-    preferences.edit().remove(key).apply();
+    set(null);
   }
 
   /**
@@ -93,7 +100,10 @@ public final class Preference<T> {
     return values;
   }
 
-  /** An action which stores a new value for this preference. */
+  /**
+   * An action which stores a new value for this preference. Passing {@code null} will delete the
+   * preference.
+   */
   public Action1<? super T> asAction() {
     return new Action1<T>() {
       @Override public void call(T value) {

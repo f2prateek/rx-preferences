@@ -53,6 +53,9 @@ public class PreferenceTest {
 
     preference.set(new Point(3, 4));
     assertThat(preferences.getString("foo", null)).isEqualTo("3,4");
+
+    preference.set(null);
+    assertThat(preferences.getString("foo", null)).isNull();
   }
 
   @Test public void isSet() {
@@ -85,8 +88,11 @@ public class PreferenceTest {
     preferences.edit().putString("foo", "3,4").commit();
     o.assertValues(new Point(1, 2), new Point(2, 3), new Point(3, 4));
 
+    preferences.edit().remove("foo").commit();
+    o.assertValues(new Point(1, 2), new Point(2, 3), new Point(3, 4), new Point(1, 2));
+
     subscription.unsubscribe();
-    o.assertValues(new Point(1, 2), new Point(2, 3), new Point(3, 4));
+    o.assertValues(new Point(1, 2), new Point(2, 3), new Point(3, 4), new Point(1, 2));
   }
 
   @Test public void asAction() {
@@ -97,5 +103,8 @@ public class PreferenceTest {
 
     action.call(new Point(3, 4));
     assertThat(preferences.getString("foo", null)).isEqualTo("3,4");
+
+    action.call(null);
+    assertThat(preferences.getString("foo", null)).isNull();
   }
 }
