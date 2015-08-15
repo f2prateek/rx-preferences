@@ -1,46 +1,44 @@
 Rx Preferences
 --------------
 
-Reactive SharedPreferences for Android
+Reactive `SharedPreferences` for Android.
 
 
 Usage
 -----
 
-To observe all changes to SharedPreferences directly.
+Create an `RxSharedPreferences` instance which wraps a `SharedPreferences`: 
 
 ```java
-SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-SharedPreferencesObservable.observe(sharedPreferences) //
-              ...
-              .subscribe(new EndlessObserver<String>() {
-                @Override public void onNext(String key) {
-                  subscriber.onNext(key);
-                }
-              })
-
+SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+RxSharedPreferences rxPreferences = RxSharedPreferences.create(preferences);
 ```
 
-You'll most likely want to use the typed preferences instead. Currently `boolean`, `string`, `int`
-and `float` types are included.
+Create individual `Preference` objects:
 
 ```java
-SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-BooleanPreference booleanPreference = new BooleanPreference(sharedPreferences, "foo");
-booleanPreference.asObservable().subscribe(new Observer<Boolean>() {
-      @Override public void onCompleted() {
-
-      }
-
-      @Override public void onError(Throwable e) {
-
-      }
-
-      @Override public void onNext(Boolean value) {
-          // do something here!
-      }
-    });
+Preference<String> username = rxPreferences.getString("username");
+Preference<Boolean> showWhatsNew = rxPreferences.getBoolean("show-whats-new", true);
 ```
+
+Observe changes to individual preferences:
+
+```java
+username.asObservable().subscribe(new Action1<String>() {
+  @Override public void call(String username) {
+    Log.d(TAG, "Username: " + username);
+  }
+}
+```
+
+Subscribe preferences to streams to store values:
+
+```java
+RxCompoundButton.checks(showWhatsNewView)
+    .subscribe(showWhatsNew.asAction());
+```
+*(Note: `RxCompoundButton` is from [RxBinding][1])*
+
 
 Download
 --------
@@ -79,5 +77,5 @@ License
 
 
 
- [1]: http://github.com/f2prateek/rx-preferences
+ [1]: https://github.com/JakeWharton/RxBinding
  [2]: http://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.f2prateek.rx.preferences&a=rx-preferences&v=LATEST
