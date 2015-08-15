@@ -5,58 +5,91 @@ import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
-import static rx.android.preferences.Utils.isNullOrEmpty;
+/** A preference of type {@link T}. Instances can be created from {@link RxSharedPreferences}. */
+public final class Preference<T> {
+  /** Stores and retrieves instances of {@code T} in {@link SharedPreferences}. */
+  public interface Adapter<T> {
+    /**
+     * Retrieve the value for {@code key} from {@code preferences}, using {@code defaultValue} if
+     * no value exists.
+     */
+    T get(String key, T defaultValue, SharedPreferences preferences);
 
-/**
- * Wraps a preference of type {@link T}.
- * </p>
- * Clients don't need to use this class directly, they'll use one of it's implementations instead.
- */
-public abstract class Preference<T> {
-  final SharedPreferences sharedPreferences;
-  final String key;
-  final T defaultValue;
+    /** Store nullable {@code value} for {@code key} in {@code editor}. */
+    void set(String key, T value, SharedPreferences.Editor editor);
+  }
 
-  Preference(SharedPreferences sharedPreferences, String key, T defaultValue) {
-    if (sharedPreferences == null) {
-      throw new IllegalArgumentException("sharedPreferences must not be null");
-    }
-    if (isNullOrEmpty(key)) {
-      throw new IllegalArgumentException("key must not be null");
-    }
-    this.sharedPreferences = sharedPreferences;
+  private final SharedPreferences preferences;
+  private final String key;
+  private final T defaultValue;
+  private final Adapter<T> adapter;
+  private final Observable<T> values;
+
+  Preference(SharedPreferences preferences, final String key, T defaultValue, Adapter<T> adapter,
+      Observable<String> keyChanges) {
+    this.preferences = preferences;
     this.key = key;
     this.defaultValue = defaultValue;
-  }
-
-  public abstract T get();
-
-  public abstract void set(T value);
-
-  public final boolean isSet() {
-    return sharedPreferences.contains(key);
-  }
-
-  public final void delete() {
-    sharedPreferences.edit().remove(key).commit();
-  }
-
-  public final Observable<T> toObservable() {
-    return SharedPreferencesObservable.observe(sharedPreferences)
+    this.adapter = adapter;
+    this.values = keyChanges
         .filter(new Func1<String, Boolean>() {
-          @Override public Boolean call(String s) {
-            return key.equals(s);
+          @Override public Boolean call(String changedKey) {
+            return key.equals(changedKey);
           }
         })
+        .startWith("<init>") // Dummy value to trigger initial load.
         .map(new Func1<String, T>() {
-          @Override public T call(String s) {
+          @Override public T call(String ignored) {
             return get();
           }
-        })
-        .startWith(get());
+        });
   }
 
-  public final Action1<? super T> toAction() {
+  /** The key for which this preference will store and retrieve values. */
+  public String key() {
+    return key;
+  }
+
+  /** The value used if none is stored. May be {@code null}. */
+  public T defaultValue() {
+    return defaultValue;
+  }
+
+  /**
+   * Retrieve the current value for this preference. Returns {@link #defaultValue()} if no value is
+   * set.
+   */
+  public T get() {
+    return adapter.get(key, defaultValue, preferences);
+  }
+
+  /** Change this preference's stored value to {@code value}. */
+  public void set(T value) {
+    SharedPreferences.Editor editor = preferences.edit();
+    adapter.set(key, value, editor);
+    editor.apply();
+  }
+
+  /** Returns true if this preference has a stored value. */
+  public boolean isSet() {
+    return preferences.contains(key);
+  }
+
+  /** Delete the stored value for this preference, if any. */
+  public void delete() {
+    preferences.edit().remove(key).apply();
+  }
+
+  /**
+   * Observe changes to this preference. The current value or {@link #defaultValue()} will be
+   * emitted on first subscribe.
+   */
+  public Observable<T> asObservable() {
+    return values;
+  }
+
+  /** An action which stores a new value for this preference. */
+  public Action1<? super T> asAction() {
     return new Action1<T>() {
       @Override public void call(T value) {
         set(value);
