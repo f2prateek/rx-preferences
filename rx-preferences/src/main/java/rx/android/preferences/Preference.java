@@ -15,7 +15,12 @@ public final class Preference<T> {
      */
     T get(String key, T defaultValue, SharedPreferences preferences);
 
-    /** Store nullable {@code value} for {@code key} in {@code editor}. */
+    /**
+     * Store nullable {@code value} for {@code key} in {@code editor}.
+     * <p>
+     * Note: Implementations <b>must not</b> call {@code commit()} or {@code apply()} on
+     * {@code editor}.
+     */
     void set(String key, T value, SharedPreferences.Editor editor);
   }
 
