@@ -15,6 +15,7 @@ final class EnumAdapter<T extends Enum<T>> implements Preference.Adapter<T> {
   }
 
   @Override public void set(String key, T value, SharedPreferences.Editor editor) {
-    editor.putString(key, value.name());
+    String storedValue = value != null ? value.name() : null;
+    editor.putString(key, storedValue);
   }
 }
