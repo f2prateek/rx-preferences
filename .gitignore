@@ -12,3 +12,4 @@ local.properties
 pom.xml.*
 release.properties
 target
+gen-external-apklibs/

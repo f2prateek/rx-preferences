@@ -8,10 +8,10 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import com.f2prateek.rx.android.schedulers.AndroidSchedulers;
 import rx.Observer;
 import rx.android.preferences.Preference;
 import rx.android.preferences.RxSharedPreferences;
+import rx.android.schedulers.AndroidSchedulers;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static android.widget.Toast.LENGTH_SHORT;
