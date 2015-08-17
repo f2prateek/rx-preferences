@@ -22,8 +22,9 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.f2prateek.robin</groupId>
-      <artifactId>robin</artifactId>
+      <groupId>io.reactivex</groupId>
+      <artifactId>rxandroid</artifactId>
+      <type>aar</type>
     </dependency>
     <dependency>
       <groupId>com.jakewharton</groupId>
