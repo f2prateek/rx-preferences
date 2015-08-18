@@ -1,4 +1,4 @@
-package rx.android.preferences;
+package com.f2prateek.rx.preferences;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -9,7 +9,7 @@ import rx.Subscriber;
 import rx.functions.Action0;
 import rx.subscriptions.Subscriptions;
 
-import static rx.android.preferences.Preconditions.checkNotNull;
+import static com.f2prateek.rx.preferences.Preconditions.checkNotNull;
 
 /** A factory for reactive {@link Preference} objects. */
 public final class RxSharedPreferences {

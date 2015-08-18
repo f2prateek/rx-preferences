@@ -9,8 +9,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import rx.Observer;
-import rx.android.preferences.Preference;
-import rx.android.preferences.RxSharedPreferences;
+import com.f2prateek.rx.preferences.Preference;
+import com.f2prateek.rx.preferences.RxSharedPreferences;
 import rx.android.schedulers.AndroidSchedulers;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
