@@ -1,4 +1,4 @@
-package rx.android.preferences;
+package com.f2prateek.rx.preferences;
 
 final class Point {
   public final int x;

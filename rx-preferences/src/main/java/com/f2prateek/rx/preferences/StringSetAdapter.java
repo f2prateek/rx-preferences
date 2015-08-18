@@ -1,4 +1,4 @@
-package rx.android.preferences;
+package com.f2prateek.rx.preferences;
 
 import android.content.SharedPreferences;
 import java.util.Set;
