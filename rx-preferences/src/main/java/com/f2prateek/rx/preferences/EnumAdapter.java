@@ -9,9 +9,8 @@ final class EnumAdapter<T extends Enum<T>> implements Preference.Adapter<T> {
     this.enumClass = enumClass;
   }
 
-  @Override public T get(String key, T defaultValue, SharedPreferences preferences) {
-    String value = preferences.getString(key, null);
-    return value == null ? defaultValue : Enum.valueOf(enumClass, value);
+  @Override public T get(String key, SharedPreferences preferences) {
+    return Enum.valueOf(enumClass, preferences.getString(key, null));
   }
 
   @Override public void set(String key, T value, SharedPreferences.Editor editor) {

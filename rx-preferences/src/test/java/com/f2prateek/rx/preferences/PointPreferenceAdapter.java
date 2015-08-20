@@ -3,11 +3,8 @@ package com.f2prateek.rx.preferences;
 import android.content.SharedPreferences;
 
 final class PointPreferenceAdapter implements Preference.Adapter<Point> {
-  @Override public Point get(String key, Point defaultValue, SharedPreferences preferences) {
+  @Override public Point get(String key, SharedPreferences preferences) {
     String value = preferences.getString(key, null);
-    if (value == null) {
-      return defaultValue;
-    }
     String[] parts = value.split(",");
     if (parts.length != 2) {
       throw new IllegalStateException("Malformed point value: '" + value + "'");
