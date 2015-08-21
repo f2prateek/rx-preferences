@@ -9,14 +9,11 @@ import rx.functions.Func1;
 public final class Preference<T> {
   /** Stores and retrieves instances of {@code T} in {@link SharedPreferences}. */
   public interface Adapter<T> {
-    /**
-     * Retrieve the value for {@code key} from {@code preferences}, using {@code defaultValue} if
-     * no value exists.
-     */
-    T get(String key, T defaultValue, SharedPreferences preferences);
+    /** Retrieve the value for {@code key} from {@code preferences}. */
+    T get(String key, SharedPreferences preferences);
 
     /**
-     * Store nullable {@code value} for {@code key} in {@code editor}.
+     * Store non-null {@code value} for {@code key} in {@code editor}.
      * <p>
      * Note: Implementations <b>must not</b> call {@code commit()} or {@code apply()} on
      * {@code editor}.
@@ -65,7 +62,10 @@ public final class Preference<T> {
    * set.
    */
   public T get() {
-    return adapter.get(key, defaultValue, preferences);
+    if (!preferences.contains(key)) {
+      return defaultValue;
+    }
+    return adapter.get(key, preferences);
   }
 
   /**

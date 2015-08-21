@@ -11,54 +11,140 @@ import rx.functions.Action1;
 import rx.observers.TestSubscriber;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
+import static com.f2prateek.rx.preferences.Roshambo.ROCK;
+import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(RobolectricTestRunner.class) //
 public class PreferenceTest {
-  private final Point defaultValue = new Point(1, 2);
+  private final PointPreferenceAdapter pointAdapter = new PointPreferenceAdapter();
+
   private SharedPreferences preferences;
-  private Preference<Point> preference;
+  private RxSharedPreferences rxPreferences;
 
   @Before public void setUp() {
     preferences = getDefaultSharedPreferences(RuntimeEnvironment.application);
     preferences.edit().clear().commit();
-    RxSharedPreferences rxPreferences = RxSharedPreferences.create(preferences);
-    preference = rxPreferences.getObject("foo", defaultValue, new PointPreferenceAdapter());
+    rxPreferences = RxSharedPreferences.create(preferences);
   }
 
   @Test public void key() {
+    Preference<String> preference = rxPreferences.getString("foo");
     assertThat(preference.key()).isEqualTo("foo");
   }
 
-  @Test public void defaultValue() {
-    assertThat(preference.defaultValue()).isSameAs(defaultValue);
+  @Test public void defaultDefaultValue() {
+    assertThat(rxPreferences.getBoolean("foo1").defaultValue()).isNull();
+    assertThat(rxPreferences.getEnum("foo2", Roshambo.class).defaultValue()).isNull();
+    assertThat(rxPreferences.getFloat("foo3").defaultValue()).isNull();
+    assertThat(rxPreferences.getInteger("foo4").defaultValue()).isNull();
+    assertThat(rxPreferences.getLong("foo5").defaultValue()).isNull();
+    assertThat(rxPreferences.getString("foo6").defaultValue()).isNull();
+    assertThat(rxPreferences.getStringSet("foo7").defaultValue()).isEmpty();
+    assertThat(rxPreferences.getObject("foo8", pointAdapter).defaultValue()).isNull();
   }
 
-  @Test public void get() {
-    assertThat(preferences.contains("foo")).isFalse();
-    assertThat(preference.get()).isEqualTo(new Point(1, 2)); // Default
+  @Test public void defaultValue() {
+    assertThat(rxPreferences.getBoolean("foo1", false).defaultValue()).isEqualTo(false);
+    assertThat(rxPreferences.getEnum("foo2", ROCK, Roshambo.class).defaultValue()).isEqualTo(ROCK);
+    assertThat(rxPreferences.getFloat("foo3", 1f).defaultValue()).isEqualTo(1f);
+    assertThat(rxPreferences.getInteger("foo4", 1).defaultValue()).isEqualTo(1);
+    assertThat(rxPreferences.getLong("foo5", 1L).defaultValue()).isEqualTo(1L);
+    assertThat(rxPreferences.getString("foo6", "bar").defaultValue()).isEqualTo("bar");
+    assertThat(rxPreferences.getStringSet("foo7", singleton("bar")).defaultValue()) //
+        .isEqualTo(singleton("bar"));
+    assertThat(rxPreferences.getObject("foo8", new Point(1, 2), pointAdapter).defaultValue()) //
+        .isEqualTo(new Point(1, 2));
+  }
 
-    preferences.edit().putString("foo", "2,3").commit();
-    assertThat(preference.get()).isEqualTo(new Point(2, 3));
+  @Test public void getWithNoValueReturnsDefaultValue() {
+    assertThat(rxPreferences.getBoolean("foo1", false).get()).isEqualTo(false);
+    assertThat(rxPreferences.getEnum("foo2", ROCK, Roshambo.class).get()).isEqualTo(ROCK);
+    assertThat(rxPreferences.getFloat("foo3", 1f).get()).isEqualTo(1f);
+    assertThat(rxPreferences.getInteger("foo4", 1).get()).isEqualTo(1);
+    assertThat(rxPreferences.getLong("foo5", 1L).get()).isEqualTo(1L);
+    assertThat(rxPreferences.getString("foo6", "bar").get()).isEqualTo("bar");
+    assertThat(rxPreferences.getStringSet("foo7", singleton("bar")).get()) //
+        .isEqualTo(singleton("bar"));
+    assertThat(rxPreferences.getObject("foo8", new Point(1, 2), pointAdapter).get()) //
+        .isEqualTo(new Point(1, 2));
+  }
 
-    preferences.edit().putString("foo", "3,4").commit();
-    assertThat(preference.get()).isEqualTo(new Point(3, 4));
+  @Test public void getWithStoredValue() {
+    preferences.edit().putBoolean("foo1", false).commit();
+    assertThat(rxPreferences.getBoolean("foo1").get()).isEqualTo(false);
+    preferences.edit().putString("foo2", "ROCK").commit();
+    assertThat(rxPreferences.getEnum("foo2", Roshambo.class).get()).isEqualTo(ROCK);
+    preferences.edit().putFloat("foo3", 1f).commit();
+    assertThat(rxPreferences.getFloat("foo3").get()).isEqualTo(1f);
+    preferences.edit().putInt("foo4", 1).commit();
+    assertThat(rxPreferences.getInteger("foo4").get()).isEqualTo(1);
+    preferences.edit().putLong("foo5", 1L).commit();
+    assertThat(rxPreferences.getLong("foo5").get()).isEqualTo(1L);
+    preferences.edit().putString("foo6", "bar").commit();
+    assertThat(rxPreferences.getString("foo6").get()).isEqualTo("bar");
+    preferences.edit().putStringSet("foo7", singleton("bar")).commit();
+    assertThat(rxPreferences.getStringSet("foo7").get()).isEqualTo(singleton("bar"));
+    preferences.edit().putString("foo8", "1,2").commit();
+    assertThat(rxPreferences.getObject("foo8", pointAdapter).get()).isEqualTo(new Point(1, 2));
   }
 
   @Test public void set() {
-    assertThat(preferences.contains("foo")).isFalse();
+    rxPreferences.getBoolean("foo1").set(false);
+    assertThat(preferences.getBoolean("foo1", true)).isFalse();
+    rxPreferences.getEnum("foo2", Roshambo.class).set(ROCK);
+    assertThat(preferences.getString("foo2", null)).isEqualTo("ROCK");
+    rxPreferences.getFloat("foo3").set(1f);
+    assertThat(preferences.getFloat("foo3", 0f)).isEqualTo(1f);
+    rxPreferences.getInteger("foo4").set(1);
+    assertThat(preferences.getInt("foo4", 0)).isEqualTo(1);
+    rxPreferences.getLong("foo5").set(1L);
+    assertThat(preferences.getLong("foo5", 0L)).isEqualTo(1L);
+    rxPreferences.getString("foo6").set("bar");
+    assertThat(preferences.getString("foo6", null)).isEqualTo("bar");
+    rxPreferences.getStringSet("foo7").set(singleton("bar"));
+    assertThat(preferences.getStringSet("foo7", null)).isEqualTo(singleton("bar"));
+    rxPreferences.getObject("foo8", pointAdapter).set(new Point(1, 2));
+    assertThat(preferences.getString("foo8", null)).isEqualTo("1,2");
+  }
 
-    preference.set(new Point(2, 3));
-    assertThat(preferences.getString("foo", null)).isEqualTo("2,3");
+  @Test public void setNullDeletes() {
+    preferences.edit().putBoolean("foo1", true).commit();
+    rxPreferences.getBoolean("foo1").set(null);
+    assertThat(preferences.contains("foo1")).isFalse();
 
-    preference.set(new Point(3, 4));
-    assertThat(preferences.getString("foo", null)).isEqualTo("3,4");
+    preferences.edit().putString("foo2", "ROCK").commit();
+    rxPreferences.getEnum("foo2", Roshambo.class).set(null);
+    assertThat(preferences.contains("foo2")).isFalse();
 
-    preference.set(null);
-    assertThat(preferences.getString("foo", null)).isNull();
+    preferences.edit().putFloat("foo3", 1f).commit();
+    rxPreferences.getFloat("foo3").set(null);
+    assertThat(preferences.contains("foo3")).isFalse();
+
+    preferences.edit().putInt("foo4", 1).commit();
+    rxPreferences.getInteger("foo4").set(null);
+    assertThat(preferences.contains("foo4")).isFalse();
+
+    preferences.edit().putLong("foo5", 1L).commit();
+    rxPreferences.getLong("foo5").set(null);
+    assertThat(preferences.contains("foo5")).isFalse();
+
+    preferences.edit().putString("foo6", "bar").commit();
+    rxPreferences.getString("foo6").set(null);
+    assertThat(preferences.contains("foo6")).isFalse();
+
+    preferences.edit().putStringSet("foo7", singleton("bar")).commit();
+    rxPreferences.getStringSet("foo7").set(null);
+    assertThat(preferences.contains("foo7")).isFalse();
+
+    preferences.edit().putString("foo8", "1,2").commit();
+    rxPreferences.getObject("foo8", pointAdapter).set(null);
+    assertThat(preferences.contains("foo8")).isFalse();
   }
 
   @Test public void isSet() {
+    Preference<String> preference = rxPreferences.getString("foo");
+
     assertThat(preferences.contains("foo")).isFalse();
     assertThat(preference.isSet()).isFalse();
 
@@ -70,6 +156,8 @@ public class PreferenceTest {
   }
 
   @Test public void delete() {
+    Preference<String> preference = rxPreferences.getString("foo");
+
     preferences.edit().putBoolean("foo", true).commit();
     assertThat(preferences.contains("foo")).isTrue();
 
@@ -78,33 +166,34 @@ public class PreferenceTest {
   }
 
   @Test public void asObservable() {
-    TestSubscriber<Point> o = new TestSubscriber<>();
+    Preference<String> preference = rxPreferences.getString("foo", "bar");
+
+    TestSubscriber<String> o = new TestSubscriber<>();
     Subscription subscription = preference.asObservable().subscribe(o);
-    o.assertValues(new Point(1, 2)); // Default value.
+    o.assertValues("bar");
 
-    preferences.edit().putString("foo", "2,3").commit();
-    o.assertValues(new Point(1, 2), new Point(2, 3));
-
-    preferences.edit().putString("foo", "3,4").commit();
-    o.assertValues(new Point(1, 2), new Point(2, 3), new Point(3, 4));
+    preferences.edit().putString("foo", "baz").commit();
+    o.assertValues("bar", "baz");
 
     preferences.edit().remove("foo").commit();
-    o.assertValues(new Point(1, 2), new Point(2, 3), new Point(3, 4), new Point(1, 2));
+    o.assertValues("bar", "baz", "bar");
 
     subscription.unsubscribe();
-    o.assertValues(new Point(1, 2), new Point(2, 3), new Point(3, 4), new Point(1, 2));
+    preferences.edit().putString("foo", "foo").commit();
+    o.assertValues("bar", "baz", "bar");
   }
 
   @Test public void asAction() {
-    Action1<? super Point> action = preference.asAction();
+    Preference<String> preference = rxPreferences.getString("foo");
+    Action1<? super String> action = preference.asAction();
 
-    action.call(new Point(2, 3));
-    assertThat(preferences.getString("foo", null)).isEqualTo("2,3");
+    action.call("bar");
+    assertThat(preferences.getString("foo", null)).isEqualTo("bar");
 
-    action.call(new Point(3, 4));
-    assertThat(preferences.getString("foo", null)).isEqualTo("3,4");
+    action.call("baz");
+    assertThat(preferences.getString("foo", null)).isEqualTo("baz");
 
     action.call(null);
-    assertThat(preferences.getString("foo", null)).isNull();
+    assertThat(preferences.contains("foo")).isFalse();
   }
 }
