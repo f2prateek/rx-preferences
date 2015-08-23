@@ -27,3 +27,5 @@ dependencies {
   testCompile deps.assertj
   testCompile deps.robolectric
 }
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
