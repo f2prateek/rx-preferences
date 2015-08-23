@@ -43,16 +43,6 @@ RxCompoundButton.checks(showWhatsNewView)
 Download
 --------
 
-Download [the latest JAR][2] or grab via Maven:
-
-```xml
-<dependency>
-  <groupId>com.f2prateek.rx.preferences</groupId>
-  <artifactId>rx-preferences</artifactId>
-  <version>1.0.0</version>
-</dependency>
-```
-or Gradle:
 ```groovy
 compile 'com.f2prateek.rx.preferences:rx-preferences:1.0.0'
 ```

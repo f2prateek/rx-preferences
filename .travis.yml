@@ -2,8 +2,8 @@ language: android
 
 android:
   components:
-    - build-tools-22.0.1
-    - android-16
+    - build-tools-23.0.0
+    - android-23
 
 jdk:
   - oraclejdk7
@@ -14,8 +14,8 @@ after_success:
 
 env:
   global:
-    - secure: "gsbIdYPijtSVfgAeCnAT+qhPGh9vJVsWFLImU0XuvjDV9pNQ+HxL/XQndL0CzIMji+PGdtD1Oeo0Kon/ynJ8wyagk8+VDD1glsBOlr87wdn3sd+LhdxNTFM4XYmw3Wq6i5Hs+HwtoixWRLS64dsEvNrf07XYQN0VbdLmqhytCcs="
-    - secure: "g7JbR/gRci59QplZKq5Xh85XMbdcBD97knKEG46Yiyfay3K+WThIPHer5FPOV65lgM5c7zw2uTAqpOFhLUtzr1dbGZwhLrpkGX5r07UmV4ByoOMaV5Cb34Lay53BqZe7AHCtn66csaZMTJsQvGD/7XrE+UuX5sktI3RffFPhtic="
+    - secure: "qSyzwtT3Oi//R8GOrfjPHgjApOiXFUw/O7/WRCzX9tRoU8UoV34kjRgf7znwhsU3W5dG6IztE8mzwx78QG6J1YtoW3eWA1d9zdYLuWPfyBBUnYB5RKrYupV6DRrI3MG6uU36AgRvDFDhSaJrKsLaTYe/j8RRfkD4BGSjP2ltU/o="
+    - secure: "RMC76VuML0VSD8rNKEBbkKFiP4A0R1BIUJUI/pkXqC3geUdGEAhxXTDvYt7o9/4Nm2H5PeGrATix8kzrg+HLgv1cmvddUxPh++ETTl6boCdvTCN8un2eB90gmG+N+2fMgrXXC1k70JnkfXqK9CdIRaMX9AAGgY6xJ/tM3cdDA3w="
 
 branches:
   except:
@@ -28,4 +28,4 @@ sudo: false
 
 cache:
   directories:
-    - $HOME/.m2
+    - $HOME/.gradle
