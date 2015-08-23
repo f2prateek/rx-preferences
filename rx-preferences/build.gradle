@@ -20,6 +20,7 @@ android {
 }
 
 dependencies {
+  compile deps.annotations
   compile deps.rxjava
 
   testCompile deps.junit

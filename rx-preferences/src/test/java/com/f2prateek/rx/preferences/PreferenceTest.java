@@ -1,5 +1,6 @@
 package com.f2prateek.rx.preferences;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +17,7 @@ import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(RobolectricTestRunner.class) //
+@SuppressLint({ "NewApi", "CommitPrefEdits" }) //
 public class PreferenceTest {
   private final PointPreferenceAdapter pointAdapter = new PointPreferenceAdapter();
 

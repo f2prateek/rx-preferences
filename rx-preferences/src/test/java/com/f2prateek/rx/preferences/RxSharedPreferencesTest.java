@@ -1,5 +1,6 @@
 package com.f2prateek.rx.preferences;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import java.util.Collections;
 import org.junit.Before;
@@ -13,6 +14,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 
 @RunWith(RobolectricTestRunner.class) //
+@SuppressLint("CommitPrefEdits") //
+@SuppressWarnings({ "ResourceType", "ConstantConditions" }) //
 public class RxSharedPreferencesTest {
   private RxSharedPreferences rxPreferences;
 
