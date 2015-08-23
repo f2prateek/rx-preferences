@@ -43,6 +43,7 @@ public final class Preference<T> {
           }
         })
         .startWith("<init>") // Dummy value to trigger initial load.
+        .lift(BackpressureBufferLastOperator.<String>instance())
         .map(new Func1<String, T>() {
           @Override public T call(String ignored) {
             return get();
