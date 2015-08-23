@@ -8,8 +8,7 @@ local.properties
 # OS X
 .DS_Store
 
-# Maven
-pom.xml.*
-release.properties
-target
-gen-external-apklibs/
+# Gradle
+build
+/reports
+/.gradle

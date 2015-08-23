@@ -1,5 +1,6 @@
 package com.f2prateek.rx.preferences;
 
+import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import java.util.Collections;
@@ -9,6 +10,7 @@ import rx.Subscriber;
 import rx.functions.Action0;
 import rx.subscriptions.Subscriptions;
 
+import static android.os.Build.VERSION_CODES.HONEYCOMB;
 import static com.f2prateek.rx.preferences.Preconditions.checkNotNull;
 
 /** A factory for reactive {@link Preference} objects. */
@@ -127,11 +129,13 @@ public final class RxSharedPreferences {
   }
 
   /** Create a string set preference for {@code key}. Default is an empty set. */
+  @TargetApi(HONEYCOMB)
   public Preference<Set<String>> getStringSet(String key) {
     return getStringSet(key, Collections.<String>emptySet());
   }
 
   /** Create a string set preference for {@code key} with a default of {@code defaultValue}. */
+  @TargetApi(HONEYCOMB)
   public Preference<Set<String>> getStringSet(String key, Set<String> defaultValue) {
     checkNotNull(key, "key == null");
     return new Preference<>(preferences, key, defaultValue, StringSetAdapter.INSTANCE, keyChanges);
