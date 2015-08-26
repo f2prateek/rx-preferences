@@ -7,6 +7,7 @@ import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Set;
 import rx.Observable;
 import rx.Subscriber;
@@ -164,4 +165,18 @@ public final class RxSharedPreferences {
     checkNotNull(key, "key == null");
     return new Preference<>(preferences, key, defaultValue, StringSetAdapter.INSTANCE, keyChanges);
   }
+
+  /** Create a double preference for {@code key}. Default is {@code null}. */
+  @CheckResult @NonNull
+  public Preference<Double> getDouble(@NonNull String key) {
+    return getDouble(key, null);
+  }
+
+  /** Create a double preference for {@code key} with a default of {@code defaultValue}. */
+  @CheckResult @NonNull
+  public Preference<Double> getDouble(@NonNull String key, @Nullable Double defaultValue) {
+    checkNotNull(key, "key == null");
+    return new Preference<>(preferences, key, defaultValue, DoubleAdapter.INSTANCE, keyChanges);
+  }
+  
 }
