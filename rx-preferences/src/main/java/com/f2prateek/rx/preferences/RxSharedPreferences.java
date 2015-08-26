@@ -178,5 +178,17 @@ public final class RxSharedPreferences {
     checkNotNull(key, "key == null");
     return new Preference<>(preferences, key, defaultValue, DoubleAdapter.INSTANCE, keyChanges);
   }
-  
+
+  /** Create a date preference for {@code key}. Default is {@code null}. */
+  @CheckResult @NonNull
+  public Preference<Date> getDate(@NonNull String key) {
+    return getDate(key, null);
+  }
+
+  /** Create a date preference for {@code key} with a default of {@code defaultValue}. */
+  @CheckResult @NonNull
+  public Preference<Date> getDate(@NonNull String key, @Nullable Date defaultValue) {
+    checkNotNull(key, "key == null");
+    return new Preference<>(preferences, key, defaultValue, DateAdapter.INSTANCE, keyChanges);
+  }
 }
