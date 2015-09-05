@@ -36,11 +36,11 @@ public class PreferenceTest {
   }
 
   @Test public void defaultDefaultValue() {
-    assertThat(rxPreferences.getBoolean("foo1").defaultValue()).isNull();
+    assertThat(rxPreferences.getBoolean("foo1").defaultValue()).isFalse();
     assertThat(rxPreferences.getEnum("foo2", Roshambo.class).defaultValue()).isNull();
-    assertThat(rxPreferences.getFloat("foo3").defaultValue()).isNull();
-    assertThat(rxPreferences.getInteger("foo4").defaultValue()).isNull();
-    assertThat(rxPreferences.getLong("foo5").defaultValue()).isNull();
+    assertThat(rxPreferences.getFloat("foo3").defaultValue()).isZero();
+    assertThat(rxPreferences.getInteger("foo4").defaultValue()).isZero();
+    assertThat(rxPreferences.getLong("foo5").defaultValue()).isZero();
     assertThat(rxPreferences.getString("foo6").defaultValue()).isNull();
     assertThat(rxPreferences.getStringSet("foo7").defaultValue()).isEmpty();
     assertThat(rxPreferences.getObject("foo8", pointAdapter).defaultValue()).isNull();

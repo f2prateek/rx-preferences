@@ -18,6 +18,11 @@ import static com.f2prateek.rx.preferences.Preconditions.checkNotNull;
 
 /** A factory for reactive {@link Preference} objects. */
 public final class RxSharedPreferences {
+  private static final Float DEFAULT_FLOAT = Float.valueOf(0);
+  private static final Integer DEFAULT_INTEGER = Integer.valueOf(0);
+  private static final Boolean DEFAULT_BOOLEAN = Boolean.valueOf(false);
+  private static final Long DEFAULT_LONG = Long.valueOf(0);
+
   /** Create an instance of {@link RxSharedPreferences} for {@code preferences}. */
   @CheckResult @NonNull
   public static RxSharedPreferences create(@NonNull SharedPreferences preferences) {
@@ -50,10 +55,10 @@ public final class RxSharedPreferences {
     }).share();
   }
 
-  /** Create a boolean preference for {@code key}. Default is {@code null}. */
+  /** Create a boolean preference for {@code key}. Default is {@code false}. */
   @CheckResult @NonNull
   public Preference<Boolean> getBoolean(@NonNull String key) {
-    return getBoolean(key, null);
+    return getBoolean(key, DEFAULT_BOOLEAN);
   }
 
   /** Create a boolean preference for {@code key} with a default of {@code defaultValue}. */
@@ -80,10 +85,10 @@ public final class RxSharedPreferences {
     return new Preference<>(preferences, key, defaultValue, adapter, keyChanges);
   }
 
-  /** Create a float preference for {@code key}. Default is {@code null}. */
+  /** Create a float preference for {@code key}. Default is {@code 0}. */
   @CheckResult @NonNull
   public Preference<Float> getFloat(@NonNull String key) {
-    return getFloat(key, null);
+    return getFloat(key, DEFAULT_FLOAT);
   }
 
   /** Create a float preference for {@code key} with a default of {@code defaultValue}. */
@@ -93,10 +98,11 @@ public final class RxSharedPreferences {
     return new Preference<>(preferences, key, defaultValue, FloatAdapter.INSTANCE, keyChanges);
   }
 
-  /** Create an integer preference for {@code key}. Default is {@code null}. */
+  /** Create an integer preference for {@code key}. Default is {@code 0}. */
   @CheckResult @NonNull
   public Preference<Integer> getInteger(@NonNull String key) {
-    return getInteger(key, null);
+    //noinspection UnnecessaryBoxing
+    return getInteger(key, DEFAULT_INTEGER);
   }
 
   /** Create an integer preference for {@code key} with a default of {@code defaultValue}. */
@@ -106,10 +112,11 @@ public final class RxSharedPreferences {
     return new Preference<>(preferences, key, defaultValue, IntegerAdapter.INSTANCE, keyChanges);
   }
 
-  /** Create a long preference for {@code key}. Default is {@code null}. */
+  /** Create a long preference for {@code key}. Default is {@code 0}. */
   @CheckResult @NonNull
   public Preference<Long> getLong(@NonNull String key) {
-    return getLong(key, null);
+    //noinspection UnnecessaryBoxing
+    return getLong(key, DEFAULT_LONG);
   }
 
   /** Create a long preference for {@code key} with a default of {@code defaultValue}. */
