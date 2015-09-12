@@ -16,7 +16,7 @@ import rx.subscriptions.Subscriptions;
 import static android.os.Build.VERSION_CODES.HONEYCOMB;
 import static com.f2prateek.rx.preferences.Preconditions.checkNotNull;
 
-/** A factory for reactive {@link Preference} objects. */
+/** A factory for reactive {@link PreferenceImpl} objects. */
 public final class RxSharedPreferences {
   /** Create an instance of {@link RxSharedPreferences} for {@code preferences}. */
   @CheckResult @NonNull
@@ -60,7 +60,7 @@ public final class RxSharedPreferences {
   @CheckResult @NonNull
   public Preference<Boolean> getBoolean(@NonNull String key, @Nullable Boolean defaultValue) {
     checkNotNull(key, "key == null");
-    return new Preference<>(preferences, key, defaultValue, BooleanAdapter.INSTANCE, keyChanges);
+    return new PreferenceImpl<>(preferences, key, defaultValue, BooleanAdapter.INSTANCE, keyChanges);
   }
 
   /** Create an enum preference for {@code key}. Default is {@code null}. */
@@ -77,7 +77,7 @@ public final class RxSharedPreferences {
     checkNotNull(key, "key == null");
     checkNotNull(enumClass, "enumClass == null");
     Preference.Adapter<T> adapter = new EnumAdapter<>(enumClass);
-    return new Preference<>(preferences, key, defaultValue, adapter, keyChanges);
+    return new PreferenceImpl<>(preferences, key, defaultValue, adapter, keyChanges);
   }
 
   /** Create a float preference for {@code key}. Default is {@code null}. */
@@ -90,7 +90,7 @@ public final class RxSharedPreferences {
   @CheckResult @NonNull
   public Preference<Float> getFloat(@NonNull String key, @Nullable Float defaultValue) {
     checkNotNull(key, "key == null");
-    return new Preference<>(preferences, key, defaultValue, FloatAdapter.INSTANCE, keyChanges);
+    return new PreferenceImpl<>(preferences, key, defaultValue, FloatAdapter.INSTANCE, keyChanges);
   }
 
   /** Create an integer preference for {@code key}. Default is {@code null}. */
@@ -103,7 +103,7 @@ public final class RxSharedPreferences {
   @CheckResult @NonNull
   public Preference<Integer> getInteger(@NonNull String key, @Nullable Integer defaultValue) {
     checkNotNull(key, "key == null");
-    return new Preference<>(preferences, key, defaultValue, IntegerAdapter.INSTANCE, keyChanges);
+    return new PreferenceImpl<>(preferences, key, defaultValue, IntegerAdapter.INSTANCE, keyChanges);
   }
 
   /** Create a long preference for {@code key}. Default is {@code null}. */
@@ -116,7 +116,7 @@ public final class RxSharedPreferences {
   @CheckResult @NonNull
   public Preference<Long> getLong(@NonNull String key, @Nullable Long defaultValue) {
     checkNotNull(key, "key == null");
-    return new Preference<>(preferences, key, defaultValue, LongAdapter.INSTANCE, keyChanges);
+    return new PreferenceImpl<>(preferences, key, defaultValue, LongAdapter.INSTANCE, keyChanges);
   }
 
   /** Create a preference of type {@code T} for {@code key}. Default is {@code null}. */
@@ -133,7 +133,7 @@ public final class RxSharedPreferences {
       @NonNull Preference.Adapter<T> adapter) {
     checkNotNull(key, "key == null");
     checkNotNull(adapter, "adapter == null");
-    return new Preference<>(preferences, key, defaultValue, adapter, keyChanges);
+    return new PreferenceImpl<>(preferences, key, defaultValue, adapter, keyChanges);
   }
 
   /** Create a string preference for {@code key}. Default is {@code null}. */
@@ -146,7 +146,7 @@ public final class RxSharedPreferences {
   @CheckResult @NonNull
   public Preference<String> getString(@NonNull String key, @Nullable String defaultValue) {
     checkNotNull(key, "key == null");
-    return new Preference<>(preferences, key, defaultValue, StringAdapter.INSTANCE, keyChanges);
+    return new PreferenceImpl<>(preferences, key, defaultValue, StringAdapter.INSTANCE, keyChanges);
   }
 
   /** Create a string set preference for {@code key}. Default is an empty set. */
@@ -162,6 +162,6 @@ public final class RxSharedPreferences {
   public Preference<Set<String>> getStringSet(@NonNull String key,
       @NonNull Set<String> defaultValue) {
     checkNotNull(key, "key == null");
-    return new Preference<>(preferences, key, defaultValue, StringSetAdapter.INSTANCE, keyChanges);
+    return new PreferenceImpl<>(preferences, key, defaultValue, StringSetAdapter.INSTANCE, keyChanges);
   }
 }
