@@ -11,7 +11,7 @@ android {
 
   defaultConfig {
     applicationId 'com.f2prateek.rx.preferences.sample'
-    minSdkVersion rootProject.ext.minSdkVersion
+    minSdkVersion 14 // rxBinding has a minimum of 14
     targetSdkVersion rootProject.ext.targetSdkVersion
     versionCode 1
     versionName '1.0.0'
@@ -27,5 +27,6 @@ android {
 dependencies {
   compile project(':rx-preferences')
   compile deps.rxandroid
+  compile deps.rxbinding
   compile deps.butterknife
 }
