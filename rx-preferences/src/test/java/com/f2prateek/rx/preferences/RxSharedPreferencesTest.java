@@ -18,9 +18,10 @@ import static org.junit.Assert.fail;
 @SuppressWarnings({ "ResourceType", "ConstantConditions" }) //
 public class RxSharedPreferencesTest {
   private RxSharedPreferences rxPreferences;
+  private SharedPreferences preferences;
 
   @Before public void setUp() {
-    SharedPreferences preferences = getDefaultSharedPreferences(RuntimeEnvironment.application);
+    preferences = getDefaultSharedPreferences(RuntimeEnvironment.application);
     preferences.edit().clear().commit();
     rxPreferences = RxSharedPreferences.create(preferences);
   }
@@ -182,5 +183,12 @@ public class RxSharedPreferencesTest {
     } catch (NullPointerException e) {
       assertThat(e).hasMessage("key == null");
     }
+  }
+
+  @Test public void clear() {
+    preferences.edit().putBoolean("foo1", true).commit();
+    preferences.edit().putString("foo2", "ROCK").commit();
+    rxPreferences.clear();
+    assertThat(preferences.getAll().isEmpty()).isTrue();
   }
 }

@@ -4,4 +4,5 @@
   <string name="app_name">Rx Preferences</string>
 
   <string name="foo">foo</string>
+  <string name="clear">clear all</string>
 </resources>

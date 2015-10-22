@@ -171,4 +171,13 @@ public final class RxSharedPreferences {
     checkNotNull(key, "key == null");
     return new Preference<>(preferences, key, defaultValue, StringSetAdapter.INSTANCE, keyChanges);
   }
+
+  /** Delete all preferences.*/
+  public void clear() {
+    SharedPreferences.Editor editor = preferences.edit();
+    for (String key : preferences.getAll().keySet()) {
+      editor.remove(key);
+    }
+    editor.apply();
+  }
 }
