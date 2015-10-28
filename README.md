@@ -7,7 +7,7 @@ Reactive `SharedPreferences` for Android.
 Usage
 -----
 
-Create an `RxSharedPreferences` instance which wraps a `SharedPreferences`: 
+Create an `RxSharedPreferences` instance which wraps a `SharedPreferences`:
 
 ```java
 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -44,7 +44,7 @@ Download
 --------
 
 ```groovy
-compile 'com.f2prateek.rx.preferences:rx-preferences:1.0.0'
+compile 'com.f2prateek.rx.preferences:rx-preferences:1.0.1'
 ```
 
 
