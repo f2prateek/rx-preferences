@@ -1,4 +1,5 @@
-include ':rx-preferences'
-include ':rx-preferences-sample'
-
 rootProject.name = 'rx-preferences-root'
+
+include ':rx-preferences'
+include ':rx-preferences-kotlin'
+include ':rx-preferences-sample'
