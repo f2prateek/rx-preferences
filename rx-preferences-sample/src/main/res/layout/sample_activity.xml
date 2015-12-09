@@ -22,4 +22,11 @@
       android:text="@string/foo"
       />
 
+  <Button
+      android:id="@+id/btnClear"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/clear"
+      />
+
 </LinearLayout>

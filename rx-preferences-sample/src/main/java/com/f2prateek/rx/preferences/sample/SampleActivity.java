@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.CheckBox;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import com.f2prateek.rx.preferences.Preference;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.jakewharton.rxbinding.widget.RxCompoundButton;
@@ -20,6 +21,7 @@ public class SampleActivity extends Activity {
   @InjectView(R.id.foo_2) CheckBox foo2Checkbox;
   Preference<Boolean> fooPreference;
   CompositeSubscription subscriptions;
+  private RxSharedPreferences rxPreferences;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -30,7 +32,7 @@ public class SampleActivity extends Activity {
 
     // Preferences
     SharedPreferences preferences = getDefaultSharedPreferences(this);
-    RxSharedPreferences rxPreferences = RxSharedPreferences.create(preferences);
+    rxPreferences = RxSharedPreferences.create(preferences);
 
     // foo
     fooPreference = rxPreferences.getBoolean("foo");
@@ -58,5 +60,9 @@ public class SampleActivity extends Activity {
     subscriptions.add(RxCompoundButton.checkedChanges(checkBox)
         .skip(1)
         .subscribe(preference.asAction()));
+  }
+
+  @OnClick(R.id.btnClear) void onClearClick() {
+    rxPreferences.clear();
   }
 }
