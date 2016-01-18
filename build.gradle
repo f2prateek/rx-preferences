@@ -25,11 +25,11 @@ ext {
 }
 
 ext.deps = [
-    annotations: 'com.android.support:support-annotations:23.0.0',
+    annotations: 'com.android.support:support-annotations:23.1.1',
     rxjava: 'io.reactivex:rxjava:1.1.0',
-    rxandroid: 'io.reactivex:rxandroid:1.0.1',
-    rxbinding: 'com.jakewharton.rxbinding:rxbinding:0.2.0',
-    butterknife: 'com.jakewharton:butterknife:6.1.0',
+    rxandroid: 'io.reactivex:rxandroid:1.1.0',
+    rxbinding: 'com.jakewharton.rxbinding:rxbinding:0.3.0',
+    butterknife: 'com.jakewharton:butterknife:7.0.1',
     junit: 'junit:junit:4.12',
     assertj: 'org.assertj:assertj-core:1.7.0',
     robolectric: 'org.robolectric:robolectric:3.0',
