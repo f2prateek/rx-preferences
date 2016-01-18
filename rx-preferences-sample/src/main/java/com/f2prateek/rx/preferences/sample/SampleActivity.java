@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.CheckBox;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 import com.f2prateek.rx.preferences.Preference;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.jakewharton.rxbinding.widget.RxCompoundButton;
@@ -16,8 +16,8 @@ import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class SampleActivity extends Activity {
 
-  @InjectView(R.id.foo_1) CheckBox foo1Checkbox;
-  @InjectView(R.id.foo_2) CheckBox foo2Checkbox;
+  @Bind(R.id.foo_1) CheckBox foo1Checkbox;
+  @Bind(R.id.foo_2) CheckBox foo2Checkbox;
   Preference<Boolean> fooPreference;
   CompositeSubscription subscriptions;
 
@@ -26,7 +26,7 @@ public class SampleActivity extends Activity {
 
     // Views
     setContentView(R.layout.sample_activity);
-    ButterKnife.inject(this);
+    ButterKnife.bind(this);
 
     // Preferences
     SharedPreferences preferences = getDefaultSharedPreferences(this);
