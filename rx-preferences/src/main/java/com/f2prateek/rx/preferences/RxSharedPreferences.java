@@ -36,8 +36,12 @@ public final class RxSharedPreferences {
   private RxSharedPreferences(final SharedPreferences preferences) {
     this.preferences = preferences;
     this.keyChanges = Observable.create(new Observable.OnSubscribe<String>() {
+      // SharedPreferences keeps OnSharedPreferenceChangeListener in a WeakHashMap,
+      // so let's keep a reference here to avoid having it garbage collected.
+      private OnSharedPreferenceChangeListener listener;
+
       @Override public void call(final Subscriber<? super String> subscriber) {
-        final OnSharedPreferenceChangeListener listener = new OnSharedPreferenceChangeListener() {
+        listener = new OnSharedPreferenceChangeListener() {
           @Override
           public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
             subscriber.onNext(key);
@@ -49,6 +53,7 @@ public final class RxSharedPreferences {
         subscriber.add(Subscriptions.create(new Action0() {
           @Override public void call() {
             preferences.unregisterOnSharedPreferenceChangeListener(listener);
+            listener = null;
           }
         }));
       }
