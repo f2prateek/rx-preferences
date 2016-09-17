@@ -18,10 +18,10 @@ import static com.f2prateek.rx.preferences.Preconditions.checkNotNull;
 
 /** A factory for reactive {@link Preference} objects. */
 public final class RxSharedPreferences {
-  private static final Float DEFAULT_FLOAT = Float.valueOf(0);
-  private static final Integer DEFAULT_INTEGER = Integer.valueOf(0);
-  private static final Boolean DEFAULT_BOOLEAN = Boolean.valueOf(false);
-  private static final Long DEFAULT_LONG = Long.valueOf(0);
+  private static final Float DEFAULT_FLOAT = 0f;
+  private static final Integer DEFAULT_INTEGER = 0;
+  private static final Boolean DEFAULT_BOOLEAN = false;
+  private static final Long DEFAULT_LONG = 0L;
 
   /** Create an instance of {@link RxSharedPreferences} for {@code preferences}. */
   @CheckResult @NonNull
