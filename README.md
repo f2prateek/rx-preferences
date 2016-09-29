@@ -2,6 +2,7 @@ Rx Preferences
 --------------
 
 Reactive `SharedPreferences` for Android.
+The only purpose of this fork is to make `Preference<T>` non-final for easy mocking.
 
 
 Usage
@@ -44,7 +45,7 @@ Download
 --------
 
 ```groovy
-compile 'com.f2prateek.rx.preferences:rx-preferences:1.0.2'
+compile 'cc.femto:rx-preferences:1.0.2-mockable'
 ```
 
 
@@ -68,4 +69,3 @@ License
 
 
  [1]: https://github.com/JakeWharton/RxBinding
- [2]: http://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.f2prateek.rx.preferences&a=rx-preferences&v=LATEST
