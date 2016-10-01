@@ -1,37 +1,39 @@
 buildscript {
   dependencies {
     classpath rootProject.ext.androidPlugin
+    classpath rootProject.ext.kotlinPlugin
   }
 }
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
   compileSdkVersion rootProject.ext.compileSdkVersion
   buildToolsVersion rootProject.ext.buildToolsVersion
 
-  compileOptions {
-    sourceCompatibility rootProject.ext.javaVersion
-    targetCompatibility rootProject.ext.javaVersion
-  }
-
   defaultConfig {
     minSdkVersion rootProject.ext.minSdkVersion
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_7
+    targetCompatibility JavaVersion.VERSION_1_7
   }
 
   lintOptions {
     textReport true
     textOutput 'stdout'
   }
+
+  sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+  }
 }
 
 dependencies {
-  compile deps.annotations
-  compile deps.rxjava
-
-  testCompile deps.junit
-  testCompile deps.assertj
-  testCompile deps.robolectric
+  compile project(':rx-preferences')
+  compile rootProject.ext.kotlinStdlib
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

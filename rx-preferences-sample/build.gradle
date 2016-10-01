@@ -1,3 +1,9 @@
+buildscript {
+  dependencies {
+    classpath rootProject.ext.androidPlugin
+  }
+}
+
 apply plugin: 'com.android.application'
 
 android {
