@@ -4,9 +4,10 @@ import android.content.SharedPreferences;
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func1;
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 
 /** A preference of type {@link T}. Instances can be created from {@link RxSharedPreferences}. */
 public final class Preference<T> {
@@ -37,15 +38,14 @@ public final class Preference<T> {
     this.defaultValue = defaultValue;
     this.adapter = adapter;
     this.values = keyChanges
-        .filter(new Func1<String, Boolean>() {
-          @Override public Boolean call(String changedKey) {
+        .filter(new Predicate<String>() {
+          @Override public boolean test(String changedKey) throws Exception {
             return key.equals(changedKey);
           }
         })
         .startWith("<init>") // Dummy value to trigger initial load.
-        .onBackpressureLatest()
-        .map(new Func1<String, T>() {
-          @Override public T call(String ignored) {
+        .map(new Function<String, T>() {
+          @Override public T apply(String s) throws Exception {
             return get();
           }
         });
@@ -113,9 +113,9 @@ public final class Preference<T> {
    * preference.
    */
   @CheckResult @NonNull
-  public Action1<? super T> asAction() {
-    return new Action1<T>() {
-      @Override public void call(T value) {
+  public Consumer<? super T> asConsumer() {
+    return new Consumer<T>() {
+      @Override public void accept(T value) throws Exception {
         set(value);
       }
     };
