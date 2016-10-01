@@ -1,4 +1,4 @@
-package com.f2prateek.rx.preferences.sample;
+package com.f2prateek.rx.preferences2.sample;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.widget.CheckBox;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.f2prateek.rx.preferences.Preference;
-import com.f2prateek.rx.preferences.RxSharedPreferences;
+import com.f2prateek.rx.preferences2.Preference;
+import com.f2prateek.rx.preferences2.RxSharedPreferences;
 import com.jakewharton.rxbinding.widget.RxCompoundButton;
 import hu.akarnokd.rxjava.interop.RxJavaInterop;
 import io.reactivex.android.schedulers.AndroidSchedulers;

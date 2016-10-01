@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.f2prateek.rx.preferences;
+package com.f2prateek.rx.preferences2;
 
 import io.reactivex.Notification;
 import io.reactivex.Observer;

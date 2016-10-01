@@ -1,4 +1,4 @@
-package com.f2prateek.rx.preferences;
+package com.f2prateek.rx.preferences2;
 
 import android.annotation.TargetApi;
 import android.content.SharedPreferences;
@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.Set;
 
 import static android.os.Build.VERSION_CODES.HONEYCOMB;
-import static com.f2prateek.rx.preferences.Preconditions.checkNotNull;
+import static com.f2prateek.rx.preferences2.Preconditions.checkNotNull;
 
 /** A factory for reactive {@link Preference} objects. */
 public final class RxSharedPreferences {

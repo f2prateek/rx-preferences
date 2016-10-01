@@ -1,4 +1,4 @@
-package com.f2prateek.rx.preferences;
+package com.f2prateek.rx.preferences2;
 
 final class Preconditions {
   static void checkNotNull(Object o, String message) {

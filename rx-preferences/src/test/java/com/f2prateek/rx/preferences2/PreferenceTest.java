@@ -1,4 +1,4 @@
-package com.f2prateek.rx.preferences;
+package com.f2prateek.rx.preferences2;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
@@ -11,7 +11,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
-import static com.f2prateek.rx.preferences.Roshambo.ROCK;
+import static com.f2prateek.rx.preferences2.Roshambo.ROCK;
 import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.extractProperty;
