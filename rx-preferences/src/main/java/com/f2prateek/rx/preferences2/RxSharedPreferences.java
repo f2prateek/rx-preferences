@@ -44,13 +44,13 @@ public final class RxSharedPreferences {
           }
         };
 
-        preferences.registerOnSharedPreferenceChangeListener(listener);
-
         emitter.setCancellable(new Cancellable() {
           @Override public void cancel() throws Exception {
             preferences.unregisterOnSharedPreferenceChangeListener(listener);
           }
         });
+
+        preferences.registerOnSharedPreferenceChangeListener(listener);
       }
     }).share();
   }
