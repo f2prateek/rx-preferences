@@ -6,12 +6,12 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.functions.Cancellable;
 import java.util.Collections;
 import java.util.Set;
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Action0;
-import rx.subscriptions.Subscriptions;
 
 import static android.os.Build.VERSION_CODES.HONEYCOMB;
 import static com.f2prateek.rx.preferences.Preconditions.checkNotNull;
@@ -35,22 +35,22 @@ public final class RxSharedPreferences {
 
   private RxSharedPreferences(final SharedPreferences preferences) {
     this.preferences = preferences;
-    this.keyChanges = Observable.create(new Observable.OnSubscribe<String>() {
-      @Override public void call(final Subscriber<? super String> subscriber) {
+    this.keyChanges = Observable.create(new ObservableOnSubscribe<String>() {
+      @Override public void subscribe(final ObservableEmitter<String> emitter) throws Exception {
         final OnSharedPreferenceChangeListener listener = new OnSharedPreferenceChangeListener() {
           @Override
           public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-            subscriber.onNext(key);
+            emitter.onNext(key);
           }
         };
 
         preferences.registerOnSharedPreferenceChangeListener(listener);
 
-        subscriber.add(Subscriptions.create(new Action0() {
-          @Override public void call() {
+        emitter.setCancellable(new Cancellable() {
+          @Override public void cancel() throws Exception {
             preferences.unregisterOnSharedPreferenceChangeListener(listener);
           }
-        }));
+        });
       }
     }).share();
   }
