@@ -7,7 +7,6 @@ android:
     - extra-android-m2repository
 
 jdk:
-  - oraclejdk7
   - oraclejdk8
 
 after_success:

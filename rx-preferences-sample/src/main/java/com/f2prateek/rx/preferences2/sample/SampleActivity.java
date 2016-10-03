@@ -55,11 +55,7 @@ public class SampleActivity extends Activity {
     // Bind the preference to the checkbox.
     disposables.add(preference.asObservable()
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Consumer<Boolean>() {
-          @Override public void accept(Boolean checked) throws Exception {
-            checkBox.setChecked(checked);
-          }
-        }));
+        .subscribe(checkBox::setChecked));
     // Bind the checkbox to the preference.
     disposables.add(RxJavaInterop.toV2Observable(RxCompoundButton.checkedChanges(checkBox))
         .skip(1) // First emission is the original state.
