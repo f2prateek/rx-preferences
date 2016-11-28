@@ -8,8 +8,11 @@ import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
-/** A preference of type {@link T}. Instances can be created from {@link RxSharedPreferences}. */
-public final class Preference<T> {
+/**
+ * A preference of type {@link T}. Instances can be created from {@link RxSharedPreferences}.
+ * Not designed for inheritance. Non-final for testing only.
+ */
+public class Preference<T> {
   /** Stores and retrieves instances of {@code T} in {@link SharedPreferences}. */
   public interface Adapter<T> {
     /** Retrieve the value for {@code key} from {@code preferences}. */
