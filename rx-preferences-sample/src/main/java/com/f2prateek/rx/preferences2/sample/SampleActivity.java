@@ -9,7 +9,7 @@ import com.f2prateek.rx.preferences2.Preference;
 import com.f2prateek.rx.preferences2.RxSharedPreferences;
 import com.jakewharton.rxbinding.widget.RxCompoundButton;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.akarnokd.rxjava.interop.RxJavaInterop;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -19,47 +19,52 @@ import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class SampleActivity extends Activity {
 
-  @Bind(R.id.foo_1) CheckBox foo1Checkbox;
-  @Bind(R.id.foo_2) CheckBox foo2Checkbox;
-  Preference<Boolean> fooPreference;
-  CompositeDisposable disposables;
+    @BindView(R.id.foo_1)
+    CheckBox foo1Checkbox;
+    @BindView(R.id.foo_2)
+    CheckBox foo2Checkbox;
+    Preference<Boolean> fooPreference;
+    CompositeDisposable disposables;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    // Views
-    setContentView(R.layout.sample_activity);
-    ButterKnife.bind(this);
+        // Views
+        setContentView(R.layout.sample_activity);
+        ButterKnife.bind(this);
 
-    // Preferences
-    SharedPreferences preferences = getDefaultSharedPreferences(this);
-    RxSharedPreferences rxPreferences = RxSharedPreferences.create(preferences);
+        // Preferences
+        SharedPreferences preferences = getDefaultSharedPreferences(this);
+        RxSharedPreferences rxPreferences = RxSharedPreferences.create(preferences);
 
-    // foo
-    fooPreference = rxPreferences.getBoolean("foo");
-  }
+        // foo
+        fooPreference = rxPreferences.getBoolean("foo");
+    }
 
-  @Override protected void onResume() {
-    super.onResume();
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-    disposables = new CompositeDisposable();
-    bindPreference(foo1Checkbox, fooPreference);
-    bindPreference(foo2Checkbox, fooPreference);
-  }
+        disposables = new CompositeDisposable();
+        bindPreference(foo1Checkbox, fooPreference);
+        bindPreference(foo2Checkbox, fooPreference);
+    }
 
-  @Override protected void onPause() {
-    super.onPause();
-    disposables.dispose();
-  }
+    void bindPreference(final CheckBox checkBox, Preference<Boolean> preference) {
+        // Bind the preference to the checkbox.
+        disposables.add(preference.asObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(checkBox::setChecked));
+        // Bind the checkbox to the preference.
+        disposables.add(RxJavaInterop.toV2Observable(RxCompoundButton.checkedChanges(checkBox))
+                .skip(1) // First emission is the original state.
+                .subscribe(preference.asConsumer()));
+    }
 
-  void bindPreference(final CheckBox checkBox, Preference<Boolean> preference) {
-    // Bind the preference to the checkbox.
-    disposables.add(preference.asObservable()
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(checkBox::setChecked));
-    // Bind the checkbox to the preference.
-    disposables.add(RxJavaInterop.toV2Observable(RxCompoundButton.checkedChanges(checkBox))
-        .skip(1) // First emission is the original state.
-        .subscribe(preference.asConsumer()));
-  }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        disposables.dispose();
+    }
 }

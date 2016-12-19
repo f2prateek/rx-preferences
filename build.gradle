@@ -6,6 +6,7 @@ buildscript {
   dependencies {
     classpath 'com.android.tools.build:gradle:2.2.3'
     classpath 'me.tatarka:gradle-retrolambda:3.3.0'
+    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
   }
 }
 
@@ -35,6 +36,7 @@ ext.deps = [
     rxbinding: 'com.jakewharton.rxbinding:rxbinding:1.0.0',
     rxjava2interop: 'com.github.akarnokd:rxjava2-interop:0.8.1',
     butterknife: 'com.jakewharton:butterknife:8.4.0',
+    butterknifeCompiler: 'com.jakewharton:butterknife-compiler:8.4.0',
     junit: 'junit:junit:4.12',
     assertj: 'org.assertj:assertj-core:1.7.0',
     robolectric: 'org.robolectric:robolectric:3.0',
