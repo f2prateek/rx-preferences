@@ -4,15 +4,16 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.CheckBox;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
 import com.f2prateek.rx.preferences2.Preference;
 import com.f2prateek.rx.preferences2.RxSharedPreferences;
 import com.jakewharton.rxbinding.widget.RxCompoundButton;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import hu.akarnokd.rxjava.interop.RxJavaInterop;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
