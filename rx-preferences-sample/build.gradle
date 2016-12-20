@@ -25,7 +25,7 @@ android {
   }
 
   packagingOptions {
-    exclude 'META-INF/rxjava.properties' // rxjava-2.0.1.jar & rxjava-1.2.0.jar
+    exclude 'META-INF/rxjava.properties' // rxjava-2.0.0-RC3.jar & rxjava-1.2.0.jar
   }
 }
 
