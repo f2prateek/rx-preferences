@@ -35,4 +35,6 @@ dependencies {
   compile deps.rxbinding
   compile deps.rxjava2interop
   compile deps.butterknife
+
+  annotationProcessor deps.butterknifeCompiler
 }

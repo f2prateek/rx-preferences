@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.CheckBox;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.f2prateek.rx.preferences2.Preference;
 import com.f2prateek.rx.preferences2.RxSharedPreferences;
@@ -12,14 +12,14 @@ import com.jakewharton.rxbinding.widget.RxCompoundButton;
 import hu.akarnokd.rxjava.interop.RxJavaInterop;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
+
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class SampleActivity extends Activity {
 
-  @Bind(R.id.foo_1) CheckBox foo1Checkbox;
-  @Bind(R.id.foo_2) CheckBox foo2Checkbox;
+  @BindView(R.id.foo_1) CheckBox foo1Checkbox;
+  @BindView(R.id.foo_2) CheckBox foo2Checkbox;
   Preference<Boolean> fooPreference;
   CompositeDisposable disposables;
 
