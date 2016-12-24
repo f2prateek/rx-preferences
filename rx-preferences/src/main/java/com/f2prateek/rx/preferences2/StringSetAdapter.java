@@ -1,4 +1,4 @@
-package com.f2prateek.rx.preferences;
+package com.f2prateek.rx.preferences2;
 
 import android.annotation.TargetApi;
 import android.content.SharedPreferences;

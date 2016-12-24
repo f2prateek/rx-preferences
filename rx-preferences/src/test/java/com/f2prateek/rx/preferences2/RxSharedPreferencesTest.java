@@ -1,4 +1,4 @@
-package com.f2prateek.rx.preferences;
+package com.f2prateek.rx.preferences2;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;

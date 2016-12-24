@@ -1,4 +1,4 @@
-package com.f2prateek.rx.preferences;
+package com.f2prateek.rx.preferences2;
 
 import android.annotation.TargetApi;
 import android.content.SharedPreferences;
@@ -6,15 +6,15 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.functions.Cancellable;
 import java.util.Collections;
 import java.util.Set;
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Action0;
-import rx.subscriptions.Subscriptions;
 
 import static android.os.Build.VERSION_CODES.HONEYCOMB;
-import static com.f2prateek.rx.preferences.Preconditions.checkNotNull;
+import static com.f2prateek.rx.preferences2.Preconditions.checkNotNull;
 
 /** A factory for reactive {@link Preference} objects. */
 public final class RxSharedPreferences {
@@ -35,22 +35,22 @@ public final class RxSharedPreferences {
 
   private RxSharedPreferences(final SharedPreferences preferences) {
     this.preferences = preferences;
-    this.keyChanges = Observable.create(new Observable.OnSubscribe<String>() {
-      @Override public void call(final Subscriber<? super String> subscriber) {
+    this.keyChanges = Observable.create(new ObservableOnSubscribe<String>() {
+      @Override public void subscribe(final ObservableEmitter<String> emitter) throws Exception {
         final OnSharedPreferenceChangeListener listener = new OnSharedPreferenceChangeListener() {
           @Override
           public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-            subscriber.onNext(key);
+            emitter.onNext(key);
           }
         };
 
-        preferences.registerOnSharedPreferenceChangeListener(listener);
-
-        subscriber.add(Subscriptions.create(new Action0() {
-          @Override public void call() {
+        emitter.setCancellable(new Cancellable() {
+          @Override public void cancel() throws Exception {
             preferences.unregisterOnSharedPreferenceChangeListener(listener);
           }
-        }));
+        });
+
+        preferences.registerOnSharedPreferenceChangeListener(listener);
       }
     }).share();
   }
@@ -65,7 +65,7 @@ public final class RxSharedPreferences {
   @CheckResult @NonNull
   public Preference<Boolean> getBoolean(@NonNull String key, @Nullable Boolean defaultValue) {
     checkNotNull(key, "key == null");
-    return new Preference<>(preferences, key, defaultValue, BooleanAdapter.INSTANCE, keyChanges);
+    return new RealPreference<>(preferences, key, defaultValue, BooleanAdapter.INSTANCE, keyChanges);
   }
 
   /** Create an enum preference for {@code key}. Default is {@code null}. */
@@ -82,7 +82,7 @@ public final class RxSharedPreferences {
     checkNotNull(key, "key == null");
     checkNotNull(enumClass, "enumClass == null");
     Preference.Adapter<T> adapter = new EnumAdapter<>(enumClass);
-    return new Preference<>(preferences, key, defaultValue, adapter, keyChanges);
+    return new RealPreference<>(preferences, key, defaultValue, adapter, keyChanges);
   }
 
   /** Create a float preference for {@code key}. Default is {@code 0}. */
@@ -95,7 +95,7 @@ public final class RxSharedPreferences {
   @CheckResult @NonNull
   public Preference<Float> getFloat(@NonNull String key, @Nullable Float defaultValue) {
     checkNotNull(key, "key == null");
-    return new Preference<>(preferences, key, defaultValue, FloatAdapter.INSTANCE, keyChanges);
+    return new RealPreference<>(preferences, key, defaultValue, FloatAdapter.INSTANCE, keyChanges);
   }
 
   /** Create an integer preference for {@code key}. Default is {@code 0}. */
@@ -109,7 +109,7 @@ public final class RxSharedPreferences {
   @CheckResult @NonNull
   public Preference<Integer> getInteger(@NonNull String key, @Nullable Integer defaultValue) {
     checkNotNull(key, "key == null");
-    return new Preference<>(preferences, key, defaultValue, IntegerAdapter.INSTANCE, keyChanges);
+    return new RealPreference<>(preferences, key, defaultValue, IntegerAdapter.INSTANCE, keyChanges);
   }
 
   /** Create a long preference for {@code key}. Default is {@code 0}. */
@@ -123,7 +123,7 @@ public final class RxSharedPreferences {
   @CheckResult @NonNull
   public Preference<Long> getLong(@NonNull String key, @Nullable Long defaultValue) {
     checkNotNull(key, "key == null");
-    return new Preference<>(preferences, key, defaultValue, LongAdapter.INSTANCE, keyChanges);
+    return new RealPreference<>(preferences, key, defaultValue, LongAdapter.INSTANCE, keyChanges);
   }
 
   /** Create a preference of type {@code T} for {@code key}. Default is {@code null}. */
@@ -140,7 +140,7 @@ public final class RxSharedPreferences {
       @NonNull Preference.Adapter<T> adapter) {
     checkNotNull(key, "key == null");
     checkNotNull(adapter, "adapter == null");
-    return new Preference<>(preferences, key, defaultValue, adapter, keyChanges);
+    return new RealPreference<>(preferences, key, defaultValue, adapter, keyChanges);
   }
 
   /** Create a string preference for {@code key}. Default is {@code null}. */
@@ -153,7 +153,7 @@ public final class RxSharedPreferences {
   @CheckResult @NonNull
   public Preference<String> getString(@NonNull String key, @Nullable String defaultValue) {
     checkNotNull(key, "key == null");
-    return new Preference<>(preferences, key, defaultValue, StringAdapter.INSTANCE, keyChanges);
+    return new RealPreference<>(preferences, key, defaultValue, StringAdapter.INSTANCE, keyChanges);
   }
 
   /** Create a string set preference for {@code key}. Default is an empty set. */
@@ -169,6 +169,6 @@ public final class RxSharedPreferences {
   public Preference<Set<String>> getStringSet(@NonNull String key,
       @NonNull Set<String> defaultValue) {
     checkNotNull(key, "key == null");
-    return new Preference<>(preferences, key, defaultValue, StringSetAdapter.INSTANCE, keyChanges);
+    return new RealPreference<>(preferences, key, defaultValue, StringSetAdapter.INSTANCE, keyChanges);
   }
 }

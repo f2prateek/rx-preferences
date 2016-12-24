@@ -1,24 +1,26 @@
-package com.f2prateek.rx.preferences;
+package com.f2prateek.rx.preferences2;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+import io.reactivex.functions.Consumer;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import rx.Subscription;
-import rx.functions.Action1;
-import rx.observers.TestSubscriber;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
-import static com.f2prateek.rx.preferences.Roshambo.ROCK;
+import static com.f2prateek.rx.preferences2.Roshambo.ROCK;
 import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.extractProperty;
 
 @RunWith(RobolectricTestRunner.class) //
 @SuppressLint({ "NewApi", "CommitPrefEdits" }) //
 public class PreferenceTest {
+  @Rule public final RecordingObserver.Rule observerRule = new RecordingObserver.Rule();
+
   private final PointPreferenceAdapter pointAdapter = new PointPreferenceAdapter();
 
   private SharedPreferences preferences;
@@ -170,57 +172,28 @@ public class PreferenceTest {
   @Test public void asObservable() {
     Preference<String> preference = rxPreferences.getString("foo", "bar");
 
-    TestSubscriber<String> o = new TestSubscriber<>();
-    Subscription subscription = preference.asObservable().subscribe(o);
-    o.assertValues("bar");
+    RecordingObserver<String> observer = observerRule.create();
+    preference.asObservable().subscribe(observer);
+    observer.assertValue("bar");
 
     preferences.edit().putString("foo", "baz").commit();
-    o.assertValues("bar", "baz");
+    observer.assertValue("baz");
 
     preferences.edit().remove("foo").commit();
-    o.assertValues("bar", "baz", "bar");
-
-    subscription.unsubscribe();
-    preferences.edit().putString("foo", "foo").commit();
-    o.assertValues("bar", "baz", "bar");
+    observer.assertValue("bar");
   }
 
-  @Test public void asObservableHonorsBackpressure() {
-    Preference<String> preference = rxPreferences.getString("foo", "bar");
-
-    TestSubscriber<String> o = new TestSubscriber<>(2); // Request only 2 values.
-    preference.asObservable().subscribe(o);
-    o.assertValues("bar");
-
-    preferences.edit().putString("foo", "baz").commit();
-    o.assertValues("bar", "baz");
-
-    preferences.edit().putString("foo", "foo").commit();
-    o.assertValues("bar", "baz"); // No new item due to backpressure.
-
-    o.requestMore(1);
-    o.assertValues("bar", "baz", "foo");
-
-    for (int i = 0; i < 1000; i++) {
-      preferences.edit().putString("foo", "foo" + i).commit();
-    }
-    o.assertValues("bar", "baz", "foo"); // No new items due to backpressure.
-
-    o.requestMore(Long.MAX_VALUE); // Request everything...
-    o.assertValues("bar", "baz", "foo", "foo999"); // ...but only get latest.
-  }
-
-  @Test public void asAction() {
+  @Test public void asAction() throws Exception {
     Preference<String> preference = rxPreferences.getString("foo");
-    Action1<? super String> action = preference.asAction();
+    Consumer<? super String> consumer = preference.asConsumer();
 
-    action.call("bar");
+    consumer.accept("bar");
     assertThat(preferences.getString("foo", null)).isEqualTo("bar");
 
-    action.call("baz");
+    consumer.accept("baz");
     assertThat(preferences.getString("foo", null)).isEqualTo("baz");
 
-    action.call(null);
+    consumer.accept(null);
     assertThat(preferences.contains("foo")).isFalse();
   }
 }
