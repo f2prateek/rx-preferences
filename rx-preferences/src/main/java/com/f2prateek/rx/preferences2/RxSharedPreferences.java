@@ -6,6 +6,10 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -35,8 +39,8 @@ public final class RxSharedPreferences {
 
   private RxSharedPreferences(final SharedPreferences preferences) {
     this.preferences = preferences;
-    this.keyChanges = Observable.create(new ObservableOnSubscribe<String>() {
-      @Override public void subscribe(final ObservableEmitter<String> emitter) throws Exception {
+    this.keyChanges = Flowable.create(new FlowableOnSubscribe<String>() {
+      @Override public void subscribe(final FlowableEmitter<String> emitter) throws Exception {
         final OnSharedPreferenceChangeListener listener = new OnSharedPreferenceChangeListener() {
           @Override
           public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
@@ -52,7 +56,7 @@ public final class RxSharedPreferences {
 
         preferences.registerOnSharedPreferenceChangeListener(listener);
       }
-    }).share();
+    }, BackpressureStrategy.BUFFER).toObservable().share();
   }
 
   /** Create a boolean preference for {@code key}. Default is {@code false}. */
