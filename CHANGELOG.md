@@ -4,9 +4,9 @@ Change Log
 Version 2.0.0-RC1 *(25-12-2016)*
 --------------------------------
 
-rx-preferences has been updated to support RxJava 2.0. The `Preference` type is now an interface, but the core itself is mostly unchanged.
+rx-preferences has been updated to support RxJava 2.0. The `Preference` type is now an interface, but the core itself is mostly unchanged. `2.0.0-RC1` does not handle backpressure yet.
 
-Because the release includes breaking API changes, we're changing the project's package name from `com.f2prateek.rx.preferences` to `com.f2prateek.rx.preferences2`. The maven group has also changed to `com.f2prateek.rx.preferences2`. This should make it possible for large applications and libraries to migrate incrementally. 
+Because the release includes breaking API changes, we're changing the project's package name from `com.f2prateek.rx.preferences` to `com.f2prateek.rx.preferences2`. The maven group has also changed to `com.f2prateek.rx.preferences2`. This should make it possible for large applications and libraries to migrate incrementally.
 
 Version 1.0.2 *(15-06-2016)*
 ----------------------------
