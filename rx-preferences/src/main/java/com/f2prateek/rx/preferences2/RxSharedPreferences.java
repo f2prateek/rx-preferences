@@ -1,11 +1,11 @@
 package com.f2prateek.rx.preferences2;
 
-import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -157,14 +157,14 @@ public final class RxSharedPreferences {
   }
 
   /** Create a string set preference for {@code key}. Default is an empty set. */
-  @TargetApi(HONEYCOMB)
+  @RequiresApi(HONEYCOMB)
   @CheckResult @NonNull
   public Preference<Set<String>> getStringSet(@NonNull String key) {
     return getStringSet(key, Collections.<String>emptySet());
   }
 
   /** Create a string set preference for {@code key} with a default of {@code defaultValue}. */
-  @TargetApi(HONEYCOMB)
+  @RequiresApi(HONEYCOMB)
   @CheckResult @NonNull
   public Preference<Set<String>> getStringSet(@NonNull String key,
       @NonNull Set<String> defaultValue) {
