@@ -14,6 +14,8 @@ SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(co
 RxSharedPreferences rxPreferences = RxSharedPreferences.create(preferences);
 ```
 
+*Hint: Keep a strong reference on your `RxSharedPreferences` instance for as long as you want to observe them to prevent listeners from being GCed.*
+
 Create individual `Preference` objects:
 
 ```java
