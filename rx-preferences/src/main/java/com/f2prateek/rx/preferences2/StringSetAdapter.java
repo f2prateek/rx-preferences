@@ -12,7 +12,9 @@ final class StringSetAdapter implements Preference.Adapter<Set<String>> {
   static final StringSetAdapter INSTANCE = new StringSetAdapter();
 
   @Override public Set<String> get(@NonNull String key, @NonNull SharedPreferences preferences) {
-    return preferences.getStringSet(key, null);
+    Set<String> value = preferences.getStringSet(key, null);
+    assert value != null; // Not called unless key is present.
+    return value;
   }
 
   @Override public void set(@NonNull String key, @NonNull Set<String> value,
