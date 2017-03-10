@@ -156,7 +156,10 @@ public final class RxSharedPreferences {
     return new RealPreference<>(preferences, key, defaultValue, StringAdapter.INSTANCE, keyChanges);
   }
 
-  /** Create a string set preference for {@code key}. Default is an empty set. */
+  /**
+   * Create a string set preference for {@code key}. Default is an empty set. Note that returned set
+   * value will always be unmodifiable.
+   */
   @RequiresApi(HONEYCOMB)
   @CheckResult @NonNull
   public Preference<Set<String>> getStringSet(@NonNull String key) {

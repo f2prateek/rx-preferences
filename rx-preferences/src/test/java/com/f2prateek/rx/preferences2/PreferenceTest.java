@@ -3,6 +3,8 @@ package com.f2prateek.rx.preferences2;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import io.reactivex.functions.Consumer;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -14,7 +16,7 @@ import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static com.f2prateek.rx.preferences2.Roshambo.ROCK;
 import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.extractProperty;
+import static org.assertj.core.api.Assertions.fail;
 
 @RunWith(RobolectricTestRunner.class) //
 @SuppressLint({ "NewApi", "CommitPrefEdits" }) //
@@ -167,6 +169,29 @@ public class PreferenceTest {
 
     preference.delete();
     assertThat(preferences.contains("foo")).isFalse();
+  }
+
+  @Test public void stringSetDefaultIsUnmodifiable() {
+    Preference<Set<String>> preference = rxPreferences.getStringSet("foo");
+    Set<String> stringSet = preference.get();
+    try {
+      stringSet.add("");
+      fail(stringSet.getClass() + " should not be modifiable.");
+    } catch (UnsupportedOperationException expected) {
+      assertThat(expected).hasNoCause();
+    }
+  }
+
+  @Test public void stringSetIsUnmodifiable() {
+    Preference<Set<String>> preference = rxPreferences.getStringSet("foo");
+    preference.set(new LinkedHashSet<String>());
+    Set<String> stringSet = preference.get();
+    try {
+      stringSet.add("");
+      fail(stringSet.getClass() + " should not be modifiable.");
+    } catch (UnsupportedOperationException expected) {
+      assertThat(expected).hasNoCause();
+    }
   }
 
   @Test public void asObservable() {
