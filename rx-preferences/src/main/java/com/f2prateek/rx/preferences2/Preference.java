@@ -26,19 +26,18 @@ public interface Preference<T> {
   /** The key for which this preference will store and retrieve values. */
   @NonNull String key();
 
-  /** The value used if none is stored. May be {@code null}. */
-  @Nullable T defaultValue();
+  /** The value used if none is stored. */
+  @NonNull T defaultValue();
 
   /**
    * Retrieve the current value for this preference. Returns {@link #defaultValue()} if no value is
    * set.
    */
-  @Nullable T get();
+  @NonNull T get();
 
   /**
    * Change this preference's stored value to {@code value}. A value of {@code null} will delete
-   * the
-   * preference.
+   * the preference.
    */
   void set(@Nullable T value);
 
