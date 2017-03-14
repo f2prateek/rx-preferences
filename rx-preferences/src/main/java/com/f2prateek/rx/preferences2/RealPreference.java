@@ -15,6 +15,7 @@ final class RealPreference<T> implements Preference<T> {
   private final T defaultValue;
   private final Adapter<T> adapter;
   private final Observable<T> values;
+  private T cache; // Guarded by this.
 
   RealPreference(SharedPreferences preferences, final String key, T defaultValue,
       Adapter<T> adapter, Observable<String> keyChanges) {
@@ -44,14 +45,17 @@ final class RealPreference<T> implements Preference<T> {
     return defaultValue;
   }
 
-  @Override @Nullable public T get() {
+  @Override @Nullable public synchronized T get() {
     if (!preferences.contains(key)) {
       return defaultValue;
     }
-    return adapter.get(key, preferences);
+    if (cache == null) {
+      cache = adapter.get(key, preferences);
+    }
+    return cache;
   }
 
-  @Override public void set(@Nullable T value) {
+  @Override public synchronized void set(@Nullable T value) {
     SharedPreferences.Editor editor = preferences.edit();
     if (value == null) {
       editor.remove(key);
@@ -59,6 +63,7 @@ final class RealPreference<T> implements Preference<T> {
       adapter.set(key, value, editor);
     }
     editor.apply();
+    cache = value;
   }
 
   @Override public boolean isSet() {
@@ -81,4 +86,3 @@ final class RealPreference<T> implements Preference<T> {
     };
   }
 }
-
