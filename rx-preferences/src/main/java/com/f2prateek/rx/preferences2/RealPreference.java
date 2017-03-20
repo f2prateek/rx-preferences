@@ -40,11 +40,11 @@ final class RealPreference<T> implements Preference<T> {
     return key;
   }
 
-  @Override @Nullable public T defaultValue() {
+  @Override @NonNull public T defaultValue() {
     return defaultValue;
   }
 
-  @Override @Nullable public T get() {
+  @Override @NonNull public T get() {
     if (!preferences.contains(key)) {
       return defaultValue;
     }

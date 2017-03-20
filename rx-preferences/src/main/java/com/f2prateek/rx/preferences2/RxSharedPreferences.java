@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -22,6 +21,7 @@ public final class RxSharedPreferences {
   private static final Integer DEFAULT_INTEGER = 0;
   private static final Boolean DEFAULT_BOOLEAN = false;
   private static final Long DEFAULT_LONG = 0L;
+  private static final String DEFAULT_STRING = "";
 
   /** Create an instance of {@link RxSharedPreferences} for {@code preferences}. */
   @CheckResult @NonNull
@@ -63,23 +63,18 @@ public final class RxSharedPreferences {
 
   /** Create a boolean preference for {@code key} with a default of {@code defaultValue}. */
   @CheckResult @NonNull
-  public Preference<Boolean> getBoolean(@NonNull String key, @Nullable Boolean defaultValue) {
+  public Preference<Boolean> getBoolean(@NonNull String key, @NonNull Boolean defaultValue) {
     checkNotNull(key, "key == null");
+    checkNotNull(defaultValue, "defaultValue == null");
     return new RealPreference<>(preferences, key, defaultValue, BooleanAdapter.INSTANCE, keyChanges);
-  }
-
-  /** Create an enum preference for {@code key}. Default is {@code null}. */
-  @CheckResult @NonNull
-  public <T extends Enum<T>> Preference<T> getEnum(@NonNull String key,
-      @NonNull Class<T> enumClass) {
-    return getEnum(key, null, enumClass);
   }
 
   /** Create an enum preference for {@code key} with a default of {@code defaultValue}. */
   @CheckResult @NonNull
-  public <T extends Enum<T>> Preference<T> getEnum(@NonNull String key, @Nullable T defaultValue,
+  public <T extends Enum<T>> Preference<T> getEnum(@NonNull String key, @NonNull T defaultValue,
       @NonNull Class<T> enumClass) {
     checkNotNull(key, "key == null");
+    checkNotNull(defaultValue, "defaultValue == null");
     checkNotNull(enumClass, "enumClass == null");
     Preference.Adapter<T> adapter = new EnumAdapter<>(enumClass);
     return new RealPreference<>(preferences, key, defaultValue, adapter, keyChanges);
@@ -93,8 +88,9 @@ public final class RxSharedPreferences {
 
   /** Create a float preference for {@code key} with a default of {@code defaultValue}. */
   @CheckResult @NonNull
-  public Preference<Float> getFloat(@NonNull String key, @Nullable Float defaultValue) {
+  public Preference<Float> getFloat(@NonNull String key, @NonNull Float defaultValue) {
     checkNotNull(key, "key == null");
+    checkNotNull(defaultValue, "defaultValue == null");
     return new RealPreference<>(preferences, key, defaultValue, FloatAdapter.INSTANCE, keyChanges);
   }
 
@@ -107,8 +103,9 @@ public final class RxSharedPreferences {
 
   /** Create an integer preference for {@code key} with a default of {@code defaultValue}. */
   @CheckResult @NonNull
-  public Preference<Integer> getInteger(@NonNull String key, @Nullable Integer defaultValue) {
+  public Preference<Integer> getInteger(@NonNull String key, @NonNull Integer defaultValue) {
     checkNotNull(key, "key == null");
+    checkNotNull(defaultValue, "defaultValue == null");
     return new RealPreference<>(preferences, key, defaultValue, IntegerAdapter.INSTANCE, keyChanges);
   }
 
@@ -121,38 +118,36 @@ public final class RxSharedPreferences {
 
   /** Create a long preference for {@code key} with a default of {@code defaultValue}. */
   @CheckResult @NonNull
-  public Preference<Long> getLong(@NonNull String key, @Nullable Long defaultValue) {
+  public Preference<Long> getLong(@NonNull String key, @NonNull Long defaultValue) {
     checkNotNull(key, "key == null");
+    checkNotNull(defaultValue, "defaultValue == null");
     return new RealPreference<>(preferences, key, defaultValue, LongAdapter.INSTANCE, keyChanges);
-  }
-
-  /** Create a preference of type {@code T} for {@code key}. Default is {@code null}. */
-  @CheckResult @NonNull
-  public <T> Preference<T> getObject(@NonNull String key, @NonNull Preference.Adapter<T> adapter) {
-    return getObject(key, null, adapter);
   }
 
   /**
    * Create a preference for type {@code T} for {@code key} with a default of {@code defaultValue}.
    */
   @CheckResult @NonNull
-  public <T> Preference<T> getObject(@NonNull String key, @Nullable T defaultValue,
+  public <T> Preference<T> getObject(@NonNull String key, @NonNull T defaultValue,
       @NonNull Preference.Adapter<T> adapter) {
     checkNotNull(key, "key == null");
+    checkNotNull(key, "key == null");
+    checkNotNull(defaultValue, "defaultValue == null");
     checkNotNull(adapter, "adapter == null");
     return new RealPreference<>(preferences, key, defaultValue, adapter, keyChanges);
   }
 
-  /** Create a string preference for {@code key}. Default is {@code null}. */
+  /** Create a string preference for {@code key}. Default is {@code ""}. */
   @CheckResult @NonNull
   public Preference<String> getString(@NonNull String key) {
-    return getString(key, null);
+    return getString(key, DEFAULT_STRING);
   }
 
   /** Create a string preference for {@code key} with a default of {@code defaultValue}. */
   @CheckResult @NonNull
-  public Preference<String> getString(@NonNull String key, @Nullable String defaultValue) {
+  public Preference<String> getString(@NonNull String key, @NonNull String defaultValue) {
     checkNotNull(key, "key == null");
+    checkNotNull(defaultValue, "defaultValue == null");
     return new RealPreference<>(preferences, key, defaultValue, StringAdapter.INSTANCE, keyChanges);
   }
 
@@ -172,6 +167,7 @@ public final class RxSharedPreferences {
   public Preference<Set<String>> getStringSet(@NonNull String key,
       @NonNull Set<String> defaultValue) {
     checkNotNull(key, "key == null");
+    checkNotNull(defaultValue, "defaultValue == null");
     return new RealPreference<>(preferences, key, defaultValue, StringSetAdapter.INSTANCE, keyChanges);
   }
 }
