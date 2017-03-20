@@ -2,6 +2,7 @@ package com.f2prateek.rx.preferences2;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import io.reactivex.functions.Consumer;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -24,7 +25,7 @@ import static org.assertj.core.api.Assertions.fail;
 public class PreferenceTest {
   @Rule public final RecordingObserver.Rule observerRule = new RecordingObserver.Rule();
 
-  private final PointPreferenceAdapter pointAdapter = new PointPreferenceAdapter();
+  private final PointPreferenceConverter pointConverter = new PointPreferenceConverter();
 
   private SharedPreferences preferences;
   private RxSharedPreferences rxPreferences;
@@ -58,7 +59,7 @@ public class PreferenceTest {
     assertThat(rxPreferences.getString("foo6", "bar").defaultValue()).isEqualTo("bar");
     assertThat(rxPreferences.getStringSet("foo7", singleton("bar")).defaultValue()) //
         .isEqualTo(singleton("bar"));
-    assertThat(rxPreferences.getObject("foo8", new Point(1, 2), pointAdapter).defaultValue()) //
+    assertThat(rxPreferences.getObject("foo8", new Point(1, 2), pointConverter).defaultValue()) //
         .isEqualTo(new Point(1, 2));
   }
 
@@ -71,7 +72,7 @@ public class PreferenceTest {
     assertThat(rxPreferences.getString("foo6", "bar").get()).isEqualTo("bar");
     assertThat(rxPreferences.getStringSet("foo7", singleton("bar")).get()) //
         .isEqualTo(singleton("bar"));
-    assertThat(rxPreferences.getObject("foo8", new Point(1, 2), pointAdapter).get()) //
+    assertThat(rxPreferences.getObject("foo8", new Point(1, 2), pointConverter).get()) //
         .isEqualTo(new Point(1, 2));
   }
 
@@ -91,7 +92,7 @@ public class PreferenceTest {
     preferences.edit().putStringSet("foo7", singleton("bar")).commit();
     assertThat(rxPreferences.getStringSet("foo7").get()).isEqualTo(singleton("bar"));
     preferences.edit().putString("foo8", "1,2").commit();
-    assertThat(rxPreferences.getObject("foo8", new Point(2, 3), pointAdapter).get())
+    assertThat(rxPreferences.getObject("foo8", new Point(2, 3), pointConverter).get())
         .isEqualTo(new Point(1, 2));
   }
 
@@ -110,7 +111,7 @@ public class PreferenceTest {
     assertThat(preferences.getString("foo6", null)).isEqualTo("bar");
     rxPreferences.getStringSet("foo7").set(singleton("bar"));
     assertThat(preferences.getStringSet("foo7", null)).isEqualTo(singleton("bar"));
-    rxPreferences.getObject("foo8", new Point(1, 2), pointAdapter).set(new Point(1, 2));
+    rxPreferences.getObject("foo8", new Point(1, 2), pointConverter).set(new Point(1, 2));
     assertThat(preferences.getString("foo8", null)).isEqualTo("1,2");
   }
 
@@ -144,7 +145,7 @@ public class PreferenceTest {
     assertThat(preferences.contains("foo7")).isFalse();
 
     preferences.edit().putString("foo8", "1,2").commit();
-    rxPreferences.getObject("foo8", new Point(1, 2), pointAdapter).set(null);
+    rxPreferences.getObject("foo8", new Point(1, 2), pointConverter).set(null);
     assertThat(preferences.contains("foo8")).isFalse();
   }
 
@@ -169,6 +170,33 @@ public class PreferenceTest {
 
     preference.delete();
     assertThat(preferences.contains("foo")).isFalse();
+  }
+
+  @Test public void converterMayNotReturnNull() {
+    Preference<Point> preference =
+        rxPreferences.getObject("foo", new Point(0, 0), new Preference.Converter<Point>() {
+          @NonNull @Override public Point deserialize(@NonNull String serialized) {
+            return null;
+          }
+
+          @NonNull @Override public String serialize(@NonNull Point value) {
+            return null;
+          }
+        });
+    preferences.edit().putString("foo", "1,2").apply();
+    try {
+      preference.get();
+      fail("Disallow Converter methods from returning null.");
+    } catch (NullPointerException expected) {
+      assertThat(expected).hasMessage("Deserialized value must not be null from string: 1,2");
+    }
+    try {
+      preference.set(new Point(1, 2));
+      fail("Disallow Converter methods from returning null.");
+    } catch (NullPointerException expected) {
+      assertThat(expected).hasMessage(
+          "Serialized string must not be null from value: Point{x=1, y=2}");
+    }
   }
 
   @Test public void stringSetDefaultIsUnmodifiable() {

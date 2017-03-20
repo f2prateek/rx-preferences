@@ -9,18 +9,22 @@ import io.reactivex.functions.Consumer;
 
 /** A preference of type {@link T}. Instances can be created from {@link RxSharedPreferences}. */
 public interface Preference<T> {
-  /** Stores and retrieves instances of {@code T} in {@link SharedPreferences}. */
-  interface Adapter<T> {
-    /** Retrieve the value for {@code key} from {@code preferences}. */
-    T get(@NonNull String key, @NonNull SharedPreferences preferences);
+  /**
+   * Converts instances of {@code T} to be stored and retrieved as Strings in {@link
+   * SharedPreferences}.
+   */
+  interface Converter<T> {
+    /**
+     * Deserialize to an instance of {@code T}. The input is retrieved from {@link
+     * SharedPreferences#getString(String, String)}.
+     */
+    @NonNull T deserialize(@NonNull String serialized);
 
     /**
-     * Store non-null {@code value} for {@code key} in {@code editor}.
-     * <p>
-     * Note: Implementations <b>must not</b> call {@code commit()} or {@code apply()} on
-     * {@code editor}.
+     * Serialize the {@code value} to a String. The result will be used with {@link
+     * SharedPreferences.Editor#putString(String, String)}.
      */
-    void set(@NonNull String key, @NonNull T value, @NonNull SharedPreferences.Editor editor);
+    @NonNull String serialize(@NonNull T value);
   }
 
   /** The key for which this preference will store and retrieve values. */

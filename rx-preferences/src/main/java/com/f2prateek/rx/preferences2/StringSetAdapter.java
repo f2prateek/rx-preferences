@@ -9,7 +9,7 @@ import java.util.Set;
 import static android.os.Build.VERSION_CODES.HONEYCOMB;
 
 @TargetApi(HONEYCOMB)
-final class StringSetAdapter implements Preference.Adapter<Set<String>> {
+final class StringSetAdapter implements RealPreference.Adapter<Set<String>> {
   static final StringSetAdapter INSTANCE = new StringSetAdapter();
 
   @Override public Set<String> get(@NonNull String key, @NonNull SharedPreferences preferences) {

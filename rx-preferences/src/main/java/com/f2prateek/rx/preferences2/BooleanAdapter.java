@@ -3,7 +3,7 @@ package com.f2prateek.rx.preferences2;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
-final class BooleanAdapter implements Preference.Adapter<Boolean> {
+final class BooleanAdapter implements RealPreference.Adapter<Boolean> {
   static final BooleanAdapter INSTANCE = new BooleanAdapter();
 
   @Override public Boolean get(@NonNull String key, @NonNull SharedPreferences preferences) {

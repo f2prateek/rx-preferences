@@ -3,7 +3,7 @@ package com.f2prateek.rx.preferences2;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
-final class FloatAdapter implements Preference.Adapter<Float> {
+final class FloatAdapter implements RealPreference.Adapter<Float> {
   static final FloatAdapter INSTANCE = new FloatAdapter();
 
   @Override public Float get(@NonNull String key, @NonNull SharedPreferences preferences) {

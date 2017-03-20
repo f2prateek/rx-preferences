@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -76,8 +77,7 @@ public final class RxSharedPreferences {
     checkNotNull(key, "key == null");
     checkNotNull(defaultValue, "defaultValue == null");
     checkNotNull(enumClass, "enumClass == null");
-    Preference.Adapter<T> adapter = new EnumAdapter<>(enumClass);
-    return new RealPreference<>(preferences, key, defaultValue, adapter, keyChanges);
+    return new RealPreference<>(preferences, key, defaultValue, new EnumAdapter<>(enumClass), keyChanges);
   }
 
   /** Create a float preference for {@code key}. Default is {@code 0}. */
@@ -127,14 +127,14 @@ public final class RxSharedPreferences {
   /**
    * Create a preference for type {@code T} for {@code key} with a default of {@code defaultValue}.
    */
-  @CheckResult @NonNull
-  public <T> Preference<T> getObject(@NonNull String key, @NonNull T defaultValue,
-      @NonNull Preference.Adapter<T> adapter) {
+  @CheckResult @NonNull public <T> Preference<T> getObject(@NonNull String key,
+      @Nullable T defaultValue, @NonNull Preference.Converter<T> converter) {
     checkNotNull(key, "key == null");
     checkNotNull(key, "key == null");
     checkNotNull(defaultValue, "defaultValue == null");
-    checkNotNull(adapter, "adapter == null");
-    return new RealPreference<>(preferences, key, defaultValue, adapter, keyChanges);
+    checkNotNull(converter, "converter == null");
+    return new RealPreference<>(preferences, key, defaultValue,
+        new ConverterAdapter<>(converter), keyChanges);
   }
 
   /** Create a string preference for {@code key}. Default is {@code ""}. */

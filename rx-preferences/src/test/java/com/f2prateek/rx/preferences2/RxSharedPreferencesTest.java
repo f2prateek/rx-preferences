@@ -159,7 +159,7 @@ public class RxSharedPreferencesTest {
 
   @Test public void objectNullKeyThrows() {
     try {
-      rxPreferences.getObject(null, new Point(1, 2), new PointPreferenceAdapter());
+      rxPreferences.getObject(null, new Point(1, 2), new PointPreferenceConverter());
       fail();
     } catch (NullPointerException e) {
       assertThat(e).hasMessage("key == null");
@@ -171,13 +171,13 @@ public class RxSharedPreferencesTest {
       rxPreferences.getObject("key", new Point(1, 2), null);
       fail();
     } catch (NullPointerException e) {
-      assertThat(e).hasMessage("adapter == null");
+      assertThat(e).hasMessage("converter == null");
     }
   }
 
   @Test public void objectNullDefaultValueThrows() {
     try {
-      rxPreferences.getObject("key", null, new PointPreferenceAdapter());
+      rxPreferences.getObject("key", null, new PointPreferenceConverter());
       fail();
     } catch (NullPointerException e) {
       assertThat(e).hasMessage("defaultValue == null");
