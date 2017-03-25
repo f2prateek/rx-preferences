@@ -58,14 +58,14 @@ final class RealPreference<T> implements Preference<T> {
     return defaultValue;
   }
 
-  @Override @NonNull public T get() {
+  @Override @NonNull public synchronized T get() {
     if (!preferences.contains(key)) {
       return defaultValue;
     }
     return adapter.get(key, preferences);
   }
 
-  @Override public void set(@Nullable T value) {
+  @Override public synchronized void set(@Nullable T value) {
     SharedPreferences.Editor editor = preferences.edit();
     if (value == null) {
       editor.remove(key);
