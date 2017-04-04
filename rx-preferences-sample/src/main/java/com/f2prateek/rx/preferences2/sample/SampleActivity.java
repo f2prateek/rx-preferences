@@ -4,15 +4,15 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.CheckBox;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 import com.f2prateek.rx.preferences2.Preference;
 import com.f2prateek.rx.preferences2.RxSharedPreferences;
-import com.jakewharton.rxbinding.widget.RxCompoundButton;
-import hu.akarnokd.rxjava.interop.RxJavaInterop;
+import com.jakewharton.rxbinding2.widget.RxCompoundButton;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
@@ -57,7 +57,7 @@ public class SampleActivity extends Activity {
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(checkBox::setChecked));
     // Bind the checkbox to the preference.
-    disposables.add(RxJavaInterop.toV2Observable(RxCompoundButton.checkedChanges(checkBox))
+    disposables.add(RxCompoundButton.checkedChanges(checkBox)
         .skip(1) // First emission is the original state.
         .subscribe(preference.asConsumer()));
   }
