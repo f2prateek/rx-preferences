@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -15,6 +14,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import io.reactivex.functions.Consumer;
+import io.reactivex.observers.TestObserver;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static com.f2prateek.rx.preferences2.Roshambo.PAPER;
@@ -26,7 +26,6 @@ import static org.assertj.core.api.Assertions.fail;
 @RunWith(RobolectricTestRunner.class) //
 @SuppressLint({ "NewApi", "ApplySharedPref" }) //
 public class PreferenceTest {
-  @Rule public final RecordingObserver.Rule observerRule = new RecordingObserver.Rule();
 
   private final PointPreferenceConverter pointConverter = new PointPreferenceConverter();
 
@@ -198,16 +197,12 @@ public class PreferenceTest {
 
   @Test public void asObservable() {
     Preference<String> preference = rxPreferences.getString("foo", "bar");
-
-    RecordingObserver<String> observer = observerRule.create();
-    preference.asObservable().subscribe(observer);
-    observer.assertValue("bar");
+    TestObserver<String> observer = preference.asObservable().test();
 
     preferences.edit().putString("foo", "baz").commit();
-    observer.assertValue("baz");
-
     preferences.edit().remove("foo").commit();
-    observer.assertValue("bar");
+
+    observer.assertValues("bar", "baz", "bar");
   }
 
   @Test public void asAction() throws Exception {
