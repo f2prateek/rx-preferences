@@ -3,15 +3,18 @@ package com.f2prateek.rx.preferences2;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import io.reactivex.functions.Consumer;
-import java.util.LinkedHashSet;
-import java.util.Set;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import io.reactivex.functions.Consumer;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static com.f2prateek.rx.preferences2.Roshambo.PAPER;
@@ -115,38 +118,9 @@ public class PreferenceTest {
     assertThat(preferences.getString("foo8", null)).isEqualTo("1,2");
   }
 
-  @Test public void setNullDeletes() {
-    preferences.edit().putBoolean("foo1", true).commit();
+  @Test(expected = NullPointerException.class) public void setNullThrows() {
+    //noinspection ConstantConditions
     rxPreferences.getBoolean("foo1").set(null);
-    assertThat(preferences.contains("foo1")).isFalse();
-
-    preferences.edit().putString("foo2", "ROCK").commit();
-    rxPreferences.getEnum("foo2", ROCK, Roshambo.class).set(null);
-    assertThat(preferences.contains("foo2")).isFalse();
-
-    preferences.edit().putFloat("foo3", 1f).commit();
-    rxPreferences.getFloat("foo3").set(null);
-    assertThat(preferences.contains("foo3")).isFalse();
-
-    preferences.edit().putInt("foo4", 1).commit();
-    rxPreferences.getInteger("foo4").set(null);
-    assertThat(preferences.contains("foo4")).isFalse();
-
-    preferences.edit().putLong("foo5", 1L).commit();
-    rxPreferences.getLong("foo5").set(null);
-    assertThat(preferences.contains("foo5")).isFalse();
-
-    preferences.edit().putString("foo6", "bar").commit();
-    rxPreferences.getString("foo6").set(null);
-    assertThat(preferences.contains("foo6")).isFalse();
-
-    preferences.edit().putStringSet("foo7", singleton("bar")).commit();
-    rxPreferences.getStringSet("foo7").set(null);
-    assertThat(preferences.contains("foo7")).isFalse();
-
-    preferences.edit().putString("foo8", "1,2").commit();
-    rxPreferences.getObject("foo8", new Point(1, 2), pointConverter).set(null);
-    assertThat(preferences.contains("foo8")).isFalse();
   }
 
   @Test public void isSet() {
@@ -245,8 +219,5 @@ public class PreferenceTest {
 
     consumer.accept("baz");
     assertThat(preferences.getString("foo", null)).isEqualTo("baz");
-
-    consumer.accept(null);
-    assertThat(preferences.contains("foo")).isFalse();
   }
 }
