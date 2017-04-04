@@ -4,14 +4,15 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+
+import java.util.Collections;
+import java.util.Set;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.functions.Cancellable;
-import java.util.Collections;
-import java.util.Set;
 
 import static android.os.Build.VERSION_CODES.HONEYCOMB;
 import static com.f2prateek.rx.preferences2.Preconditions.checkNotNull;
@@ -128,7 +129,7 @@ public final class RxSharedPreferences {
    * Create a preference for type {@code T} for {@code key} with a default of {@code defaultValue}.
    */
   @CheckResult @NonNull public <T> Preference<T> getObject(@NonNull String key,
-      @Nullable T defaultValue, @NonNull Preference.Converter<T> converter) {
+      @NonNull T defaultValue, @NonNull Preference.Converter<T> converter) {
     checkNotNull(key, "key == null");
     checkNotNull(key, "key == null");
     checkNotNull(defaultValue, "defaultValue == null");
