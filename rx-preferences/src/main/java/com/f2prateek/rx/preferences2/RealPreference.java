@@ -74,11 +74,11 @@ final class RealPreference<T> implements Preference<T> {
     editor.apply();
   }
 
-  @Override public boolean isSet() {
+  @Override public synchronized boolean isSet() {
     return preferences.contains(key);
   }
 
-  @Override public void delete() {
+  @Override public synchronized void delete() {
     preferences.edit()
         .remove(key)
         .apply();
