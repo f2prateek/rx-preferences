@@ -67,14 +67,14 @@ final class RealPreference<T> implements Preference<T> {
     return adapter.get(key, preferences);
   }
 
-  @Override public synchronized void set(@NonNull T value) {
+  @Override public void set(@NonNull T value) {
     checkNotNull(value, "value == null");
     SharedPreferences.Editor editor = preferences.edit();
     adapter.set(key, value, editor);
     editor.apply();
   }
 
-  @Override public synchronized boolean isSet() {
+  @Override public boolean isSet() {
     return preferences.contains(key);
   }
 
