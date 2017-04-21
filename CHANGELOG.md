@@ -1,6 +1,42 @@
 Change Log
 ==========
 
+Version 2.0.0-RC2 *(27-04-2017)*
+--------------------------------
+
+This release includes a multiple breaking changes.
+
+* [New](https://github.com/f2prateek/rx-preferences/pull/75): Replace `Adapter` with `Converter`. A `Converter` is a simpler interface that only deals with serialization, and abstracts away the complexity of working with `SharedPreferences` or `SharedPreferences.Editor`.
+
+```java
+/**
+ * Converts instances of {@code T} to be stored and retrieved as Strings in {@link
+ * SharedPreferences}.
+ */
+interface Converter<T> {
+  /**
+   * Deserialize to an instance of {@code T}. The input is retrieved from {@link
+   * SharedPreferences#getString(String, String)}.
+   */
+  @NonNull T deserialize(@NonNull String serialized);
+
+  /**
+   * Serialize the {@code value} to a String. The result will be used with {@link
+   * SharedPreferences.Editor#putString(String, String)}.
+   */
+  @NonNull String serialize(@NonNull T value);
+}
+```
+
+ * [New](https://github.com/f2prateek/rx-preferences/commit/0424808557c308108b0af7fcd046a7d047fde486): Disallow null values from being emitted by the Preference observable. Specifically `RxSharedPreferences#getEnum` and `RxSharedPreferences#getObject` do not allow null values to be used as a default value.
+
+ * [New](https://github.com/f2prateek/rx-preferences/pull/85): Make `Preference#set` only accept non null values. Trying to call `set` with a null value will now throw an exception.
+
+ * [New](https://github.com/f2prateek/rx-preferences/pull/65): Make the `Set<String>` returned by `RxSharedPreferences#getStringSet` unmodifiable.
+
+ * [Improvement](https://github.com/f2prateek/rx-preferences/pull/68): Use `@RequiresApi` instead of `@TargetApi`.
+
+
 Version 2.0.0-RC1 *(25-12-2016)*
 --------------------------------
 
