@@ -115,38 +115,55 @@ public class PreferenceTest {
     assertThat(preferences.getString("foo8", null)).isEqualTo("1,2");
   }
 
-  @Test public void setNullDeletes() {
-    preferences.edit().putBoolean("foo1", true).commit();
-    rxPreferences.getBoolean("foo1").set(null);
-    assertThat(preferences.contains("foo1")).isFalse();
+  @SuppressWarnings("ConstantConditions")
+  @Test public void setNullThrows() {
+    try {
+      rxPreferences.getBoolean("foo1").set(null);
+    } catch (NullPointerException e) {
+      assertThat(e).hasMessage("value == null");
+    }
 
-    preferences.edit().putString("foo2", "ROCK").commit();
-    rxPreferences.getEnum("foo2", ROCK, Roshambo.class).set(null);
-    assertThat(preferences.contains("foo2")).isFalse();
+    try {
+      rxPreferences.getEnum("foo2", ROCK, Roshambo.class).set(null);
+    } catch (NullPointerException e) {
+      assertThat(e).hasMessage("value == null");
+    }
 
-    preferences.edit().putFloat("foo3", 1f).commit();
-    rxPreferences.getFloat("foo3").set(null);
-    assertThat(preferences.contains("foo3")).isFalse();
+    try {
+      rxPreferences.getFloat("foo3").set(null);
+    } catch (NullPointerException e) {
+      assertThat(e).hasMessage("value == null");
+    }
 
-    preferences.edit().putInt("foo4", 1).commit();
-    rxPreferences.getInteger("foo4").set(null);
-    assertThat(preferences.contains("foo4")).isFalse();
+    try {
+      rxPreferences.getInteger("foo4").set(null);
+    } catch (NullPointerException e) {
+      assertThat(e).hasMessage("value == null");
+    }
 
-    preferences.edit().putLong("foo5", 1L).commit();
-    rxPreferences.getLong("foo5").set(null);
-    assertThat(preferences.contains("foo5")).isFalse();
+    try {
+      rxPreferences.getLong("foo5").set(null);
+    } catch (NullPointerException e) {
+      assertThat(e).hasMessage("value == null");
+    }
 
-    preferences.edit().putString("foo6", "bar").commit();
-    rxPreferences.getString("foo6").set(null);
-    assertThat(preferences.contains("foo6")).isFalse();
+    try {
+      rxPreferences.getString("foo6").set(null);
+    } catch (NullPointerException e) {
+      assertThat(e).hasMessage("value == null");
+    }
 
-    preferences.edit().putStringSet("foo7", singleton("bar")).commit();
-    rxPreferences.getStringSet("foo7").set(null);
-    assertThat(preferences.contains("foo7")).isFalse();
+    try {
+      rxPreferences.getStringSet("foo7").set(null);
+    } catch (NullPointerException e) {
+      assertThat(e).hasMessage("value == null");
+    }
 
-    preferences.edit().putString("foo8", "1,2").commit();
-    rxPreferences.getObject("foo8", new Point(1, 2), pointConverter).set(null);
-    assertThat(preferences.contains("foo8")).isFalse();
+    try {
+      rxPreferences.getObject("foo8", new Point(1, 2), pointConverter).set(null);
+    } catch (NullPointerException e) {
+      assertThat(e).hasMessage("value == null");
+    }
   }
 
   @Test public void isSet() {
@@ -175,10 +192,12 @@ public class PreferenceTest {
   @Test public void converterMayNotReturnNull() {
     Preference<Point> preference =
         rxPreferences.getObject("foo", new Point(0, 0), new Preference.Converter<Point>() {
+          @SuppressWarnings("ConstantConditions")
           @NonNull @Override public Point deserialize(@NonNull String serialized) {
             return null;
           }
 
+          @SuppressWarnings("ConstantConditions")
           @NonNull @Override public String serialize(@NonNull Point value) {
             return null;
           }
@@ -246,7 +265,10 @@ public class PreferenceTest {
     consumer.accept("baz");
     assertThat(preferences.getString("foo", null)).isEqualTo("baz");
 
-    consumer.accept(null);
-    assertThat(preferences.contains("foo")).isFalse();
+    try {
+      consumer.accept(null);
+    } catch (NullPointerException e) {
+      assertThat(e).hasMessage("value == null");
+    }
   }
 }

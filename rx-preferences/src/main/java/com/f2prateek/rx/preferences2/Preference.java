@@ -3,7 +3,6 @@ package com.f2prateek.rx.preferences2;
 import android.content.SharedPreferences;
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 
@@ -43,7 +42,7 @@ public interface Preference<T> {
    * Change this preference's stored value to {@code value}. A value of {@code null} will delete
    * the preference.
    */
-  void set(@Nullable T value);
+  void set(@NonNull T value);
 
   /** Returns true if this preference has a stored value. */
   boolean isSet();

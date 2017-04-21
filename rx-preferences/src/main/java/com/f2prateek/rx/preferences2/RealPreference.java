@@ -1,9 +1,10 @@
 package com.f2prateek.rx.preferences2;
 
+import static com.f2prateek.rx.preferences2.Preconditions.checkNotNull;
+
 import android.content.SharedPreferences;
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
@@ -65,13 +66,10 @@ final class RealPreference<T> implements Preference<T> {
     return adapter.get(key, preferences);
   }
 
-  @Override public synchronized void set(@Nullable T value) {
+  @Override public void set(@NonNull T value) {
+    checkNotNull(value, "value == null");
     SharedPreferences.Editor editor = preferences.edit();
-    if (value == null) {
-      editor.remove(key);
-    } else {
-      adapter.set(key, value, editor);
-    }
+    adapter.set(key, value, editor);
     editor.apply();
   }
 
@@ -79,8 +77,8 @@ final class RealPreference<T> implements Preference<T> {
     return preferences.contains(key);
   }
 
-  @Override public void delete() {
-    set(null);
+  @Override public synchronized void delete() {
+    preferences.edit().remove(key).apply();
   }
 
   @Override @CheckResult @NonNull public Observable<T> asObservable() {
