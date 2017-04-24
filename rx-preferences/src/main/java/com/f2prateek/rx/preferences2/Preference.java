@@ -39,8 +39,7 @@ public interface Preference<T> {
   @NonNull T get();
 
   /**
-   * Change this preference's stored value to {@code value}. A value of {@code null} will delete
-   * the preference.
+   * Change this preference's stored value to {@code value}.
    */
   void set(@NonNull T value);
 
@@ -57,8 +56,7 @@ public interface Preference<T> {
   @CheckResult @NonNull Observable<T> asObservable();
 
   /**
-   * An action which stores a new value for this preference. Passing {@code null} will delete the
-   * preference.
+   * An action which stores a new value for this preference.
    */
   @CheckResult @NonNull Consumer<? super T> asConsumer();
 }
