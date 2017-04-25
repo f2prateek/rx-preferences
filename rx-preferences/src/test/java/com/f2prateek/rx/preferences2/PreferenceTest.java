@@ -275,6 +275,7 @@ public class PreferenceTest {
 
     try {
       consumer.accept(null);
+      fail("Disallow accepting null.");
     } catch (NullPointerException e) {
       assertThat(e).hasMessage("value == null");
     }
