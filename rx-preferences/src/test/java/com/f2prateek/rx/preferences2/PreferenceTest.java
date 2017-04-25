@@ -111,7 +111,7 @@ public class PreferenceTest {
     assertThat(preferences.getString("foo6", null)).isEqualTo("bar");
     rxPreferences.getStringSet("foo7").set(singleton("bar"));
     assertThat(preferences.getStringSet("foo7", null)).isEqualTo(singleton("bar"));
-    rxPreferences.getObject("foo8", new Point(1, 2), pointConverter).set(new Point(1, 2));
+    rxPreferences.getObject("foo8", new Point(2, 3), pointConverter).set(new Point(1, 2));
     assertThat(preferences.getString("foo8", null)).isEqualTo("1,2");
   }
 
@@ -119,48 +119,56 @@ public class PreferenceTest {
   @Test public void setNullThrows() {
     try {
       rxPreferences.getBoolean("foo1").set(null);
+      fail("Disallow setting null.");
     } catch (NullPointerException e) {
       assertThat(e).hasMessage("value == null");
     }
 
     try {
       rxPreferences.getEnum("foo2", ROCK, Roshambo.class).set(null);
+      fail("Disallow setting null.");
     } catch (NullPointerException e) {
       assertThat(e).hasMessage("value == null");
     }
 
     try {
       rxPreferences.getFloat("foo3").set(null);
+      fail("Disallow setting null.");
     } catch (NullPointerException e) {
       assertThat(e).hasMessage("value == null");
     }
 
     try {
       rxPreferences.getInteger("foo4").set(null);
+      fail("Disallow setting null.");
     } catch (NullPointerException e) {
       assertThat(e).hasMessage("value == null");
     }
 
     try {
       rxPreferences.getLong("foo5").set(null);
+      fail("Disallow setting null.");
     } catch (NullPointerException e) {
       assertThat(e).hasMessage("value == null");
     }
 
     try {
       rxPreferences.getString("foo6").set(null);
+      fail("Disallow setting null.");
     } catch (NullPointerException e) {
       assertThat(e).hasMessage("value == null");
     }
 
     try {
       rxPreferences.getStringSet("foo7").set(null);
+      fail("Disallow setting null.");
     } catch (NullPointerException e) {
       assertThat(e).hasMessage("value == null");
     }
 
     try {
       rxPreferences.getObject("foo8", new Point(1, 2), pointConverter).set(null);
+      fail("Disallow setting null.");
     } catch (NullPointerException e) {
       assertThat(e).hasMessage("value == null");
     }
