@@ -2,10 +2,12 @@ buildscript {
   repositories {
     mavenCentral()
     jcenter()
+    maven { url 'https://plugins.gradle.org/m2/' }
   }
   dependencies {
     classpath 'com.android.tools.build:gradle:2.3.0'
     classpath 'me.tatarka:gradle-retrolambda:3.3.0'
+    classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.10'
   }
 }
 
@@ -14,6 +16,12 @@ allprojects {
     mavenCentral()
     jcenter()
   }
+
+  tasks.withType(JavaCompile) {
+    options.compilerArgs += ['-Xlint:all', '-Xlint:-processing', '-Werror']
+  }
+
+  apply plugin: 'net.ltgt.errorprone'
 
   group = GROUP
   version = VERSION_NAME
