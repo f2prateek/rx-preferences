@@ -170,4 +170,8 @@ public final class RxSharedPreferences {
     checkNotNull(defaultValue, "defaultValue == null");
     return new RealPreference<>(preferences, key, defaultValue, StringSetAdapter.INSTANCE, keyChanges);
   }
+  
+  public void clear() {
+      preferences.edit().clear().apply()
+  }
 }
