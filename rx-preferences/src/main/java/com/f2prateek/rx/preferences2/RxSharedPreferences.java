@@ -172,6 +172,6 @@ public final class RxSharedPreferences {
   }
   
   public void clear() {
-      preferences.edit().clear().apply()
+    preferences.edit().clear().apply();
   }
 }
