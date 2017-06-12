@@ -25,6 +25,13 @@ public class RxSharedPreferencesTest {
     rxPreferences = RxSharedPreferences.create(preferences);
   }
 
+  @Test public void clearRemovesAllPreferences() {
+    Preference<String> preference = rxPreferences.getString("key", "default");
+    preference.set("foo");
+    rxPreferences.clear();
+    assertThat(preference.get()).isEqualTo("default");
+  }
+
   @Test public void createWithNullThrows() {
     try {
       RxSharedPreferences.create(null);
