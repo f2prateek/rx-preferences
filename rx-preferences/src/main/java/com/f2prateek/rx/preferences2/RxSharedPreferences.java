@@ -128,7 +128,7 @@ public final class RxSharedPreferences {
    * Create a preference for type {@code T} for {@code key} with a default of {@code defaultValue}.
    */
   @CheckResult @NonNull public <T> Preference<T> getObject(@NonNull String key,
-      @Nullable T defaultValue, @NonNull Preference.Converter<T> converter) {
+      @NonNull T defaultValue, @NonNull Preference.Converter<T> converter) {
     checkNotNull(key, "key == null");
     checkNotNull(key, "key == null");
     checkNotNull(defaultValue, "defaultValue == null");
