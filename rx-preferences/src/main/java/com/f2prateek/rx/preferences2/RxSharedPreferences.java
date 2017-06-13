@@ -130,7 +130,6 @@ public final class RxSharedPreferences {
   @CheckResult @NonNull public <T> Preference<T> getObject(@NonNull String key,
       @NonNull T defaultValue, @NonNull Preference.Converter<T> converter) {
     checkNotNull(key, "key == null");
-    checkNotNull(key, "key == null");
     checkNotNull(defaultValue, "defaultValue == null");
     checkNotNull(converter, "converter == null");
     return new RealPreference<>(preferences, key, defaultValue,
