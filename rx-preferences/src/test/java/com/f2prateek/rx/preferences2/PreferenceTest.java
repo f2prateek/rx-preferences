@@ -226,12 +226,26 @@ public class PreferenceTest {
     }
   }
 
-  @Test public void stringSetDefaultIsUnmodifiable() {
+  @Test public void stringSetDefaultDefaultIsUnmodifiable() {
     Preference<Set<String>> preference = rxPreferences.getStringSet("foo");
     Set<String> stringSet = preference.get();
     try {
       stringSet.add("");
-      fail(stringSet.getClass() + " should not be modifiable.");
+      fail("Preference<Set<String>>.get() should not return a modifiable set.");
+    } catch (UnsupportedOperationException expected) {
+      assertThat(expected).hasNoCause();
+    }
+  }
+
+  @Test public void stringSetDefaultIsCopiedAndUnmodifiable() {
+    LinkedHashSet<String> mutableDefault = new LinkedHashSet<>();
+    Preference<Set<String>> preference = rxPreferences.getStringSet("foo", mutableDefault);
+    mutableDefault.add("");
+    Set<String> stringSet = preference.get();
+    assertThat(stringSet).isEmpty();
+    try {
+      stringSet.add("");
+      fail("Preference<Set<String>>.get() should not return a modifiable set.");
     } catch (UnsupportedOperationException expected) {
       assertThat(expected).hasNoCause();
     }
@@ -243,7 +257,7 @@ public class PreferenceTest {
     Set<String> stringSet = preference.get();
     try {
       stringSet.add("");
-      fail(stringSet.getClass() + " should not be modifiable.");
+      fail("Preference<Set<String>>.get() should not return a modifiable set.");
     } catch (UnsupportedOperationException expected) {
       assertThat(expected).hasNoCause();
     }

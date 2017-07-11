@@ -4,13 +4,13 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.functions.Cancellable;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import static android.os.Build.VERSION_CODES.HONEYCOMB;
@@ -167,9 +167,11 @@ public final class RxSharedPreferences {
       @NonNull Set<String> defaultValue) {
     checkNotNull(key, "key == null");
     checkNotNull(defaultValue, "defaultValue == null");
-    return new RealPreference<>(preferences, key, defaultValue, StringSetAdapter.INSTANCE, keyChanges);
+    return new RealPreference<>(preferences, key,
+        Collections.unmodifiableSet(new LinkedHashSet<>(defaultValue)), StringSetAdapter.INSTANCE,
+        keyChanges);
   }
-  
+
   public void clear() {
     preferences.edit().clear().apply();
   }
