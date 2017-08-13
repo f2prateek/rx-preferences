@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+Version 2.0.0-RC3 *(13-08-2017)*
+--------------------------------
+
+* [New](https://github.com/f2prateek/rx-preferences/pull/92): Add ability to clear preferences via `RxSharedPreferences`.
+
+* [Fix](https://github.com/f2prateek/rx-preferences/pull/98): The default value for `RxSharedPreferences#getObject` may not be null, but was incorrectly annotated as `@Nullable`. This corrects the annotation to `@NonNull`.
+
+
 Version 2.0.0-RC2 *(27-04-2017)*
 --------------------------------
 
