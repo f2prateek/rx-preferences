@@ -4,15 +4,20 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.CheckBox;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import android.widget.EditText;
+
 import com.f2prateek.rx.preferences2.Preference;
 import com.f2prateek.rx.preferences2.RxSharedPreferences;
 import com.jakewharton.rxbinding.widget.RxCompoundButton;
+import com.jakewharton.rxbinding.widget.RxTextView;
+
+import java.util.concurrent.TimeUnit;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import hu.akarnokd.rxjava.interop.RxJavaInterop;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
@@ -20,7 +25,10 @@ public class SampleActivity extends Activity {
 
   @BindView(R.id.foo_1) CheckBox foo1Checkbox;
   @BindView(R.id.foo_2) CheckBox foo2Checkbox;
-  Preference<Boolean> fooPreference;
+  @BindView(R.id.text_1) EditText foo1EditText;
+  @BindView(R.id.text_2) EditText foo2EditText;
+  Preference<Boolean> fooBoolPreference;
+  Preference<String> fooTextPreference;
   CompositeDisposable disposables;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +43,18 @@ public class SampleActivity extends Activity {
     RxSharedPreferences rxPreferences = RxSharedPreferences.create(preferences);
 
     // foo
-    fooPreference = rxPreferences.getBoolean("foo");
+    fooBoolPreference = rxPreferences.getBoolean("fooBool");
+    fooTextPreference = rxPreferences.getString("fooText");
   }
 
   @Override protected void onResume() {
     super.onResume();
 
     disposables = new CompositeDisposable();
-    bindPreference(foo1Checkbox, fooPreference);
-    bindPreference(foo2Checkbox, fooPreference);
+    bindPreference(foo1Checkbox, fooBoolPreference);
+    bindPreference(foo2Checkbox, fooBoolPreference);
+    bindPreference(foo1EditText, fooTextPreference);
+    bindPreference(foo2EditText, fooTextPreference);
   }
 
   @Override protected void onPause() {
@@ -60,5 +71,17 @@ public class SampleActivity extends Activity {
     disposables.add(RxJavaInterop.toV2Observable(RxCompoundButton.checkedChanges(checkBox))
         .skip(1) // First emission is the original state.
         .subscribe(preference.asConsumer()));
+  }
+
+  void bindPreference(final EditText editText, Preference<String> preference) {
+    disposables.add(preference.asObservable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .filter(s -> !editText.isFocused())
+            .subscribe(editText::setText));
+    disposables.add(RxJavaInterop.toV2Observable(RxTextView.textChangeEvents(editText))
+            .skip(1) // First emission is the original state.
+            .debounce(500, TimeUnit.MILLISECONDS) // Filter out UI events that are emitted in quick succession.
+            .map(e -> e.text().toString())
+            .subscribe(preference.asConsumer()));
   }
 }
