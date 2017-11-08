@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.f2prateek.rx.preferences2.Preference;
 import com.f2prateek.rx.preferences2.RxSharedPreferences;
@@ -26,8 +25,9 @@ public class SampleActivity extends Activity {
 
   @BindView(R.id.foo_1) CheckBox foo1Checkbox;
   @BindView(R.id.foo_2) CheckBox foo2Checkbox;
-  @BindView(R.id.text) EditText fooEditText;
-  Preference<Boolean> fooPreference;
+  @BindView(R.id.text_1) EditText foo1EditText;
+  @BindView(R.id.text_2) EditText foo2EditText;
+  Preference<Boolean> fooBoolPreference;
   Preference<String> fooTextPreference;
   CompositeDisposable disposables;
 
@@ -43,7 +43,7 @@ public class SampleActivity extends Activity {
     RxSharedPreferences rxPreferences = RxSharedPreferences.create(preferences);
 
     // foo
-    fooPreference = rxPreferences.getBoolean("foo");
+    fooBoolPreference = rxPreferences.getBoolean("fooBool");
     fooTextPreference = rxPreferences.getString("fooText");
   }
 
@@ -51,9 +51,10 @@ public class SampleActivity extends Activity {
     super.onResume();
 
     disposables = new CompositeDisposable();
-    bindPreference(foo1Checkbox, fooPreference);
-    bindPreference(foo2Checkbox, fooPreference);
-    bindPreference(fooEditText, fooTextPreference);
+    bindPreference(foo1Checkbox, fooBoolPreference);
+    bindPreference(foo2Checkbox, fooBoolPreference);
+    bindPreference(foo1EditText, fooTextPreference);
+    bindPreference(foo2EditText, fooTextPreference);
   }
 
   @Override protected void onPause() {
@@ -75,7 +76,8 @@ public class SampleActivity extends Activity {
   void bindPreference(final EditText editText, Preference<String> preference) {
     disposables.add(preference.asObservable()
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(t -> Toast.makeText(this, t, Toast.LENGTH_SHORT).show()));
+            .filter(s -> !editText.isFocused())
+            .subscribe(editText::setText));
     disposables.add(RxJavaInterop.toV2Observable(RxTextView.textChangeEvents(editText))
             .skip(1) // First emission is the original state.
             .debounce(500, TimeUnit.MILLISECONDS) // Filter out UI events that are emitted in quick succession.
