@@ -22,6 +22,7 @@ android {
 dependencies {
   compile deps.annotations
   compile deps.rxjava
+  compile deps.jsr305
 
   testCompile deps.junit
   testCompile deps.assertj
