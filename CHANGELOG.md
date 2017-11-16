@@ -12,7 +12,7 @@ Version 2.0.0-RC3 *(13-08-2017)*
 Version 2.0.0-RC2 *(27-04-2017)*
 --------------------------------
 
-This release includes a multiple breaking changes.
+This release includes multiple breaking changes.
 
 * [New](https://github.com/f2prateek/rx-preferences/pull/75): Replace `Adapter` with `Converter`. A `Converter` is a simpler interface that only deals with serialization, and abstracts away the complexity of working with `SharedPreferences` or `SharedPreferences.Editor`.
 
