@@ -1,7 +1,6 @@
 package com.f2prateek.rx.preferences2;
 
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 
 import static com.f2prateek.rx.preferences2.Preconditions.checkNotNull;
 
@@ -12,7 +11,8 @@ final class ConverterAdapter<T> implements RealPreference.Adapter<T> {
     this.converter = converter;
   }
 
-  @Override public T get(@NonNull String key, @NonNull SharedPreferences preferences) {
+  @Override
+  public T get(String key, SharedPreferences preferences) {
     String serialized = preferences.getString(key, null);
     assert serialized != null; // Not called unless key is present.
     T value = converter.deserialize(serialized);
@@ -21,7 +21,7 @@ final class ConverterAdapter<T> implements RealPreference.Adapter<T> {
   }
 
   @Override
-  public void set(@NonNull String key, @NonNull T value, @NonNull SharedPreferences.Editor editor) {
+  public void set(String key, T value, SharedPreferences.Editor editor) {
     String serialized = converter.serialize(value);
     checkNotNull(serialized, "Serialized string must not be null from value: " + value);
     editor.putString(key, serialized);

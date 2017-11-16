@@ -2,18 +2,23 @@ buildscript {
   repositories {
     mavenCentral()
     jcenter()
+    google()
     maven { url 'https://plugins.gradle.org/m2/' }
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.3.0'
-    classpath 'me.tatarka:gradle-retrolambda:3.3.0'
+    classpath 'com.android.tools.build:gradle:3.0.0'
     classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.10'
   }
+}
+
+plugins {
+  id 'com.github.ben-manes.versions' version '0.17.0'
 }
 
 allprojects {
   repositories {
     mavenCentral()
+    google()
     jcenter()
   }
 
@@ -28,23 +33,24 @@ allprojects {
 }
 
 ext {
-  minSdkVersion = 9
+  minSdkVersion = 14
   targetSdkVersion = 25
   compileSdkVersion = 25
-  buildToolsVersion = '25.0.2'
+  buildToolsVersion = '26.0.2'
   javaVersion = JavaVersion.VERSION_1_7
   java8Version = JavaVersion.VERSION_1_8
 }
 
 ext.deps = [
-    annotations: 'com.android.support:support-annotations:25.1.1',
-    rxjava: 'io.reactivex.rxjava2:rxjava:2.0.3',
-    rxandroid: 'io.reactivex.rxjava2:rxandroid:2.0.1',
-    rxbinding: 'com.jakewharton.rxbinding:rxbinding:0.3.0',
-    rxjava2interop: 'com.github.akarnokd:rxjava2-interop:0.4.0',
-    butterknife: 'com.jakewharton:butterknife:8.4.0',
-    butterknifeCompiler: 'com.jakewharton:butterknife-compiler:8.4.0',
-    junit: 'junit:junit:4.12',
-    assertj: 'org.assertj:assertj-core:1.7.0',
-    robolectric: 'org.robolectric:robolectric:3.0',
+    annotations        : 'com.android.support:support-annotations:27.0.1',
+    assertj            : 'org.assertj:assertj-core:1.7.0',
+    butterknife        : 'com.jakewharton:butterknife:8.8.1',
+    butterknifeCompiler: 'com.jakewharton:butterknife-compiler:8.8.1',
+    jsr305             : 'com.google.code.findbugs:jsr305:3.0.2',
+    junit              : 'junit:junit:4.12',
+    robolectric        : 'org.robolectric:robolectric:3.5.1',
+    rxandroid          : 'io.reactivex.rxjava2:rxandroid:2.0.1',
+    rxbinding          : 'com.jakewharton.rxbinding:rxbinding:1.0.1',
+    rxjava             : 'io.reactivex.rxjava2:rxjava:2.1.6',
+    rxjava2interop     : 'com.github.akarnokd:rxjava2-interop:0.11.0'
 ]

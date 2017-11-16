@@ -1,17 +1,17 @@
 package com.f2prateek.rx.preferences2;
 
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 
 final class BooleanAdapter implements RealPreference.Adapter<Boolean> {
   static final BooleanAdapter INSTANCE = new BooleanAdapter();
 
-  @Override public Boolean get(@NonNull String key, @NonNull SharedPreferences preferences) {
+  @Override
+  public Boolean get(String key, SharedPreferences preferences) {
     return preferences.getBoolean(key, false);
   }
 
-  @Override public void set(@NonNull String key, @NonNull Boolean value,
-      @NonNull SharedPreferences.Editor editor) {
+  @Override
+  public void set(String key, Boolean value, SharedPreferences.Editor editor) {
     editor.putBoolean(key, value);
   }
 }
