@@ -4,19 +4,21 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+
+import java.util.Collections;
+import java.util.Set;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.functions.Cancellable;
-import java.util.Collections;
-import java.util.Set;
 
 import static android.os.Build.VERSION_CODES.HONEYCOMB;
 import static com.f2prateek.rx.preferences2.Preconditions.checkNotNull;
 
 /** A factory for reactive {@link Preference} objects. */
+@SuppressWarnings("WeakerAccess")
 public final class RxSharedPreferences {
   private static final Float DEFAULT_FLOAT = 0f;
   private static final Integer DEFAULT_INTEGER = 0;
@@ -169,7 +171,7 @@ public final class RxSharedPreferences {
     checkNotNull(defaultValue, "defaultValue == null");
     return new RealPreference<>(preferences, key, defaultValue, StringSetAdapter.INSTANCE, keyChanges);
   }
-  
+
   public void clear() {
     preferences.edit().clear().apply();
   }
