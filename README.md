@@ -37,7 +37,7 @@ Subscribe preferences to streams to store values:
 
 ```java
 RxCompoundButton.checks(showWhatsNewView)
-    .subscribe(showWhatsNew.asAction());
+    .subscribe(showWhatsNew.asConsumer());
 ```
 *(Note: `RxCompoundButton` is from [RxBinding][1])*
 

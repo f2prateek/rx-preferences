@@ -263,7 +263,7 @@ public class PreferenceTest {
     observer.assertValue("bar");
   }
 
-  @Test public void asAction() throws Exception {
+  @Test public void asConsumer() throws Exception {
     Preference<String> preference = rxPreferences.getString("foo");
     Consumer<? super String> consumer = preference.asConsumer();
 
