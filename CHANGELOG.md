@@ -1,8 +1,8 @@
 Change Log
 ==========
 
-Version 2.0.0-RC3 *(06-04-2018)*
---------------------------------
+Version 2.0.0 *(22-04-2018)*
+----------------------------
 
 Promotes `2.0.0-RC3` to a stable release. If you are migrating from v1, please refer to the changelog for earlier RC versions to see what has changed.
 
