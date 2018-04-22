@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 final class PointPreferenceConverter implements Preference.Converter<Point> {
   @NonNull @Override public Point deserialize(@NonNull String serialized) {
-    String[] parts = serialized.split(",");
+    String[] parts = serialized.split(",", -1);
     if (parts.length != 2) {
       throw new IllegalStateException("Malformed point value: '" + serialized + "'");
     }
