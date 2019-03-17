@@ -1,14 +1,16 @@
 package com.f2prateek.rx.preferences2;
 
-import static com.f2prateek.rx.preferences2.Preconditions.checkNotNull;
-
 import android.content.SharedPreferences;
-import android.support.annotation.CheckResult;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.CheckResult;
+import androidx.annotation.NonNull;
+
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
+
+import static com.f2prateek.rx.preferences2.Preconditions.checkNotNull;
 
 final class RealPreference<T> implements Preference<T> {
   /** Stores and retrieves instances of {@code T} in {@link SharedPreferences}. */

@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.jakewharton.butterknife'
 
 android {
   compileSdkVersion rootProject.ext.compileSdkVersion
@@ -30,11 +30,11 @@ android {
 }
 
 dependencies {
-  compile project(':rx-preferences')
-  compile deps.rxandroid
-  compile deps.rxbinding
-  compile deps.rxjava2interop
-  compile deps.butterknife
+  implementation project(':rx-preferences')
+  implementation deps.rxandroid
+  implementation deps.rxbinding
+  implementation deps.rxjava2interop
+  implementation deps.butterknife
 
   annotationProcessor deps.butterknifeCompiler
 }

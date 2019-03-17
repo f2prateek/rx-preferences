@@ -2,12 +2,15 @@ package com.f2prateek.rx.preferences2;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
-import java.util.Collections;
+
+import androidx.test.core.app.ApplicationProvider;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
+
+import java.util.Collections;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,7 +23,7 @@ public class RxSharedPreferencesTest {
   private RxSharedPreferences rxPreferences;
 
   @Before public void setUp() {
-    SharedPreferences preferences = getDefaultSharedPreferences(RuntimeEnvironment.application);
+    SharedPreferences preferences = getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
     preferences.edit().clear().commit();
     rxPreferences = RxSharedPreferences.create(preferences);
   }

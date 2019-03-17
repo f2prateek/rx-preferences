@@ -2,16 +2,18 @@ package com.f2prateek.rx.preferences2;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.support.annotation.CheckResult;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
+
+import androidx.annotation.CheckResult;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+
+import java.util.Collections;
+import java.util.Set;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.functions.Cancellable;
-import java.util.Collections;
-import java.util.Set;
 
 import static android.os.Build.VERSION_CODES.HONEYCOMB;
 import static com.f2prateek.rx.preferences2.Preconditions.checkNotNull;
@@ -37,7 +39,7 @@ public final class RxSharedPreferences {
   private RxSharedPreferences(final SharedPreferences preferences) {
     this.preferences = preferences;
     this.keyChanges = Observable.create(new ObservableOnSubscribe<String>() {
-      @Override public void subscribe(final ObservableEmitter<String> emitter) throws Exception {
+      @Override public void subscribe(final ObservableEmitter<String> emitter) {
         final OnSharedPreferenceChangeListener listener = new OnSharedPreferenceChangeListener() {
           @Override
           public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
@@ -46,7 +48,7 @@ public final class RxSharedPreferences {
         };
 
         emitter.setCancellable(new Cancellable() {
-          @Override public void cancel() throws Exception {
+          @Override public void cancel() {
             preferences.unregisterOnSharedPreferenceChangeListener(listener);
           }
         });
@@ -97,7 +99,6 @@ public final class RxSharedPreferences {
   /** Create an integer preference for {@code key}. Default is {@code 0}. */
   @CheckResult @NonNull
   public Preference<Integer> getInteger(@NonNull String key) {
-    //noinspection UnnecessaryBoxing
     return getInteger(key, DEFAULT_INTEGER);
   }
 
@@ -112,7 +113,6 @@ public final class RxSharedPreferences {
   /** Create a long preference for {@code key}. Default is {@code 0}. */
   @CheckResult @NonNull
   public Preference<Long> getLong(@NonNull String key) {
-    //noinspection UnnecessaryBoxing
     return getLong(key, DEFAULT_LONG);
   }
 

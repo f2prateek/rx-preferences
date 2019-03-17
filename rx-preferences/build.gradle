@@ -20,12 +20,13 @@ android {
 }
 
 dependencies {
-  compile deps.annotations
-  compile deps.rxjava
+  implementation deps.annotations
+  api deps.rxjava2
 
-  testCompile deps.junit
-  testCompile deps.assertj
-  testCompile deps.robolectric
+  testImplementation deps.junit
+  testImplementation deps.assertj
+  testImplementation deps.testcore
+  testImplementation deps.robolectric
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

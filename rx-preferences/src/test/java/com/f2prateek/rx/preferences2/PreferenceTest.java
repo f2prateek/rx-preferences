@@ -2,16 +2,20 @@ package com.f2prateek.rx.preferences2;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-import io.reactivex.functions.Consumer;
-import java.util.LinkedHashSet;
-import java.util.Set;
+
+import androidx.annotation.NonNull;
+import androidx.test.core.app.ApplicationProvider;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import io.reactivex.functions.Consumer;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static com.f2prateek.rx.preferences2.Roshambo.PAPER;
@@ -31,7 +35,7 @@ public class PreferenceTest {
   private RxSharedPreferences rxPreferences;
 
   @Before public void setUp() {
-    preferences = getDefaultSharedPreferences(RuntimeEnvironment.application);
+    preferences = getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
     preferences.edit().clear().commit();
     rxPreferences = RxSharedPreferences.create(preferences);
   }
