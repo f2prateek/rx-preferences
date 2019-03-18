@@ -36,13 +36,11 @@ public final class RxSharedPreferences {
   }
 
   @NonNull private final SharedPreferences preferences;
-  @NonNull private final SharedPreferences.Editor editor;
   @NonNull private final Observable<String> keyChanges;
 
   @SuppressLint("CommitPrefEdits")
   private RxSharedPreferences(@NonNull final SharedPreferences preferences) {
     this.preferences = preferences;
-    this.editor = preferences.edit();
     this.keyChanges = Observable.create(new ObservableOnSubscribe<String>() {
       @Override public void subscribe(final ObservableEmitter<String> emitter) {
         final OnSharedPreferenceChangeListener listener = new OnSharedPreferenceChangeListener() {
@@ -176,6 +174,6 @@ public final class RxSharedPreferences {
   }
   
   public void clear() {
-    editor.clear().apply();
+    preferences.edit().clear().apply();
   }
 }
