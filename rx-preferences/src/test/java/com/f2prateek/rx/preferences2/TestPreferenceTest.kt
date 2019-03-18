@@ -6,7 +6,7 @@ import org.junit.Test
 class TestPreferenceTest {
     @Test
     fun testPreferenceKey() {
-        val pref = TestPreference(KEY, DEFAULT_VALUE)
+        val pref = createPref()
 
         assertThat(pref.key()).isEqualTo(KEY)
 
@@ -18,7 +18,7 @@ class TestPreferenceTest {
 
     @Test
     fun testSettingValue() {
-        val pref = TestPreference(KEY, DEFAULT_VALUE)
+        val pref = createPref()
 
         assertThat(pref.isSet).isFalse()
         assertThat(pref.get())
@@ -53,7 +53,7 @@ class TestPreferenceTest {
 
     @Test
     fun testPrefObservable() {
-        val pref = TestPreference(KEY, DEFAULT_VALUE)
+        val pref = createPref()
         val values = pref.asObservable().test()
 
         values.assertValue(DEFAULT_VALUE)
@@ -74,7 +74,7 @@ class TestPreferenceTest {
 
     @Test
     fun testPrefConsumer() {
-        val pref = TestPreference(KEY, DEFAULT_VALUE)
+        val pref = createPref()
         val consumer = pref.asConsumer()
 
         assertThat(pref.get()).isEqualTo(DEFAULT_VALUE)
@@ -84,6 +84,8 @@ class TestPreferenceTest {
                 .describedAs("consumer sets accepted value")
                 .isEqualTo(NEW_VALUE)
     }
+
+    private fun createPref() = TestPreference(KEY, DEFAULT_VALUE)
 
     private companion object {
         const val KEY = "id"
