@@ -1,6 +1,5 @@
-package com.f2prateek.rx.preferences2.test
+package com.f2prateek.rx.preferences2
 
-import com.f2prateek.rx.preferences2.Preference
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
 import io.reactivex.subjects.BehaviorSubject

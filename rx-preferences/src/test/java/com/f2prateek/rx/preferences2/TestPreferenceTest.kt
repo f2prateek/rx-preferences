@@ -1,4 +1,4 @@
-package com.f2prateek.rx.preferences2.test
+package com.f2prateek.rx.preferences2
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
