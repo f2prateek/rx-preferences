@@ -1,5 +1,6 @@
 package com.f2prateek.rx.preferences2;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 
 import androidx.annotation.CheckResult;
@@ -8,7 +9,6 @@ import androidx.annotation.NonNull;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
 
 import static com.f2prateek.rx.preferences2.Preconditions.checkNotNull;
 
@@ -27,27 +27,25 @@ final class RealPreference<T> implements Preference<T> {
     void set(@NonNull String key, @NonNull T value, @NonNull SharedPreferences.Editor editor);
   }
 
-  private final SharedPreferences preferences;
-  private final String key;
-  private final T defaultValue;
-  private final Adapter<T> adapter;
-  private final Observable<T> values;
+  @NonNull private final SharedPreferences preferences;
+  @NonNull private final String key;
+  @NonNull private final T defaultValue;
+  @NonNull private final Adapter<T> adapter;
+  @NonNull private final Observable<T> values;
 
-  RealPreference(SharedPreferences preferences, final String key, T defaultValue,
-      Adapter<T> adapter, Observable<String> keyChanges) {
+  @SuppressLint("CommitPrefEdits")
+  RealPreference(@NonNull SharedPreferences preferences, @NonNull final String key,
+                 @NonNull T defaultValue, @NonNull Adapter<T> adapter,
+                 @NonNull Observable<String> keyChanges) {
     this.preferences = preferences;
     this.key = key;
     this.defaultValue = defaultValue;
     this.adapter = adapter;
     this.values = keyChanges //
-        .filter(new Predicate<String>() {
-          @Override public boolean test(String changedKey) throws Exception {
-            return key.equals(changedKey);
-          }
-        }) //
+        .distinctUntilChanged() //
         .startWith("<init>") // Dummy value to trigger initial load.
         .map(new Function<String, T>() {
-          @Override public T apply(String s) throws Exception {
+          @Override public T apply(String s) {
             return get();
           }
         });
@@ -89,10 +87,9 @@ final class RealPreference<T> implements Preference<T> {
 
   @Override @CheckResult @NonNull public Consumer<? super T> asConsumer() {
     return new Consumer<T>() {
-      @Override public void accept(T value) throws Exception {
+      @Override public void accept(T value) {
         set(value);
       }
     };
   }
 }
-

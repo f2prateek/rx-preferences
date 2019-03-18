@@ -1,5 +1,6 @@
 package com.f2prateek.rx.preferences2;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 
@@ -19,6 +20,7 @@ import static android.os.Build.VERSION_CODES.HONEYCOMB;
 import static com.f2prateek.rx.preferences2.Preconditions.checkNotNull;
 
 /** A factory for reactive {@link Preference} objects. */
+@SuppressWarnings("WeakerAccess")
 public final class RxSharedPreferences {
   private static final Float DEFAULT_FLOAT = 0f;
   private static final Integer DEFAULT_INTEGER = 0;
@@ -33,11 +35,14 @@ public final class RxSharedPreferences {
     return new RxSharedPreferences(preferences);
   }
 
-  private final SharedPreferences preferences;
-  private final Observable<String> keyChanges;
+  @NonNull private final SharedPreferences preferences;
+  @NonNull private final SharedPreferences.Editor editor;
+  @NonNull private final Observable<String> keyChanges;
 
-  private RxSharedPreferences(final SharedPreferences preferences) {
+  @SuppressLint("CommitPrefEdits")
+  private RxSharedPreferences(@NonNull final SharedPreferences preferences) {
     this.preferences = preferences;
+    this.editor = preferences.edit();
     this.keyChanges = Observable.create(new ObservableOnSubscribe<String>() {
       @Override public void subscribe(final ObservableEmitter<String> emitter) {
         final OnSharedPreferenceChangeListener listener = new OnSharedPreferenceChangeListener() {
@@ -171,6 +176,6 @@ public final class RxSharedPreferences {
   }
   
   public void clear() {
-    preferences.edit().clear().apply();
+    editor.clear().apply();
   }
 }
