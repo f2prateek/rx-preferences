@@ -1,6 +1,6 @@
 package com.f2prateek.rx.preferences2;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 final class PointPreferenceConverter implements Preference.Converter<Point> {
   @NonNull @Override public Point deserialize(@NonNull String serialized) {

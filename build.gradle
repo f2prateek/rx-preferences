@@ -1,50 +1,55 @@
 buildscript {
-  repositories {
-    mavenCentral()
-    jcenter()
-    maven { url 'https://plugins.gradle.org/m2/' }
-  }
-  dependencies {
-    classpath 'com.android.tools.build:gradle:2.3.0'
-    classpath 'me.tatarka:gradle-retrolambda:3.3.0'
-    classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.10'
-  }
+    ext {
+        minSdkVersion = 9
+        targetSdkVersion = 28
+        compileSdkVersion = 28
+        buildToolsVersion = '28.0.3'
+        javaVersion = JavaVersion.VERSION_1_7
+        java8Version = JavaVersion.VERSION_1_8
+        butterknifeVersion = '10.1.0'
+    }
+
+    repositories {
+        mavenCentral()
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath "com.jakewharton:butterknife-gradle-plugin:${butterknifeVersion}"
+    }
+}
+
+plugins {
+    id("net.ltgt.errorprone") version "0.7.1"
 }
 
 allprojects {
-  repositories {
-    mavenCentral()
-    jcenter()
-  }
+    repositories {
+        mavenCentral()
+        google()
+        jcenter()
+    }
 
-  tasks.withType(JavaCompile) {
-    options.compilerArgs += ['-Xlint:all', '-Xlint:-processing', '-Werror']
-  }
+    tasks.withType(JavaCompile) {
+        options.compilerArgs += ['-Xlint:all', '-Xlint:-processing', '-Werror']
+    }
 
-  apply plugin: 'net.ltgt.errorprone'
-
-  group = GROUP
-  version = VERSION_NAME
-}
-
-ext {
-  minSdkVersion = 9
-  targetSdkVersion = 25
-  compileSdkVersion = 25
-  buildToolsVersion = '25.0.2'
-  javaVersion = JavaVersion.VERSION_1_7
-  java8Version = JavaVersion.VERSION_1_8
+    group = GROUP
+    version = VERSION_NAME
 }
 
 ext.deps = [
-    annotations: 'com.android.support:support-annotations:25.1.1',
-    rxjava: 'io.reactivex.rxjava2:rxjava:2.0.3',
-    rxandroid: 'io.reactivex.rxjava2:rxandroid:2.0.1',
-    rxbinding: 'com.jakewharton.rxbinding:rxbinding:0.3.0',
-    rxjava2interop: 'com.github.akarnokd:rxjava2-interop:0.4.0',
-    butterknife: 'com.jakewharton:butterknife:8.4.0',
-    butterknifeCompiler: 'com.jakewharton:butterknife-compiler:8.4.0',
-    junit: 'junit:junit:4.12',
-    assertj: 'org.assertj:assertj-core:1.7.0',
-    robolectric: 'org.robolectric:robolectric:3.0',
+        annotations        : 'androidx.annotation:annotation:1.0.2',
+        rxjava2            : 'io.reactivex.rxjava2:rxjava:2.2.7',
+        rxandroid          : 'io.reactivex.rxjava2:rxandroid:2.1.1',
+        rxbinding          : 'com.jakewharton.rxbinding:rxbinding:1.0.1',
+        rxjava2interop     : 'com.github.akarnokd:rxjava2-interop:0.13.5',
+        butterknife        : "com.jakewharton:butterknife:${ext.butterknifeVersion}",
+        butterknifeCompiler: "com.jakewharton:butterknife-compiler:${ext.butterknifeVersion}",
+        junit              : 'junit:junit:4.12',
+        assertj            : 'org.assertj:assertj-core:3.12.2',
+        robolectric        : 'org.robolectric:robolectric:4.2.1',
+        testcore           : 'androidx.test:core:1.0.0'
 ]
