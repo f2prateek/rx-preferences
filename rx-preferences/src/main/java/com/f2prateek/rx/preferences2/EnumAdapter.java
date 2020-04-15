@@ -1,7 +1,6 @@
 package com.f2prateek.rx.preferences2;
 
 import android.content.SharedPreferences;
-
 import androidx.annotation.NonNull;
 
 final class EnumAdapter<T extends Enum<T>> implements RealPreference.Adapter<T> {
@@ -11,9 +10,10 @@ final class EnumAdapter<T extends Enum<T>> implements RealPreference.Adapter<T> 
     this.enumClass = enumClass;
   }
 
-  @Override public T get(@NonNull String key, @NonNull SharedPreferences preferences) {
+  @NonNull @Override public T get(@NonNull String key, @NonNull SharedPreferences preferences,
+      @NonNull T defaultValue) {
     String value = preferences.getString(key, null);
-    assert value != null; // Not called unless key is present.
+    if (value == null) return defaultValue;
     return Enum.valueOf(enumClass, value);
   }
 
