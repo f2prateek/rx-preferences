@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+
+Version 2.0.1-beta1 *(15-04-2020)*
+--------------------------------
+
+* [New](https://github.com/f2prateek/rx-preferences/pull/132): Improve handling for `null` values stored in preferences.
+
+
 Version 2.0.0 *(22-04-2018)*
 ----------------------------
 
