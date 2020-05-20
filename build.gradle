@@ -42,7 +42,7 @@ allprojects {
 
 ext.deps = [
         annotations        : 'androidx.annotation:annotation:1.0.2',
-        rxjava2            : 'io.reactivex.rxjava3:rxjava:3.0.0',
+        rxjava3            : 'io.reactivex.rxjava3:rxjava:3.0.0',
         rxandroid          : 'io.reactivex.rxjava3:rxandroid:3.0.0',
         rxbinding          : 'com.jakewharton.rxbinding4:rxbinding-core:4.0.0',
         butterknife        : "com.jakewharton:butterknife:${ext.butterknifeVersion}",
