@@ -33,7 +33,6 @@ dependencies {
   implementation project(':rx-preferences')
   implementation deps.rxandroid
   implementation deps.rxbinding
-  implementation deps.rxjava2interop
   implementation deps.butterknife
 
   annotationProcessor deps.butterknifeCompiler

@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.test.core.app.ApplicationProvider;
-import io.reactivex.functions.Consumer;
+import io.reactivex.rxjava3.functions.Consumer;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -266,7 +266,7 @@ public class PreferenceTest {
     observer.assertValue("bar");
   }
 
-  @Test public void asConsumer() throws Exception {
+  @Test public void asConsumer() throws Throwable {
     Preference<String> preference = rxPreferences.getString("foo");
     Consumer<? super String> consumer = preference.asConsumer();
 
