@@ -8,18 +8,17 @@ import android.widget.EditText;
 
 import com.f2prateek.rx.preferences2.Preference;
 import com.f2prateek.rx.preferences2.RxSharedPreferences;
-import com.jakewharton.rxbinding.widget.RxCompoundButton;
-import com.jakewharton.rxbinding.widget.RxTextView;
 
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import hu.akarnokd.rxjava.interop.RxJavaInterop;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
+import static com.jakewharton.rxbinding4.widget.RxCompoundButton.checkedChanges;
+import static com.jakewharton.rxbinding4.widget.RxTextView.textChangeEvents;
 
 public class SampleActivity extends Activity {
 
@@ -68,7 +67,7 @@ public class SampleActivity extends Activity {
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(checkBox::setChecked));
     // Bind the checkbox to the preference.
-    disposables.add(RxJavaInterop.toV2Observable(RxCompoundButton.checkedChanges(checkBox))
+    disposables.add(checkedChanges(checkBox)
         .skip(1) // First emission is the original state.
         .subscribe(preference.asConsumer()));
   }
@@ -78,10 +77,10 @@ public class SampleActivity extends Activity {
             .observeOn(AndroidSchedulers.mainThread())
             .filter(s -> !editText.isFocused())
             .subscribe(editText::setText));
-    disposables.add(RxJavaInterop.toV2Observable(RxTextView.textChangeEvents(editText))
+    disposables.add(textChangeEvents(editText)
             .skip(1) // First emission is the original state.
             .debounce(500, TimeUnit.MILLISECONDS) // Filter out UI events that are emitted in quick succession.
-            .map(e -> e.text().toString())
+            .map(e -> e.getText().toString())
             .subscribe(preference.asConsumer()));
   }
 }
