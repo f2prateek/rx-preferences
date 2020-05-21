@@ -5,8 +5,8 @@ android {
   buildToolsVersion rootProject.ext.buildToolsVersion
 
   compileOptions {
-    sourceCompatibility rootProject.ext.javaVersion
-    targetCompatibility rootProject.ext.javaVersion
+    sourceCompatibility rootProject.ext.java8Version
+    targetCompatibility rootProject.ext.java8Version
   }
 
   defaultConfig {
