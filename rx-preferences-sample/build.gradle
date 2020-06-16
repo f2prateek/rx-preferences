@@ -23,17 +23,12 @@ android {
     textOutput 'stdout'
     ignoreWarnings true
   }
-
-  packagingOptions {
-    exclude 'META-INF/rxjava.properties' // rxjava-2.0.0-RC3.jar & rxjava-1.2.0.jar
-  }
 }
 
 dependencies {
   implementation project(':rx-preferences')
   implementation deps.rxandroid
   implementation deps.rxbinding
-  implementation deps.rxjava2interop
   implementation deps.butterknife
 
   annotationProcessor deps.butterknifeCompiler
