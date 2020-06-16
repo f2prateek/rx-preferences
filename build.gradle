@@ -41,7 +41,7 @@ allprojects {
 }
 
 ext.deps = [
-        annotations        : 'androidx.annotation:annotation:1.0.2',
+        annotations        : 'androidx.annotation:annotation:1.1.0',
         rxjava3            : 'io.reactivex.rxjava3:rxjava:3.0.4',
         rxandroid3         : 'io.reactivex.rxjava3:rxandroid:3.0.0',
         rxbinding4         : 'com.jakewharton.rxbinding4:rxbinding:4.0.0',
