@@ -23,10 +23,6 @@ android {
     textOutput 'stdout'
     ignoreWarnings true
   }
-
-  packagingOptions {
-    exclude 'META-INF/rxjava.properties' // rxjava-2.0.0-RC3.jar & rxjava-1.2.0.jar
-  }
 }
 
 dependencies {
