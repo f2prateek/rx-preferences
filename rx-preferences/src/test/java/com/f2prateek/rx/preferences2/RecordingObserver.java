@@ -15,16 +15,18 @@
  */
 package com.f2prateek.rx.preferences2;
 
-import io.reactivex.Notification;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
+import org.junit.rules.TestRule;
+import org.junit.runner.Description;
+import org.junit.runners.model.Statement;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
-import org.junit.rules.TestRule;
-import org.junit.runner.Description;
-import org.junit.runners.model.Statement;
+
+import io.reactivex.rxjava3.core.Notification;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
