@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.f2prateek.rx.preferences2;
+package com.f2prateek.rx.preferences3;
 
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
