@@ -8,15 +8,15 @@ import android.widget.EditText;
 
 import com.f2prateek.rx.preferences2.Preference;
 import com.f2prateek.rx.preferences2.RxSharedPreferences;
-import com.jakewharton.rxbinding3.widget.RxCompoundButton;
-import com.jakewharton.rxbinding3.widget.RxTextView;
+import com.jakewharton.rxbinding4.widget.RxCompoundButton;
+import com.jakewharton.rxbinding4.widget.RxTextView;
 
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
