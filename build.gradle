@@ -3,7 +3,6 @@ buildscript {
         minSdkVersion = 9
         targetSdkVersion = 29
         compileSdkVersion = 29
-        javaVersion = JavaVersion.VERSION_1_7
         java8Version = JavaVersion.VERSION_1_8
         butterknifeVersion = '10.2.3'
     }
