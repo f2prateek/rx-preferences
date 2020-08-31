@@ -1,4 +1,4 @@
-package com.f2prateek.rx.preferences2;
+package com.f2prateek.rx.preferences3;
 
 import androidx.annotation.NonNull;
 

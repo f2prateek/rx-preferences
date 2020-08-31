@@ -1,4 +1,4 @@
-package com.f2prateek.rx.preferences2.sample;
+package com.f2prateek.rx.preferences3.sample;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.f2prateek.rx.preferences2.Preference;
-import com.f2prateek.rx.preferences2.RxSharedPreferences;
+import com.f2prateek.rx.preferences3.Preference;
+import com.f2prateek.rx.preferences3.RxSharedPreferences;
 import com.jakewharton.rxbinding4.widget.RxCompoundButton;
 import com.jakewharton.rxbinding4.widget.RxTextView;
 

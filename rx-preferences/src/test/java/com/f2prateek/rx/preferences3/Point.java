@@ -1,4 +1,4 @@
-package com.f2prateek.rx.preferences2;
+package com.f2prateek.rx.preferences3;
 
 final class Point {
     public final int x;

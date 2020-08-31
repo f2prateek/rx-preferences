@@ -1,4 +1,4 @@
-package com.f2prateek.rx.preferences2;
+package com.f2prateek.rx.preferences3;
 
 import android.content.SharedPreferences;
 
@@ -10,7 +10,7 @@ import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.functions.Function;
 import io.reactivex.rxjava3.functions.Predicate;
 
-import static com.f2prateek.rx.preferences2.Preconditions.checkNotNull;
+import static com.f2prateek.rx.preferences3.Preconditions.checkNotNull;
 
 final class RealPreference<T> implements Preference<T> {
     /**

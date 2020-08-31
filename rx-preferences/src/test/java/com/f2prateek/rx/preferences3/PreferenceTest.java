@@ -1,4 +1,4 @@
-package com.f2prateek.rx.preferences2;
+package com.f2prateek.rx.preferences3;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -20,8 +20,8 @@ import java.util.Set;
 
 import io.reactivex.rxjava3.functions.Consumer;
 
-import static com.f2prateek.rx.preferences2.Roshambo.PAPER;
-import static com.f2prateek.rx.preferences2.Roshambo.ROCK;
+import static com.f2prateek.rx.preferences3.Roshambo.PAPER;
+import static com.f2prateek.rx.preferences3.Roshambo.ROCK;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
