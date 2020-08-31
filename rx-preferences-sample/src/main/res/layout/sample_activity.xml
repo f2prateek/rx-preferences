@@ -6,33 +6,29 @@
     android:orientation="vertical"
     android:padding="40dp">
 
-  <CheckBox
-      android:id="@+id/foo_1"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginBottom="10dp"
-      android:text="@string/foo"
-      />
+    <CheckBox
+        android:id="@+id/foo_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="@string/foo" />
 
-  <CheckBox
-      android:id="@+id/foo_2"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginBottom="10dp"
-      android:text="@string/foo"
-      />
+    <CheckBox
+        android:id="@+id/foo_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="@string/foo" />
 
-  <EditText
-      android:id="@+id/text_1"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:inputType="text"
-      />
+    <EditText
+        android:id="@+id/text_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text" />
 
-  <EditText
-      android:id="@+id/text_2"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:inputType="text"
-      />
+    <EditText
+        android:id="@+id/text_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text" />
 </LinearLayout>
