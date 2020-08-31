@@ -1,12 +1,10 @@
 buildscript {
     ext {
         minSdkVersion = 9
-        targetSdkVersion = 28
-        compileSdkVersion = 28
-        buildToolsVersion = '28.0.3'
-        javaVersion = JavaVersion.VERSION_1_7
+        targetSdkVersion = 29
+        compileSdkVersion = 29
         java8Version = JavaVersion.VERSION_1_8
-        butterknifeVersion = '10.1.0'
+        butterknifeVersion = '10.2.3'
     }
 
     repositories {
@@ -16,13 +14,13 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.android.tools.build:gradle:4.0.1'
         classpath "com.jakewharton:butterknife-gradle-plugin:${butterknifeVersion}"
     }
 }
 
 plugins {
-    id("net.ltgt.errorprone") version "0.7.1"
+    id("net.ltgt.errorprone") version "1.2.1"
 }
 
 allprojects {
@@ -41,10 +39,10 @@ allprojects {
 }
 
 ext.deps = [
-        annotations        : 'androidx.annotation:annotation:1.0.2',
-        rxjava2            : 'io.reactivex.rxjava2:rxjava:2.2.7',
-        rxandroid          : 'io.reactivex.rxjava2:rxandroid:2.1.1',
-        rxbinding          : 'com.jakewharton.rxbinding3:rxbinding:3.0.0',
+        annotations        : 'androidx.annotation:annotation:1.1.0',
+        rxjava3            : 'io.reactivex.rxjava3:rxjava:3.0.0',
+        rxandroid          : 'io.reactivex.rxjava3:rxandroid:3.0.0',
+        rxbinding          : 'com.jakewharton.rxbinding4:rxbinding:4.0.0',
         butterknife        : "com.jakewharton:butterknife:${ext.butterknifeVersion}",
         butterknifeCompiler: "com.jakewharton:butterknife-compiler:${ext.butterknifeVersion}",
         junit              : 'junit:junit:4.12',
