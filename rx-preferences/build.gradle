@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 
 android {
   compileSdkVersion rootProject.ext.compileSdkVersion
-  buildToolsVersion rootProject.ext.buildToolsVersion
 
   compileOptions {
     sourceCompatibility rootProject.ext.javaVersion
@@ -21,7 +20,7 @@ android {
 
 dependencies {
   implementation deps.annotations
-  api deps.rxjava2
+  api deps.rxjava3
 
   testImplementation deps.junit
   testImplementation deps.assertj
