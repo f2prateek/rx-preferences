@@ -46,7 +46,7 @@ Download
 --------
 
 ```groovy
-implementation 'com.f2prateek.rx.preferences2:rx-preferences:2.0.1-beta1'
+implementation 'com.f2prateek.rx.preferences2:rx-preferences:2.0.1'
 ```
 
 
