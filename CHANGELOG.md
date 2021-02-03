@@ -2,10 +2,18 @@ Change Log
 ==========
 
 
+Version 2.0.1 *(18-09-2020)*
+--------------------------------
+
+Promotes `2.0.1-beta1` to a stable release.
+
+
 Version 2.0.1-beta1 *(15-04-2020)*
 --------------------------------
 
-* [New](https://github.com/f2prateek/rx-preferences/pull/132): Improve handling for `null` values stored in preferences.
+* [Fix](https://github.com/f2prateek/rx-preferences/pull/132): Improve handling for `null` values stored in preferences.
+
+* [Improvement](https://github.com/f2prateek/rx-preferences/pull/124): Update dependencies and tools.
 
 
 Version 2.0.0 *(22-04-2018)*
