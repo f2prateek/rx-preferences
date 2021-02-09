@@ -10,6 +10,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -263,6 +264,21 @@ public class PreferenceTest {
     observer.assertValue("baz");
 
     preferences.edit().remove("foo").commit();
+    observer.assertValue("bar");
+  }
+
+  @Ignore("Robolectric needs to be updated to support API 30")
+  @Test public void asObservableWhenBackingPrefsCleared() {
+    Preference<String> preference = rxPreferences.getString("foo", "bar");
+
+    RecordingObserver<String> observer = observerRule.create();
+    preference.asObservable().subscribe(observer);
+    observer.assertValue("bar");
+
+    preferences.edit().putString("foo", "baz").commit();
+    observer.assertValue("baz");
+
+    preferences.edit().clear().commit();
     observer.assertValue("bar");
   }
 
