@@ -26,6 +26,8 @@ public final class RxSharedPreferences {
   private static final Long DEFAULT_LONG = 0L;
   private static final String DEFAULT_STRING = "";
 
+  static final String NULL_KEY_EMISSION = "null_key_emission";
+
   /** Create an instance of {@link RxSharedPreferences} for {@code preferences}. */
   @CheckResult @NonNull
   public static RxSharedPreferences create(@NonNull SharedPreferences preferences) {
@@ -43,7 +45,11 @@ public final class RxSharedPreferences {
         final OnSharedPreferenceChangeListener listener = new OnSharedPreferenceChangeListener() {
           @Override
           public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-            emitter.onNext(key);
+            if (key == null) {
+              emitter.onNext(NULL_KEY_EMISSION);
+            } else {
+              emitter.onNext(key);
+            }
           }
         };
 
