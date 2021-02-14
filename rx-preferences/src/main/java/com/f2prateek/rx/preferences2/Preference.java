@@ -45,6 +45,12 @@ public interface Preference<T> {
    */
   void set(@NonNull T value);
 
+  /**
+   * Change this preference's stored value to {@code value} synchronously and return true if
+   * new value was successfully written.
+   */
+  boolean setNow(@NonNull T value);
+
   /** Returns true if this preference has a stored value. */
   boolean isSet();
 
