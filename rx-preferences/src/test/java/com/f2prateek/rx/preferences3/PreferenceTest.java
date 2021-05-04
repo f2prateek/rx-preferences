@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.test.core.app.ApplicationProvider;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -270,7 +271,7 @@ public class PreferenceTest {
     observer.assertValue("bar");
   }
 
-  @Test public void asConsumer() throws Throwable {
+ @Test public void asConsumer() throws Exception {
     Preference<String> preference = rxPreferences.getString("foo");
     Consumer<? super String> consumer = preference.asConsumer();
 

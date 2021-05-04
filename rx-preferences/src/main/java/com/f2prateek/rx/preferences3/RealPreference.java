@@ -37,8 +37,8 @@ final class RealPreference<T> implements Preference<T> {
   private final Adapter<T> adapter;
   private final Observable<T> values;
 
-  RealPreference(SharedPreferences preferences, final String key, T defaultValue,
-      Adapter<T> adapter, Observable<String> keyChanges) {
+  RealPreference(SharedPreferences preferences, final String key, final T defaultValue,
+                 Adapter<T> adapter, Observable<String> keyChanges) {
     this.preferences = preferences;
     this.key = key;
     this.defaultValue = defaultValue;
@@ -52,7 +52,11 @@ final class RealPreference<T> implements Preference<T> {
         .startWithItem("<init>") // Dummy value to trigger initial load.
         .map(new Function<String, T>() {
           @Override public T apply(String s) {
-            return get();
+            if(s.equals(RxSharedPreferences.NULL_KEY_EMISSION)) {
+              return defaultValue;
+            } else {
+              return get();
+            }
           }
         });
   }
