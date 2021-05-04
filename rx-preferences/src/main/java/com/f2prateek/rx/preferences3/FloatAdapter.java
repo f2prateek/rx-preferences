@@ -1,6 +1,7 @@
-package com.f2prateek.rx.preferences2;
+package com.f2prateek.rx.preferences3;
 
 import android.content.SharedPreferences;
+
 import androidx.annotation.NonNull;
 
 final class FloatAdapter implements RealPreference.Adapter<Float> {

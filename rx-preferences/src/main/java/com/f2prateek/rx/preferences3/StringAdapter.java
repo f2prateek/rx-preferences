@@ -1,9 +1,8 @@
-package com.f2prateek.rx.preferences2;
+package com.f2prateek.rx.preferences3;
 
 import android.content.SharedPreferences;
-import androidx.annotation.NonNull;
 
-import static com.f2prateek.rx.preferences2.Preconditions.checkNotNull;
+import androidx.annotation.NonNull;
 
 final class StringAdapter implements RealPreference.Adapter<String> {
   static final StringAdapter INSTANCE = new StringAdapter();

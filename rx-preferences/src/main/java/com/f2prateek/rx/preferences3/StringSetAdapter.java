@@ -1,8 +1,10 @@
-package com.f2prateek.rx.preferences2;
+package com.f2prateek.rx.preferences3;
 
 import android.annotation.TargetApi;
 import android.content.SharedPreferences;
+
 import androidx.annotation.NonNull;
+
 import java.util.Set;
 
 import static android.os.Build.VERSION_CODES.HONEYCOMB;

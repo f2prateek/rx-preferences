@@ -1,12 +1,12 @@
-package com.f2prateek.rx.preferences2;
+package com.f2prateek.rx.preferences3;
 
 import android.content.SharedPreferences;
 
 import androidx.annotation.CheckResult;
 import androidx.annotation.NonNull;
 
-import io.reactivex.Observable;
-import io.reactivex.functions.Consumer;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.functions.Consumer;
 
 /** A preference of type {@link T}. Instances can be created from {@link RxSharedPreferences}. */
 public interface Preference<T> {

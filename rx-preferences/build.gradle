@@ -21,7 +21,7 @@ android {
 
 dependencies {
   implementation deps.annotations
-  api deps.rxjava2
+  api deps.rxjava3
 
   testImplementation deps.junit
   testImplementation deps.assertj

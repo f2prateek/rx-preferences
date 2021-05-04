@@ -1,6 +1,7 @@
-package com.f2prateek.rx.preferences2;
+package com.f2prateek.rx.preferences3;
 
 import android.content.SharedPreferences;
+
 import androidx.annotation.NonNull;
 
 final class BooleanAdapter implements RealPreference.Adapter<Boolean> {
