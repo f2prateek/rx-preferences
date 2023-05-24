@@ -1,3 +1,7 @@
+# DEPRECATED
+
+rx-preferences is deprecated. Please consider using a replacement, such as [this](https://github.com/pablobaxter/rx-preferences). Thank you for using the library!
+
 Rx Preferences
 --------------
 
