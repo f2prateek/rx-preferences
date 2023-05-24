@@ -1,9 +1,10 @@
-package com.f2prateek.rx.preferences2;
+package com.f2prateek.rx.preferences3;
 
 import android.content.SharedPreferences;
+
 import androidx.annotation.NonNull;
 
-import static com.f2prateek.rx.preferences2.Preconditions.checkNotNull;
+import static com.f2prateek.rx.preferences3.Preconditions.checkNotNull;
 
 final class ConverterAdapter<T> implements RealPreference.Adapter<T> {
   private final Preference.Converter<T> converter;

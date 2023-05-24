@@ -1,14 +1,16 @@
-package com.f2prateek.rx.preferences2;
+package com.f2prateek.rx.preferences3;
 
 import android.content.SharedPreferences;
+
 import androidx.annotation.CheckResult;
 import androidx.annotation.NonNull;
-import io.reactivex.Observable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
 
-import static com.f2prateek.rx.preferences2.Preconditions.checkNotNull;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.functions.Function;
+import io.reactivex.rxjava3.functions.Predicate;
+
+import static com.f2prateek.rx.preferences3.Preconditions.checkNotNull;
 
 final class RealPreference<T> implements Preference<T> {
   /** Stores and retrieves instances of {@code T} in {@link SharedPreferences}. */
@@ -47,7 +49,7 @@ final class RealPreference<T> implements Preference<T> {
             return key.equals(changedKey);
           }
         }) //
-        .startWith("<init>") // Dummy value to trigger initial load.
+        .startWithItem("<init>") // Dummy value to trigger initial load.
         .map(new Function<String, T>() {
           @Override public T apply(String s) {
             if(s.equals(RxSharedPreferences.NULL_KEY_EMISSION)) {

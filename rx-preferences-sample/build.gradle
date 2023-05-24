@@ -27,8 +27,8 @@ android {
 
 dependencies {
   implementation project(':rx-preferences')
-  implementation deps.rxandroid
-  implementation deps.rxbinding
+  implementation deps.rxandroid3
+  implementation deps.rxbinding4
   implementation deps.butterknife
 
   annotationProcessor deps.butterknifeCompiler
